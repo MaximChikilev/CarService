@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:c="http://www.thymeleaf.org/extras/core">
+<head>
+    <title>Prog.kiev.ua</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
+</head>
+
+<body>
+<div class="container">
+    <h4><a th:href="@{/}">Car Service</a></h4>
+    <nav class="navbar navbar-default">
+        <div class="container-fluid">
+            <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+                <ul id="groupList" class="nav navbar-nav">
+                    <li class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true"
+                           aria-expanded="false">Entities <span class="caret"></span></a>
+                        <ul class="dropdown-menu">
+                            <li><a th:href="@{/car/all}">View car list</a></li>
+                            <li><a th:href="@{/manufacturer/all}">View manufacturers list</a></li>
+                            <li><a th:href="@{/clients/all}">View clients list</a></li>
+                        </ul>
+                    </li>
+                    <li class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true"
+                           aria-expanded="false">Service <span class="caret"></span></a>
+                        <ul class="dropdown-menu">
+                            <li><a th:href="@{/sparePart/all}">Spare parts</a></li>
+                            <li><a th:href="@{/serviceWork/all}">Service works</a></li>
+                            <li><a th:href="@{/scheduledTechnicalInspection/all}">Scheduled technical inspections</a></li>
+                            <li><a th:href="@{/maintenanceSchedule/all}">Maintenance Schedule</a></li>
+                        </ul>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+    <table class="table table-striped">
+        <thead>
+        <tr>
+            <td><b>License plate number</b></td>
+            <td><b>Model</b></td>
+            <td><b>Vin code</b></td>
+            <td><b>Manufacture year</b></td>
+            <td><b>Manufacturer</b></td>
+        </tr>
+        </thead>
+        <th:block th:each="entity : ${entities}">
+            <tr>
+                <td th:text="${entity.licensePlateNumber}"></td>
+                <td th:text="${entity.model}"></td>
+                <td th:text="${entity.vinCode}"></td>
+                <td th:text="${entity.manufactureYear}"></td>
+                <td th:utext="${entity.manufacturer != null} ? ${entity.manufacturer.name} : ' '"></td>
+                <td>
+                    <a th:href="@{/car/edit(id=${entity.carId})}">Edit</a>
+                    <a th:href="@{/car/delete(id=${entity.carId})}">Delete</a>
+                </td>
+            </tr>
+        </th:block>
+    </table>
+    <nav aria-label="Page navigation">
+        <ul class="pagination">
+            <th:block th:if="${allPages != null}">
+                <th:block th:each="i : ${#numbers.sequence(1, allPages)}">
+                    <li><a th:href="@{/(page=${i-1})}" th:text="${i}"></a></li>
+                </th:block>
+            </th:block>
+        </ul>
+    </nav>
+    <br>
+    <h4 th:text="${actionTitle}"></h4>
+    <form th:action="@{/car/save}" th:object="${newEntity}" method="post">
+        <table class="editable-table">
+            <thead>
+            <tr>
+                <th>Car id</th>
+                <th>License plate number</th>
+                <th>Model</th>
+                <th>Vin code</th>
+                <th>Manufacture year</th>
+                <th>Manufacturer</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr>
+                <td><input type="text" th:field="*{carId}" th:readonly="true"/></td>
+                <td><input type="text" th:field="*{licensePlateNumber}" /></td>
+                <td><input type="text" th:field="*{model}" /></td>
+                <td><input type="text" th:field="*{vinCode}" /></td>
+                <td><input type="text" th:field="*{manufactureYear}" /></td>
+                <td>
+                    <select th:field="*{manufacturer.manufacturerId}">
+                        <option th:each="manu : ${manufacturers}"
+                                th:value="${manu.manufacturerId}"
+                                th:text="${manu.name}"
+                                th:selected="${newEntity.manufacturer != null and manu.manufacturerId == newEntity.manufacturer.manufacturerId}"></option>
+                    </select>
+                </td>
+                <td>
+                    <button type="submit">Save changes</button>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </form>
+
+
+</div>
+</body>
+</html>

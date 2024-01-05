@@ -1,0 +1,23 @@
+[
+  {
+    "carId": 1,
+    "licensePlateNumber": "ABC123",
+    "model": "Sedan",
+    "vinCode": "12345678901234567",
+    "manufactureYear": 2022
+  },
+  {
+    "carId": 2,
+    "licensePlateNumber": "XYZ789",
+    "model": "SUV",
+    "vinCode": "98765432109876543",
+    "manufactureYear": 2021
+  },
+  {
+    "carId": 3,
+    "licensePlateNumber": "PQR456",
+    "model": "Hatchback",
+    "vinCode": "54321098765432109",
+    "manufactureYear": 2023
+  }
+]

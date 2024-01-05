@@ -1,0 +1,77 @@
+[
+  {
+    "sparePartId": 1,
+    "partNumber": "SP1001",
+    "name": "Spare part 1"
+  },
+  {
+    "sparePartId": 2,
+    "partNumber": "SP1002",
+    "name": "Spare part 2"
+  },
+  {
+    "sparePartId": 3,
+    "partNumber": "SP1003",
+    "name": "Spare part 3"
+  },
+  {
+    "sparePartId": 4,
+    "partNumber": "SP1004",
+    "name": "Spare part 4"
+  },
+  {
+    "sparePartId": 5,
+    "partNumber": "SP1005",
+    "name": "Spare part 5"
+  },
+  {
+    "sparePartId": 6,
+    "partNumber": "SP1006",
+    "name": "Spare part 6"
+  },
+  {
+    "sparePartId": 7,
+    "partNumber": "SP1007",
+    "name": "Spare part 7"
+  },
+  {
+    "sparePartId": 8,
+    "partNumber": "SP1008",
+    "name": "Spare part 8"
+  },
+  {
+    "sparePartId": 9,
+    "partNumber": "SP1009",
+    "name": "Spare part 9"
+  },
+  {
+    "sparePartId": 10,
+    "partNumber": "SP1010",
+    "name": "Spare part 10"
+  },
+  {
+    "sparePartId": 11,
+    "partNumber": "SP1011",
+    "name": "Spare part 11"
+  },
+  {
+    "sparePartId": 12,
+    "partNumber": "SP1012",
+    "name": "Spare part 12"
+  },
+  {
+    "sparePartId": 13,
+    "partNumber": "SP1013",
+    "name": "Spare part 13"
+  },
+  {
+    "sparePartId": 14,
+    "partNumber": "SP1014",
+    "name": "Spare part 14"
+  },
+  {
+    "sparePartId": 15,
+    "partNumber": "SP1015",
+    "name": "Spare part 15"
+  }
+]

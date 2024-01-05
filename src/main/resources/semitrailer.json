@@ -1,0 +1,20 @@
+[
+  {
+    "semitrailerId": 1,
+    "licensePlateNumber": "ABC123",
+    "vinCode": "12345678901234567",
+    "manufactureYear": 2022
+  },
+  {
+    "semitrailerId": 2,
+    "licensePlateNumber": "XYZ789",
+    "vinCode": "98765432109876543",
+    "manufactureYear": 2021
+  },
+  {
+    "semitrailerId": 3,
+    "licensePlateNumber": "PQR456",
+    "vinCode": "54321098765432109",
+    "manufactureYear": 2023
+  }
+]

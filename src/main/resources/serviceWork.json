@@ -1,0 +1,22 @@
+[
+  {
+    "serviceWorkId": 1,
+    "name": "All works for X inspection",
+    "durationInMinutes": 30
+  },
+  {
+    "serviceWorkId": 2,
+    "name": "All works for S inspection",
+    "durationInMinutes": 45
+  },
+  {
+    "serviceWorkId": 3,
+    "name": "All works for M inspection",
+    "durationInMinutes": 60
+  },
+  {
+    "serviceWorkId": 4,
+    "name": "All works for L inspection",
+    "durationInMinutes": 90
+  }
+]

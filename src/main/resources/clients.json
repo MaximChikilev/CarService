@@ -1,0 +1,23 @@
+[
+  {
+    "clientId": 1,
+    "firstName": "John",
+    "secondName": "Doe",
+    "phoneNumber": "123-456-7890",
+    "address": "123 Main St"
+  },
+  {
+    "clientId": 2,
+    "firstName": "Alice",
+    "secondName": "Smith",
+    "phoneNumber": "987-654-3210",
+    "address": "456 Oak Ave"
+  },
+  {
+    "clientId": 3,
+    "firstName": "Bob",
+    "secondName": "Johnson",
+    "phoneNumber": "555-123-4567",
+    "address": "789 Pine Ln"
+  }
+]
