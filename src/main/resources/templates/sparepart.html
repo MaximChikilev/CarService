@@ -1,4 +1,4 @@
-<html xmlns:th="http://www.thymeleaf.org" xmlns:c="http://www.thymeleaf.org/extras/core">
+<!DOCTYPE html>
 <head>
     <title>Prog.kiev.ua</title>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
@@ -36,20 +36,25 @@
             </div>
         </div>
     </nav>
-    <h4> Manufacturer </h4>
+    <h4> Spare parts </h4>
     <table class="table table-striped">
         <thead>
         <tr>
-            <td><b>Manufacturer id</b></td>
-            <td><b>Manufacturer name</b></td>
+            <td><b>Spare part id</b></td>
+            <td><b>Part number</b></td>
+            <td><b>Name</b></td>
+            <td><b>Manufacturer</b></td>
         </tr>
         </thead>
-        <th:block th:each="manufacturer : ${entities}"><tr>
-                <td th:text="${manufacturer.manufacturerId}"></td>
-                <td th:text="${manufacturer.name}"></td>
+        <th:block th:each="entity : ${entities}">
+            <tr>
+                <td th:text="${entity.sparePartId}"></td>
+                <td th:text="${entity.partNumber}"></td>
+                <td th:text="${entity.name}"></td>
+                <td th:utext="${entity.manufacturer != null} ? ${entity.manufacturer.name} : ' '"></td>
                 <td>
-                    <a th:href="@{/manufacturer/edit(id=${manufacturer.manufacturerId})}">Edit</a>
-                    <a th:href="@{/manufacturer/delete(id=${manufacturer.manufacturerId})}">Delete</a>
+                    <a th:href="@{/sparePart/edit(id=${entity.sparePartId})}">Edit</a>
+                    <a th:href="@{/sparePart/delete(id=${entity.sparePartId})}">Delete</a>
                 </td>
             </tr>
         </th:block>
@@ -58,25 +63,36 @@
         <ul class="pagination">
             <th:block th:if="${allPages != null}">
                 <th:block th:each="i : ${#numbers.sequence(1, allPages)}">
-                    <li><a th:href="@{/manufacturer/all(page=${i-1})}" th:text="${i}"></a></li>
+                    <li><a th:href="@{/sparePart/all(page=${i-1})}" th:text="${i}"></a></li>
                 </th:block>
             </th:block>
         </ul>
     </nav>
     <br>
     <h4 th:text="${actionTitle}"></h4>
-    <form th:action="@{/manufacturer/save}" th:object="${newEntity}" method="post">
+    <form th:action="@{/sparePart/save}" th:object="${newEntity}" method="post">
         <table class="editable-table">
             <thead>
             <tr>
-                <th>Manufacturer id</th>
-                <th>Manufacturer name</th>
+                <td><b>Spare part id</b></td>
+                <td><b>Part number</b></td>
+                <td><b>Name</b></td>
+                <td><b>Manufacturer</b></td>
             </tr>
             </thead>
             <tbody>
             <tr>
-                <td><input type="text" th:field="*{manufacturerId}" th:readonly="true"/></td>
+                <td><input type="text" th:field="*{sparePartId}" th:readonly="true"/></td>
+                <td><input type="text" th:field="*{partNumber}" /></td>
                 <td><input type="text" th:field="*{name}" /></td>
+                <td>
+                    <select th:field="*{manufacturer.manufacturerId}">
+                        <option th:each="manu : ${manufacturers}"
+                                th:value="${manu.manufacturerId}"
+                                th:text="${manu.name}"
+                                th:selected="${newEntity.manufacturer != null and manu.manufacturerId == newEntity.manufacturer.manufacturerId}"></option>
+                    </select>
+                </td>
                 <td>
                     <button type="submit">Save changes</button>
                 </td>
@@ -84,8 +100,9 @@
             </tbody>
         </table>
     </form>
-    <h4> Find Manufacturer </h4>
-    <form th:action="@{/manufacturer/find}" th:object="${findParams}" method="post">
+    <br>
+    <h4> Find spare parts </h4>
+    <form th:action="@{/sparePart/find}" th:object="${findParams}" method="post">
         <table class="editable-table">
             <thead>
             <tr>
@@ -105,7 +122,7 @@
                     </select>
                 </td>
                 <td>
-                    <button type="submit">Find Manufacturer</button>
+                    <button type="submit">Find Spare parts</button>
                 </td>
             </tr>
             </tbody>

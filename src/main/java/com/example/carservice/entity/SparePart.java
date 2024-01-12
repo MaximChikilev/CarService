@@ -2,6 +2,8 @@ package com.example.carservice.entity;
 
 import jakarta.persistence.*;
 
+import java.util.Objects;
+
 @Entity
 public class SparePart {
     @Id
@@ -53,5 +55,17 @@ public class SparePart {
 
     public void setManufacturer(Manufacturer manufacturer) {
         this.manufacturer = manufacturer;
+    }
+
+    @Override
+    public boolean equals(Object object) {
+        if (this == object) return true;
+        if (!(object instanceof SparePart sparePart)) return false;
+        return getSparePartId() == sparePart.getSparePartId() && Objects.equals(getPartNumber(), sparePart.getPartNumber()) && Objects.equals(getName(), sparePart.getName()) && Objects.equals(getManufacturer(), sparePart.getManufacturer());
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(getSparePartId(), getPartNumber(), getName(), getManufacturer());
     }
 }

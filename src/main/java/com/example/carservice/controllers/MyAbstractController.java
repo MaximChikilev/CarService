@@ -1,8 +1,13 @@
 package com.example.carservice.controllers;
 
+import com.example.carservice.FindParams;
+import com.example.carservice.entity.SparePart;
 import com.example.carservice.services.EntityService;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 public abstract class MyAbstractController<T> {
     protected final EntityService<T> service;
@@ -10,13 +15,18 @@ public abstract class MyAbstractController<T> {
     static final int ITEMS_PER_PAGE = 6;
     protected String allRedirect;
 
-    protected MyAbstractController(EntityService<T> service,String name) {
+    protected MyAbstractController(EntityService<T> service, String name) {
         this.service = service;
         this.entityName = name;
         allRedirect = "redirect:/" + entityName + "/all";
     }
+
     @GetMapping("/all")
-    public abstract String allEntities(Model model);
+    public String allEntities(Model model, @RequestParam(required = false, defaultValue = "0") Integer page) {
+        addAttributes(model, 0L, page);
+        return entityName;
+    }
+
     @GetMapping("/delete")
     public String delete(@RequestParam Long id) {
         service.delete(id);
@@ -28,16 +38,40 @@ public abstract class MyAbstractController<T> {
         service.save(entity);
         return allRedirect;
     }
+
     @GetMapping("/edit")
-    public abstract String edit(Model model, @RequestParam Long id);
-    protected void addAttributes(Model model, Long id) {
+    public String edit(Model model, @RequestParam Long id, @RequestParam(required = false, defaultValue = "0") Integer page) {
+        addAttributes(model, id, page);
+        return entityName;
+    }
+
+    @PostMapping("/find")
+    public String find(@ModelAttribute FindParams findParams, Model model, @RequestParam(required = false, defaultValue = "0") Integer page) {
+        addAttributes(model, 0L, page);
+        List<T> list =  service.getAllByFieldNameAndValue(findParams.getFieldName(),findParams.getValue());
+        model.addAttribute("entities", list);
+        return entityName;
+    }
+
+    protected void addAttributes(Model model, Long id, int page) {
+        if (page < 0) page = 0;
+        List<T> entityList = service.getAll(PageRequest.of(page,ITEMS_PER_PAGE));
         model.addAttribute("allPages", getPageCount());
-        model.addAttribute("entities", service.getAll());
+        model.addAttribute("entities", entityList);
+        model.addAttribute("newEntity", (id == 0) ? getNewInstance() : service.getById(id));
         model.addAttribute("actionTitle", (id == 0) ? "New" : "Edit");
+        model.addAttribute("findParams",new FindParams());
+        model.addAttribute("fieldsList",getListPossibleSearchFields());
+        addAdditionalAttributes(model);
     }
 
     private long getPageCount() {
         long totalCount = service.count();
         return (totalCount / ITEMS_PER_PAGE) + ((totalCount % ITEMS_PER_PAGE > 0) ? 1 : 0);
     }
+
+    protected abstract T getNewInstance();
+
+    protected abstract void addAdditionalAttributes(Model model);
+    protected abstract List<String> getListPossibleSearchFields();
 }

@@ -1,5 +1,5 @@
-<!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org" xmlns:c="http://www.thymeleaf.org/extras/core">
+<!DOCTYPE html>
 <head>
     <title>Prog.kiev.ua</title>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
@@ -20,7 +20,7 @@
                         <ul class="dropdown-menu">
                             <li><a th:href="@{/car/all}">View car list</a></li>
                             <li><a th:href="@{/manufacturer/all}">View manufacturers list</a></li>
-                            <li><a th:href="@{/clients/all}">View clients list</a></li>
+                            <li><a th:href="@{/client/all}">View clients list</a></li>
                         </ul>
                     </li>
                     <li class="dropdown">
@@ -37,6 +37,7 @@
             </div>
         </div>
     </nav>
+    <h4> Cars </h4>
     <table class="table table-striped">
         <thead>
         <tr>
@@ -65,7 +66,7 @@
         <ul class="pagination">
             <th:block th:if="${allPages != null}">
                 <th:block th:each="i : ${#numbers.sequence(1, allPages)}">
-                    <li><a th:href="@{/(page=${i-1})}" th:text="${i}"></a></li>
+                    <li><a th:href="@{/car/all(page=${i-1})}" th:text="${i}"></a></li>
                 </th:block>
             </th:block>
         </ul>
@@ -106,7 +107,33 @@
             </tbody>
         </table>
     </form>
-
+    <h4> Find Car </h4>
+    <form th:action="@{/car/find}" th:object="${findParams}" method="post">
+        <table class="editable-table">
+            <thead>
+            <tr>
+                <td><b>Find value</b></td>
+                <td><b>Field name</b></td>
+            </tr>
+            </thead>
+            <tbody>
+            <tr>
+                <td><input type="text" th:field="*{value}" /></td>
+                <td>
+                    <select th:field="*{fieldName}">
+                        <option th:each="name : ${fieldsList}"
+                                th:value="${name}"
+                                th:text="${name}"
+                                th:selected="${name == findParams.fieldName}"></option>
+                    </select>
+                </td>
+                <td>
+                    <button type="submit">Find Car</button>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </form>
 
 </div>
 </body>
