@@ -29,10 +29,28 @@
                         <ul class="dropdown-menu">
                             <li><a th:href="@{/sparePart/all}">Spare parts</a></li>
                             <li><a th:href="@{/serviceWork/all}">Service works</a></li>
-                            <li><a th:href="@{/scheduledTechnicalInspection/all}">Scheduled technical inspections</a></li>
+                            <li><a th:href="@{/technicalInspection/all}">Scheduled technical inspections</a></li>
                             <li><a th:href="@{/maintenanceSchedule/all}">Maintenance Schedule</a></li>
                         </ul>
                     </li>
+                    <li class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true"
+                           aria-expanded="false">Stock <span class="caret"></span></a>
+                        <ul class="dropdown-menu">
+                            <li><a th:href="@{/stock/all}">View stock</a></li>
+                        </ul>
+                    </li>
+
+                    <th:block th:if="${admin}">
+                        <li class="dropdown">
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true"
+                               aria-expanded="false">Admin <span class="caret"></span></a>
+                            <ul class="dropdown-menu">
+                                <li><a th:href="@{/user/all}">Users</a></li>
+                            </ul>
+                        </li>
+                    </th:block>
+
                 </ul>
             </div>
         </div>

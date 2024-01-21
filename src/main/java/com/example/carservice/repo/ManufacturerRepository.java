@@ -1,7 +1,6 @@
-package com.example.carservice.dao;
+package com.example.carservice.repo;
 
 import com.example.carservice.entity.Manufacturer;
-import com.example.carservice.entity.SparePart;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;

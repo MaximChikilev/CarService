@@ -58,13 +58,9 @@ public class ServiceWorkController extends MyAbstractController<ServiceWork> {
 
     @PostMapping("/addSelectedSpareparts")
     public String addSelectedSpareparts(Model model,
-            @RequestParam(value = "toDelete[]", required = false) Long[] toDelete,
-            @RequestParam(value = "serviceWorkId",required = false,defaultValue = "3") Long serviceWorkId) {
-        ServiceWork serviceWork = service.getById(serviceWorkId);
-        for (Long element : toDelete) {
-            serviceWork.addSparePart(sparePartService.getById(element));
-        }
-        service.save(serviceWork);
+            @RequestParam(value = "toDelete[]") Long[] toDelete,
+            @RequestParam(value = "serviceWorkId") Long serviceWorkId) {
+        ((ServiceWorkService)service).addSparePartsToServiceWork(toDelete,serviceWorkId);
         addAttributesToPagesFroAddManyEntities(model, serviceWorkId,0);
         return "addSparePartsToServiceWork";
     }

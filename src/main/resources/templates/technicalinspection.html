@@ -1,4 +1,4 @@
-<html xmlns:th="http://www.thymeleaf.org" xmlns:c="http://www.thymeleaf.org/extras/core">
+<!DOCTYPE html>
 <head>
     <title>Prog.kiev.ua</title>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
@@ -43,20 +43,33 @@
             </div>
         </div>
     </nav>
-    <h4> Manufacturer </h4>
+    <h4> Technical Inspections </h4>
     <table class="table table-striped">
         <thead>
         <tr>
-            <td><b>Manufacturer id</b></td>
-            <td><b>Manufacturer name</b></td>
+            <td><b>Inspection id</b></td>
+            <td><b>Name</b></td>
+            <td><b>Mileage to pass</b></td>
+            <td><b>Duration in minutes</b></td>
+            <td><b>Service works</b></td>
+
         </tr>
         </thead>
-        <th:block th:each="manufacturer : ${entities}"><tr>
-                <td th:text="${manufacturer.manufacturerId}"></td>
-                <td th:text="${manufacturer.name}"></td>
+        <th:block th:each="entity : ${entities}">
+            <tr>
+                <td th:text="${entity.inspectionsId}"></td>
+                <td th:text="${entity.name}"></td>
+                <td th:text="${entity.mileageToPass}"></td>
+                <td th:text="${entity.durationInMinutes}"></td>
                 <td>
-                    <a th:href="@{/manufacturer/edit(id=${manufacturer.manufacturerId})}">Edit</a>
-                    <a th:href="@{/manufacturer/delete(id=${manufacturer.manufacturerId})}">Delete</a>
+                    <ul>
+                        <li th:each="serviceWork : ${entity.serviceWorks}" th:text="${serviceWork.name}"></li>
+                    </ul>
+                </td>
+                <td>
+                    <a th:href="@{/technicalInspection/edit(id=${entity.inspectionsId})}">Edit</a>
+                    <a th:href="@{/technicalInspection/delete(id=${entity.inspectionsId})}">Delete</a>
+                    <a th:href="@{/technicalInspection/addServiceWorks(id=${entity.inspectionsId})}">Add service works</a>
                 </td>
             </tr>
         </th:block>
@@ -65,25 +78,27 @@
         <ul class="pagination">
             <th:block th:if="${allPages != null}">
                 <th:block th:each="i : ${#numbers.sequence(1, allPages)}">
-                    <li><a th:href="@{/manufacturer/all(page=${i-1})}" th:text="${i}"></a></li>
+                    <li><a th:href="@{/technicalInspection/all(page=${i-1})}" th:text="${i}"></a></li>
                 </th:block>
             </th:block>
         </ul>
     </nav>
     <br>
     <h4 th:text="${actionTitle}"></h4>
-    <form th:action="@{/manufacturer/save}" th:object="${newEntity}" method="post">
+    <form th:action="@{/technicalInspection/save}" th:object="${newEntity}" method="post">
         <table class="editable-table">
             <thead>
             <tr>
-                <th>Manufacturer id</th>
-                <th>Manufacturer name</th>
+                <td><b>Inspection id</b></td>
+                <td><b>Name</b></td>
+                <td><b>Mileage to pass</b></td>
             </tr>
             </thead>
             <tbody>
             <tr>
-                <td><input type="text" th:field="*{manufacturerId}" th:readonly="true"/></td>
+                <td><input type="text" th:field="*{inspectionsId}" th:readonly="true"/></td>
                 <td><input type="text" th:field="*{name}" /></td>
+                <td><input type="text" th:field="*{mileageToPass}" /></td>
                 <td>
                     <button type="submit">Save changes</button>
                 </td>
@@ -91,8 +106,9 @@
             </tbody>
         </table>
     </form>
-    <h4> Find Manufacturer </h4>
-    <form th:action="@{/manufacturer/find}" th:object="${findParams}" method="post">
+    <br>
+    <h4> Find service work </h4>
+    <form th:action="@{/technicalInspection/find}" th:object="${findParams}" method="post">
         <table class="editable-table">
             <thead>
             <tr>
@@ -112,7 +128,7 @@
                     </select>
                 </td>
                 <td>
-                    <button type="submit">Find Manufacturer</button>
+                    <button type="submit">Find inspections</button>
                 </td>
             </tr>
             </tbody>

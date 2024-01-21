@@ -1,7 +1,11 @@
 package com.example.carservice.entity;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import jakarta.persistence.*;
+import org.springframework.format.annotation.DateTimeFormat;
 
+import java.sql.Time;
+import java.time.LocalTime;
 import java.util.Date;
 @Entity
 public class MaintenanceSchedule {
@@ -9,26 +13,29 @@ public class MaintenanceSchedule {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int maintenanceScheduleId;
     @Column(name = "maintenance_date")
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
     private Date maintenanceDate;
+
     @Column(name = "time_window")
-    private TimeWindows timeWindow;
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "HH:mm:ss")
+    private LocalTime maintenanceTime;
     @OneToOne
     @JoinColumn(name = "scheduled_technical_inspection_id")
-    private ScheduledTechnicalInspections scheduledTechnicalInspections;
-    @OneToOne
+    private TechnicalInspection technicalInspection;
+    @ManyToOne
     @JoinColumn(name = "car_id")
     private Car car;
-    @OneToOne
+    @ManyToOne
     @JoinColumn(name = "client_id")
     private Client client;
 
     public MaintenanceSchedule() {
     }
 
-    public MaintenanceSchedule(Date maintenanceDate, TimeWindows timeWindow, ScheduledTechnicalInspections scheduledTechnicalInspections, Car car, Client client) {
+    public MaintenanceSchedule(Date maintenanceDate, LocalTime maintenanceTime, TechnicalInspection technicalInspection, Car car, Client client) {
         this.maintenanceDate = maintenanceDate;
-        this.timeWindow = timeWindow;
-        this.scheduledTechnicalInspections = scheduledTechnicalInspections;
+        this.maintenanceTime = maintenanceTime;
+        this.technicalInspection = technicalInspection;
         this.car = car;
         this.client = client;
     }
@@ -49,20 +56,20 @@ public class MaintenanceSchedule {
         this.maintenanceDate = maintenanceDate;
     }
 
-    public TimeWindows getTimeWindow() {
-        return timeWindow;
+    public LocalTime getMaintenanceTime() {
+        return maintenanceTime;
     }
 
-    public void setTimeWindow(TimeWindows timeWindow) {
-        this.timeWindow = timeWindow;
+    public void setMaintenanceTime(LocalTime timeWindow) {
+        this.maintenanceTime = timeWindow;
     }
 
-    public ScheduledTechnicalInspections getScheduledTechnicalInspections() {
-        return scheduledTechnicalInspections;
+    public TechnicalInspection getTechnicalInspection() {
+        return technicalInspection;
     }
 
-    public void setScheduledTechnicalInspections(ScheduledTechnicalInspections scheduledTechnicalInspections) {
-        this.scheduledTechnicalInspections = scheduledTechnicalInspections;
+    public void setTechnicalInspection(TechnicalInspection technicalInspection) {
+        this.technicalInspection = technicalInspection;
     }
 
     public Car getCar() {

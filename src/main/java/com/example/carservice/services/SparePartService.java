@@ -1,6 +1,6 @@
 package com.example.carservice.services;
 
-import com.example.carservice.dao.SparePartRepository;
+import com.example.carservice.repo.SparePartRepository;
 import com.example.carservice.entity.SparePart;
 import org.springframework.stereotype.Service;
 

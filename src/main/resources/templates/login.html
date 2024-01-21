@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Prog.kiev.ua</title>
+</head>
+<body>
+<div align="center">
+    <form action="/j_spring_security_check" method="POST">
+        Enter Login/Email:<br/><input type="text" name="j_login" /><br/>
+        Password:<br/><input type="password" name="j_password" /><br/>
+        <input type="submit" />
+
+        <p><a th:href="@{/register}">Register new user</a></p>
+
+        <div th:if="${param.error ne null}">
+            <p>Wrong login or password!</p>
+        </div>
+
+    </form>
+</div>
+</body>
+</html>

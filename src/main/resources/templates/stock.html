@@ -1,4 +1,5 @@
 <html xmlns:th="http://www.thymeleaf.org" xmlns:c="http://www.thymeleaf.org/extras/core">
+<!DOCTYPE html>
 <head>
     <title>Prog.kiev.ua</title>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
@@ -43,20 +44,23 @@
             </div>
         </div>
     </nav>
-    <h4> Manufacturer </h4>
+    <h4> Cars </h4>
     <table class="table table-striped">
         <thead>
         <tr>
-            <td><b>Manufacturer id</b></td>
-            <td><b>Manufacturer name</b></td>
+            <td><b>Id</b></td>
+            <td><b>Spare part</b></td>
+            <td><b>quantity</b></td>
         </tr>
         </thead>
-        <th:block th:each="manufacturer : ${entities}"><tr>
-                <td th:text="${manufacturer.manufacturerId}"></td>
-                <td th:text="${manufacturer.name}"></td>
+        <th:block th:each="entity : ${entities}">
+            <tr>
+                <td th:text="${entity.id}"></td>
+                <td th:text="${entity.sparePart.name}"></td>
+                <td th:text="${entity.quantity}"></td>
                 <td>
-                    <a th:href="@{/manufacturer/edit(id=${manufacturer.manufacturerId})}">Edit</a>
-                    <a th:href="@{/manufacturer/delete(id=${manufacturer.manufacturerId})}">Delete</a>
+                    <a th:href="@{/stock/edit(id=${entity.id})}">Edit</a>
+                    <a th:href="@{/stock/delete(id=${entity.id})}">Delete</a>
                 </td>
             </tr>
         </th:block>
@@ -65,25 +69,34 @@
         <ul class="pagination">
             <th:block th:if="${allPages != null}">
                 <th:block th:each="i : ${#numbers.sequence(1, allPages)}">
-                    <li><a th:href="@{/manufacturer/all(page=${i-1})}" th:text="${i}"></a></li>
+                    <li><a th:href="@{/stock/all(page=${i-1})}" th:text="${i}"></a></li>
                 </th:block>
             </th:block>
         </ul>
     </nav>
     <br>
     <h4 th:text="${actionTitle}"></h4>
-    <form th:action="@{/manufacturer/save}" th:object="${newEntity}" method="post">
+    <form th:action="@{/stock/save}" th:object="${newEntity}" method="post">
         <table class="editable-table">
             <thead>
             <tr>
-                <th>Manufacturer id</th>
-                <th>Manufacturer name</th>
+                <td><b>Id</b></td>
+                <td><b>Spare part</b></td>
+                <td><b>quantity</b></td>
             </tr>
             </thead>
             <tbody>
             <tr>
-                <td><input type="text" th:field="*{manufacturerId}" th:readonly="true"/></td>
-                <td><input type="text" th:field="*{name}" /></td>
+                <td><input type="text" th:field="*{id}" th:readonly="true"/></td>
+                <td>
+                    <select th:field="*{sparePart.sparePartId}">
+                        <option th:each="manu : ${spareParts}"
+                                th:value="${manu.sparePartId}"
+                                th:text="${manu.name}"
+                                th:selected="${newEntity.sparePart != null and manu.sparePartId == newEntity.sparePart.sparePartId}"></option>
+                    </select>
+                </td>
+                <td><input type="text" th:field="*{quantity}" /></td>
                 <td>
                     <button type="submit">Save changes</button>
                 </td>
@@ -91,8 +104,8 @@
             </tbody>
         </table>
     </form>
-    <h4> Find Manufacturer </h4>
-    <form th:action="@{/manufacturer/find}" th:object="${findParams}" method="post">
+    <h4> Find Car </h4>
+    <form th:action="@{/stock/find}" th:object="${findParams}" method="post">
         <table class="editable-table">
             <thead>
             <tr>
@@ -112,12 +125,13 @@
                     </select>
                 </td>
                 <td>
-                    <button type="submit">Find Manufacturer</button>
+                    <button type="submit">Find Spare Part</button>
                 </td>
             </tr>
             </tbody>
         </table>
     </form>
+
 </div>
 </body>
 </html>

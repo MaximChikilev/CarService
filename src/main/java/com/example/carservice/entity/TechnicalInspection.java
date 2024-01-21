@@ -6,7 +6,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Entity
-public class ScheduledTechnicalInspections {
+public class TechnicalInspection {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int inspectionsId;
@@ -19,10 +19,10 @@ public class ScheduledTechnicalInspections {
     @Column(name = "duration_in_minutes")
     private int durationInMinutes;
 
-    public ScheduledTechnicalInspections() {
+    public TechnicalInspection() {
     }
 
-    public ScheduledTechnicalInspections(String name, int mileageToPass, List<ServiceWork> serviceWorks, int durationInMinutes) {
+    public TechnicalInspection(String name, int mileageToPass, List<ServiceWork> serviceWorks, int durationInMinutes) {
         this.name = name;
         this.mileageToPass = mileageToPass;
         this.serviceWorks = serviceWorks;
@@ -57,12 +57,20 @@ public class ScheduledTechnicalInspections {
         return serviceWorks;
     }
 
+    public void setServiceWorks(List<ServiceWork> serviceWorks) {
+        this.serviceWorks = serviceWorks;
+    }
+
     public void addServiceWork(ServiceWork serviceWork) {
-        serviceWorks.add(serviceWork);
+        if (!serviceWorks.contains(serviceWork)) serviceWorks.add(serviceWork);
     }
 
     public int getDurationInMinutes() {
         return durationInMinutes;
+    }
+
+    public void setDurationInMinutes(int durationInMinutes) {
+        this.durationInMinutes = durationInMinutes;
     }
 
     public void setDurationInMinutes() {

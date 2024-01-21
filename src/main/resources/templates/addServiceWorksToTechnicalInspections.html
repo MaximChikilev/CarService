@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:c="http://www.thymeleaf.org/extras/core">
+<head>
+    <title>Service Work Table</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
+</head>
+
+<body>
+<div class="container">
+    <form th:object="${inspection}" >
+        <table class="editable-table">
+            <thead>
+            <tr>
+                <td><b>Inspection id</b></td>
+                <td><b>Name</b></td>
+                <td><b>Mileage to pass</b></td>
+                <td><b>Duration in minutes</b></td>
+                <td><b>Service works</b></td>
+            </tr>
+            </thead>
+            <tbody>
+            <tr>
+                <td><input type="text" th:field="*{inspectionsId}" th:readonly="true"/></td>
+                <td><input type="text" th:field="*{name}" /></td>
+                <td><input type="text" th:field="*{mileageToPass}" /></td>
+                <td><input type="text" th:field="*{durationInMinutes}" /></td>
+                <td>
+                    <ul>
+                        <li th:each="serviceWork : ${inspection.serviceWorks}">
+                            <span th:text="${serviceWork.name}"></span>
+                            <a th:href="@{/technicalInspection/deleteServiceWork(swId=${serviceWork.serviceWorkId}, inspectionId=${inspection.inspectionsId})}">Delete</a>
+                        </li>
+                    </ul>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </form>
+    <br>
+    <table class="table table-striped">
+        <thead>
+        <tr>
+            <td></td>
+            <td><b>Id</b></td>
+            <td><b>Part number</b></td>
+            <td><b>Name</b></td>
+            <td><b>Manufacturer</b></td>
+        </tr>
+        </thead>
+        <th:block th:each="serviceWork : ${serviceWorks}">
+            <tr>
+                <td><input type="checkbox" name="toDelete[]" th:value="${serviceWork.serviceWorkId}"
+                           th:id="'checkbox_' + ${serviceWork.serviceWorkId}"/></td>
+                <td th:text="${serviceWork.serviceWorkId}"></td>
+                <td th:text="${serviceWork.name}"></td>
+                <td th:text="${serviceWork.durationInMinutes}"></td>
+            </tr>
+        </th:block>
+    </table>
+    <nav aria-label="Page navigation">
+        <ul class="pagination">
+            <th:block th:if="${allPages != null}">
+                <th:block th:each="i : ${#numbers.sequence(1, allPages)}">
+                    <li><a th:href="@{/technicalInspection/addServiceWorks(page=${i-1},id=${inspection.inspectionsId})}" th:text="${i}"></a></li>
+                </th:block>
+            </th:block>
+        </ul>
+    </nav>
+    <nav class="navbar navbar-default">
+        <div class="container-fluid">
+            <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+                <ul id="groupList" class="nav navbar-nav">
+                    <li>
+                        <button type="button" id="add_units" class="btn btn-default navbar-btn">Add selected service works</button>
+                    </li>
+                    <li>
+                        <button type="button" id="reset" class="btn btn-default navbar-btn">Return to main page</button>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+</div>
+
+<script>
+    $(document).ready(function () {
+
+        $('#reset').click(function () {
+            window.location.href = '/technicalInspection/all';
+        });
+
+        $('#add_units').click(function () {
+            var inspectionsId = $('input[name="inspectionsId"]').val(); // Assuming serviceWorkId is a hidden field
+            var data = {'toDelete[]': [], 'inspectionsId': inspectionsId};
+
+            $(":checked").each(function () {
+                data['toDelete[]'].push($(this).val());
+            });
+
+            $.post("/technicalInspection/addSelectedServiceWorks", data, function (data, status) {
+                window.location.reload();
+            });
+        });
+    });
+</script>
+</body>
+</html>

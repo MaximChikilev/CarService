@@ -1,4 +1,5 @@
 <html xmlns:th="http://www.thymeleaf.org" xmlns:c="http://www.thymeleaf.org/extras/core">
+<!DOCTYPE html>
 <head>
     <title>Prog.kiev.ua</title>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
@@ -43,20 +44,27 @@
             </div>
         </div>
     </nav>
-    <h4> Manufacturer </h4>
+    <h4> Maintenance schedule </h4>
     <table class="table table-striped">
         <thead>
         <tr>
-            <td><b>Manufacturer id</b></td>
-            <td><b>Manufacturer name</b></td>
+            <td><b>Maintenance Date</b></td>
+            <td><b>Maintenance time</b></td>
+            <td><b>Technical Inspection</b></td>
+            <td><b>Car</b></td>
+            <td><b>Client</b></td>
         </tr>
         </thead>
-        <th:block th:each="manufacturer : ${entities}"><tr>
-                <td th:text="${manufacturer.manufacturerId}"></td>
-                <td th:text="${manufacturer.name}"></td>
+        <th:block th:each="entity : ${entities}">
+            <tr>
+                <td th:text="${entity.maintenanceDate}"></td>
+                <td th:text="${entity.maintenanceTime}"></td>
+                <td th:text="${entity.technicalInspection.name}"></td>
+                <td th:text="${entity.car.licensePlateNumber}"></td>
+                <td th:text="${entity.client.phoneNumber}"></td>
                 <td>
-                    <a th:href="@{/manufacturer/edit(id=${manufacturer.manufacturerId})}">Edit</a>
-                    <a th:href="@{/manufacturer/delete(id=${manufacturer.manufacturerId})}">Delete</a>
+                    <a th:href="@{/maintenanceSchedule/edit(id=${entity.maintenanceScheduleId})}">Edit</a>
+                    <a th:href="@{/maintenanceSchedule/delete(id=${entity.maintenanceScheduleId})}">Delete</a>
                 </td>
             </tr>
         </th:block>
@@ -65,25 +73,52 @@
         <ul class="pagination">
             <th:block th:if="${allPages != null}">
                 <th:block th:each="i : ${#numbers.sequence(1, allPages)}">
-                    <li><a th:href="@{/manufacturer/all(page=${i-1})}" th:text="${i}"></a></li>
+                    <li><a th:href="@{/maintenanceSchedule/all(page=${i-1})}" th:text="${i}"></a></li>
                 </th:block>
             </th:block>
         </ul>
     </nav>
     <br>
     <h4 th:text="${actionTitle}"></h4>
-    <form th:action="@{/manufacturer/save}" th:object="${newEntity}" method="post">
+    <form th:action="@{/maintenanceSchedule/save}" th:object="${newEntity}" method="post">
         <table class="editable-table">
             <thead>
             <tr>
-                <th>Manufacturer id</th>
-                <th>Manufacturer name</th>
+                <td><b>Maintenance Date</b></td>
+                <td><b>Maintenance time</b></td>
+                <td><b>Technical Inspection</b></td>
+                <td><b>Car</b></td>
+                <td><b>Client</b></td>
             </tr>
             </thead>
             <tbody>
             <tr>
-                <td><input type="text" th:field="*{manufacturerId}" th:readonly="true"/></td>
-                <td><input type="text" th:field="*{name}" /></td>
+                <td><input type="date" th:field="*{maintenanceDate}"/></td>
+                <td><input type="time" th:field="*{maintenanceTime}"/></td>
+                <td>
+                    <select th:field="*{technicalInspection.inspectionsIdrb}">
+                        <option th:each="manu : ${technicalInspections}"
+                                th:value="${manu.inspectionsId}"
+                                th:text="${manu.name}"
+                                th:selected="${newEntity.technicalInspection != null and manu.inspectionsId == newEntity.technicalInspection.inspectionsId}"></option>
+                    </select>
+                </td>
+                <td>
+                    <select th:field="*{car.carId}">
+                        <option th:each="manu : ${cars}"
+                                th:value="${manu.carId}"
+                                th:text="${manu.licensePlateNumber}"
+                                th:selected="${newEntity.car != null and manu.carId == newEntity.car.carId}"></option>
+                    </select>
+                </td>
+                <td>
+                    <select th:field="*{client.clientId}">
+                        <option th:each="manu : ${clients}"
+                                th:value="${manu.clientId}"
+                                th:text="${manu.phoneNumber}"
+                                th:selected="${newEntity.client != null and manu.clientId == newEntity.client.clientId}"></option>
+                    </select>
+                </td>
                 <td>
                     <button type="submit">Save changes</button>
                 </td>
@@ -91,8 +126,8 @@
             </tbody>
         </table>
     </form>
-    <h4> Find Manufacturer </h4>
-    <form th:action="@{/manufacturer/find}" th:object="${findParams}" method="post">
+    <h4> Find Car </h4>
+    <form th:action="@{/maintenanceSchedule/find}" th:object="${findParams}" method="post">
         <table class="editable-table">
             <thead>
             <tr>
@@ -112,12 +147,13 @@
                     </select>
                 </td>
                 <td>
-                    <button type="submit">Find Manufacturer</button>
+                    <button type="submit">Find maintenance inspections</button>
                 </td>
             </tr>
             </tbody>
         </table>
     </form>
+
 </div>
 </body>
 </html>

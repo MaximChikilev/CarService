@@ -2,7 +2,9 @@ package com.example.carservice.controllers;
 
 import com.example.carservice.entity.Car;
 import com.example.carservice.entity.Manufacturer;
+import com.example.carservice.services.CarService;
 import com.example.carservice.services.EntityService;
+import com.example.carservice.services.ManufacturerService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -16,7 +18,7 @@ import java.util.List;
 public class CarController extends MyAbstractController<Car> {
     private final EntityService<Manufacturer> manufacturerEntityService;
 
-    protected CarController(EntityService<Car> service, EntityService<Manufacturer> manufacturerEntityService) {
+    protected CarController(CarService service, ManufacturerService manufacturerEntityService) {
         super(service, "car");
         this.manufacturerEntityService = manufacturerEntityService;
     }

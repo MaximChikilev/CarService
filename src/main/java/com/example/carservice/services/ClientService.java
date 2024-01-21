@@ -1,6 +1,6 @@
 package com.example.carservice.services;
 
-import com.example.carservice.dao.ClientRepository;
+import com.example.carservice.repo.ClientRepository;
 import com.example.carservice.entity.Client;
 import org.springframework.stereotype.Service;
 
