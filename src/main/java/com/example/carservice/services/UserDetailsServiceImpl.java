@@ -1,5 +1,6 @@
 package com.example.carservice.services;
 
+import com.example.carservice.entity.CustomUser;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.User;
@@ -21,7 +22,7 @@ public class UserDetailsServiceImpl implements UserDetailsService {
 
     @Override
     public UserDetails loadUserByUsername(String login) throws UsernameNotFoundException {
-        com.example.carservice.entity.User customUser = userService.findByLoginOrEmail(login);
+        CustomUser customUser = userService.findByLoginOrEmail(login);
         if (customUser == null)
             throw new UsernameNotFoundException(login + " not found");
 
@@ -32,3 +33,4 @@ public class UserDetailsServiceImpl implements UserDetailsService {
         return new User(customUser.getLogin(), customUser.getPassword(), roles);
     }
 }
+

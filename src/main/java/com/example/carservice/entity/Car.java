@@ -1,6 +1,5 @@
 package com.example.carservice.entity;
-
-import jakarta.persistence.*;
+import javax.persistence.*;
 
 @Entity
 public class Car {

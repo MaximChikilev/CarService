@@ -1,9 +1,7 @@
 package com.example.carservice.controllers;
 
-import com.example.carservice.entity.User;
+import com.example.carservice.entity.CustomUser;
 import com.example.carservice.entity.UserRole;
-import com.example.carservice.repo.UserRepository;
-import com.example.carservice.services.EntityService;
 import com.example.carservice.services.UserService;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
@@ -19,8 +17,9 @@ import java.util.stream.Collectors;
 
 @Controller
 @RequestMapping("/user")
-public class UserController extends MyAbstractController<User>{
+public class UserController extends MyAbstractController<CustomUser> {
     private final PasswordEncoder passwordEncoder;
+
     protected UserController(UserService service, PasswordEncoder passwordEncoder) {
         super(service, "user");
         this.passwordEncoder = passwordEncoder;
@@ -28,18 +27,25 @@ public class UserController extends MyAbstractController<User>{
 
     @PostMapping("/save")
     @Override
-    public String save(@ModelAttribute User user) {
-        if(!((UserService) service).isUserExist(user)){
-            String password = user.getPassword();
-            user.setPassword(passwordEncoder.encode(password));
-            service.save(user);
+    public String save(@ModelAttribute CustomUser customUser) {
+        if (!((UserService) service).isUserExist(customUser)) {
+            customUser.setPassword(passwordEncoder.encode(customUser.getPassword()));
+            service.save(customUser);
+        } else {
+            CustomUser userFromDB = ((UserService) service).getByLogin(customUser.getLogin());
+            if (customUser.getPassword() != "") {
+                userFromDB.setPassword(passwordEncoder.encode(customUser.getPassword()));
+            }
+            userFromDB.setRole(customUser.getRole());
+            userFromDB.setEmail(customUser.getEmail());
+            service.save(userFromDB);
         }
         return allRedirect;
     }
 
     @Override
-    protected User getNewInstance() {
-        return new User();
+    protected CustomUser getNewInstance() {
+        return new CustomUser();
     }
 
     @Override
@@ -51,8 +57,9 @@ public class UserController extends MyAbstractController<User>{
     protected List<String> getListPossibleSearchFields() {
         return new ArrayList<>(Arrays.asList("Role"));
     }
-    private List<String> getRolesList(){
-        return  Arrays.stream(UserRole.values())
+
+    private List<String> getRolesList() {
+        return Arrays.stream(UserRole.values())
                 .map(UserRole::name)
                 .collect(Collectors.toList());
     }

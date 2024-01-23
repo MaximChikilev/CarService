@@ -5,19 +5,22 @@ import com.example.carservice.entity.*;
 import com.example.carservice.jsonLoaders.*;
 import com.example.carservice.services.EntityService;
 import com.example.carservice.services.UserService;
-import org.springframework.context.annotation.ComponentScan;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.User;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PostMapping;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 
 @Controller
-@ComponentScan(basePackages = "com.example.carservice")
 public class MyController {
     private final EntityService<Car> carService;
     private final EntityService<Manufacturer> manufacturerService;
@@ -27,6 +30,7 @@ public class MyController {
     private final EntityService<TechnicalInspection> technicalInspectionService;
     private final UserService userService;
     private final PasswordEncoder passwordEncoder;
+
 
 
     public MyController(EntityService<Car> carService, EntityService<Manufacturer> manufacturerService, EntityService<Client> clientService, EntityService<SparePart> sparePartService, EntityService<ServiceWork> serviceWorkService, EntityService<TechnicalInspection> technicalInspectionService, UserService userService, PasswordEncoder passwordEncoder) {
@@ -42,27 +46,39 @@ public class MyController {
 
     @GetMapping("/register")
     public String registerNewUser(Model model) {
-        model.addAttribute("newUser",new User());
-        model.addAttribute("newUser",null);
+        model.addAttribute("newUser",new CustomUser());
+        model.addAttribute("exist",false);
         return "registerNewUser";
     }
-    @GetMapping("/saveNewUser")
-    public String saveNewUser(Model model, @ModelAttribute User user) {
-        if(userService.isUserExist(user)){
-            model.addAttribute("newUser",new User());
-            model.addAttribute("exists",true);
-            return "registerNewUser";
+    @PostMapping("/saveNewUser")
+    public String saveNewUser(@ModelAttribute CustomUser customUser) {
+        if(userService.isUserExist(customUser)){
+            CustomUser userFromDB = userService.getByLogin(customUser.getLogin());
+            if (customUser.getPassword() != "") {
+                userFromDB.setPassword(passwordEncoder.encode(customUser.getPassword()));
+            }
+            userFromDB.setEmail(customUser.getEmail());
+            userService.save(userFromDB);
+        }else {
+            customUser.setRole(UserRole.ROLE_MANAGER);
+            customUser.setPassword(passwordEncoder.encode(customUser.getPassword()));
+            userService.save(customUser);
         }
-        String password = user.getPassword();
-        user.setPassword(passwordEncoder.encode(password));
-        userService.save(user);
         return "redirect:/";
+    }
+    @GetMapping("/editPersonalData")
+    public String editPersonalData(Model model){
+        CustomUser user = userService.getByLogin(getCurrentUser().getUsername());
+        model.addAttribute("newUser",user);
+        model.addAttribute("exist",true);
+        return "registerNewUser";
     }
 
     @GetMapping("/")
     public String getHome(Model model) {
         loadAllEntityLists();
-        model.addAttribute("admin", true);
+        User currentUser = getCurrentUser();
+        model.addAttribute("admin", isAdmin(currentUser));
         return "home";
     }
     @GetMapping("/login")
@@ -99,5 +115,21 @@ public class MyController {
         sparePartService.saveAll(sparePartList);
         serviceWorkService.saveAll(serviceWorkList);
         technicalInspectionService.saveAll(inspectionsList);
+    }
+    private User getCurrentUser() {
+        return (User) SecurityContextHolder
+                .getContext()
+                .getAuthentication()
+                .getPrincipal();
+    }
+    private boolean isAdmin(User user) {
+        Collection<GrantedAuthority> roles = user.getAuthorities();
+
+        for (GrantedAuthority auth : roles) {
+            if ("ROLE_ADMIN".equals(auth.getAuthority()))
+                return true;
+        }
+
+        return false;
     }
 }

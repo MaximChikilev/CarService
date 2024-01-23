@@ -1,7 +1,7 @@
 package com.example.carservice.entity;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
-import jakarta.persistence.*;
+import javax.persistence.*;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import java.sql.Time;

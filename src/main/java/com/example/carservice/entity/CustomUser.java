@@ -1,11 +1,9 @@
 package com.example.carservice.entity;
 
-import jakarta.persistence.Entity;
-
-import jakarta.persistence.*;
+import javax.persistence.*;
 
 @Entity
-public class User {
+public class CustomUser {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
 
@@ -16,14 +14,14 @@ public class User {
     private UserRole role;
     private String email;
 
-    public User(String login, String password, UserRole role, String email) {
+    public CustomUser(String login, String password, UserRole role, String email) {
         this.login = login;
         this.password = password;
         this.role = role;
         this.email = email;
     }
 
-    public User() {
+    public CustomUser() {
     }
 
     public long getId() {

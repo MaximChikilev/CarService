@@ -4,7 +4,8 @@
     <title>Prog.kiev.ua</title>
 </head>
 <body>
-<div align="center">
+<h4> Add new customUser </h4>
+<div >
     <form th:action="@{/saveNewUser}" th:object="${newUser}" method="post">
         <table class="editable-table">
             <thead>
@@ -16,11 +17,11 @@
             </thead>
             <tbody>
             <tr>
-                <td><input type="text" th:field="*{login}" th:readonly="true"/></td>
+                <td><input type="text" th:field="*{login}"/></td>
                 <td><input type="password" th:field="*{password}" /></td>
                 <td><input type="text" th:field="*{email}" /></td>
                 <td>
-                    <button type="submit">Add user</button>
+                    <button type="submit">Save changes</button>
                 </td>
             </tr>
             </tbody>
