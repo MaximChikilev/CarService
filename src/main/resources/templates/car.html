@@ -31,6 +31,7 @@
                             <li><a th:href="@{/serviceWork/all}">Service works</a></li>
                             <li><a th:href="@{/technicalInspection/all}">Scheduled technical inspections</a></li>
                             <li><a th:href="@{/maintenanceSchedule/all}">Maintenance Schedule</a></li>
+                            <li><a th:href="@{/gpsTracker/all}">Gps tracker data</a></li>
                         </ul>
                     </li>
                     <li class="dropdown">
@@ -53,6 +54,7 @@
             <td><b>Model</b></td>
             <td><b>Vin code</b></td>
             <td><b>Manufacture year</b></td>
+            <td><b>Mileage</b></td>
             <td><b>Manufacturer</b></td>
         </tr>
         </thead>
@@ -62,6 +64,7 @@
                 <td th:text="${entity.model}"></td>
                 <td th:text="${entity.vinCode}"></td>
                 <td th:text="${entity.manufactureYear}"></td>
+                <td th:text="${entity.mileage}"></td>
                 <td th:utext="${entity.manufacturer != null} ? ${entity.manufacturer.name} : ' '"></td>
                 <td>
                     <a th:href="@{/car/edit(id=${entity.carId})}">Edit</a>
@@ -90,6 +93,7 @@
                 <th>Model</th>
                 <th>Vin code</th>
                 <th>Manufacture year</th>
+                <th>Mileage</th>
                 <th>Manufacturer</th>
             </tr>
             </thead>
@@ -100,6 +104,7 @@
                 <td><input type="text" th:field="*{model}" /></td>
                 <td><input type="text" th:field="*{vinCode}" /></td>
                 <td><input type="text" th:field="*{manufactureYear}" /></td>
+                <td><input type="text" th:field="*{mileage}" /></td>
                 <td>
                     <select th:field="*{manufacturer.manufacturerId}">
                         <option th:each="manu : ${manufacturers}"

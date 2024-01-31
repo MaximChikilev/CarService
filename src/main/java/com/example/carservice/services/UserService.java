@@ -21,6 +21,12 @@ public class UserService extends EntityService<CustomUser> {
         return methodMap;
     }
 
+    @Override
+    protected List<CustomUser> loadEntityListFromJson() {
+        return null;
+    }
+
+
     public CustomUser findByLoginOrEmail(String login) {
         return  ((UserRepository) repository).findByLogin(login);
     }

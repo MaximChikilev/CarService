@@ -1,0 +1,37 @@
+[
+  {
+    "inspectionsId": 1,
+    "name": "X Inspection",
+    "mileageToPass": 30000,
+    "serviceWorks": [
+      {"name": "All works for X inspection"}
+    ]
+  },
+  {
+    "inspectionsId": 2,
+    "name": "S Service",
+    "mileageToPass": 60000,
+    "serviceWorks": [
+      {"name": "All works for X inspection"},
+      {"name": "All works for S inspection"}
+    ]
+  },
+  {
+    "inspectionsId": 3,
+    "name": "M Check",
+    "mileageToPass": 90000,
+    "serviceWorks": [
+      {"name": "All works for X inspection"},
+      {"name": "All works for M inspection"}
+    ]
+  },
+  {
+    "inspectionsId": 4,
+    "name": "L",
+    "mileageToPass": 120000,
+    "serviceWorks": [
+      {"name": "All works for X inspection"},
+      {"name": "All works for L inspection"}
+    ]
+  }
+]

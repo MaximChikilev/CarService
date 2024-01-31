@@ -31,6 +31,7 @@
                             <li><a th:href="@{/serviceWork/all}">Service works</a></li>
                             <li><a th:href="@{/technicalInspection/all}">Scheduled technical inspections</a></li>
                             <li><a th:href="@{/maintenanceSchedule/all}">Maintenance Schedule</a></li>
+                            <li><a th:href="@{/gpsTracker/all}">Gps tracker data</a></li>
                         </ul>
                     </li>
                     <li class="dropdown">
@@ -58,8 +59,8 @@
         </thead>
         <th:block th:each="entity : ${entities}">
             <tr>
-                <td th:text="${entity.maintenanceDate}"></td>
-                <td th:text="${entity.maintenanceTime}"></td>
+                <td th:text="${#dates.format(entity.maintenanceDate, 'yyyy-MM-dd')}"></td>
+                <td th:text="${entity.maintenanceTime.getHours}"></td>
                 <td th:text="${entity.technicalInspection.name}"></td>
                 <td th:text="${entity.car.licensePlateNumber}"></td>
                 <td th:text="${entity.client.phoneNumber}"></td>
@@ -85,8 +86,8 @@
         <table class="editable-table">
             <thead>
             <tr>
-                <td><b>Maintenance Date</b></td>
-                <td><b>Maintenance time</b></td>
+                <td><b>Date</b></td>
+                <td><b>Time</b></td>
                 <td><b>Technical Inspection</b></td>
                 <td><b>Car</b></td>
                 <td><b>Client</b></td>
@@ -95,9 +96,14 @@
             <tbody>
             <tr>
                 <td><input type="date" th:field="*{maintenanceDate}"/></td>
-                <td><input type="time" th:field="*{maintenanceTime}"/></td>
                 <td>
-                    <select th:field="*{technicalInspection.inspectionsIdrb}">
+                    <select th:field="*{maintenanceTime}">
+                        <option th:each="role : ${T(com.example.carservice.entity.TimeWindows).values()}"
+                                th:value="${role}" th:text="${role.getHours()}"></option>
+                    </select>
+                </td>
+                <td>
+                    <select th:field="*{technicalInspection.inspectionsId}">
                         <option th:each="manu : ${technicalInspections}"
                                 th:value="${manu.inspectionsId}"
                                 th:text="${manu.name}"

@@ -2,76 +2,91 @@
   {
     "sparePartId": 1,
     "partNumber": "SP1001",
-    "name": "Spare part 1"
+    "name": "Spare part 1",
+    "manufacturerName": "Scania"
   },
   {
     "sparePartId": 2,
     "partNumber": "SP1002",
-    "name": "Spare part 2"
+    "name": "Spare part 2",
+    "manufacturerName": "Scania"
   },
   {
     "sparePartId": 3,
     "partNumber": "SP1003",
-    "name": "Spare part 3"
+    "name": "Spare part 3",
+    "manufacturerName": "Scania"
   },
   {
     "sparePartId": 4,
     "partNumber": "SP1004",
-    "name": "Spare part 4"
+    "name": "Spare part 4",
+    "manufacturerName": "Scania"
   },
   {
     "sparePartId": 5,
     "partNumber": "SP1005",
-    "name": "Spare part 5"
+    "name": "Spare part 5",
+    "manufacturerName": "Scania"
   },
   {
     "sparePartId": 6,
     "partNumber": "SP1006",
-    "name": "Spare part 6"
+    "name": "Spare part 6",
+    "manufacturerName": "Volvo"
   },
   {
     "sparePartId": 7,
     "partNumber": "SP1007",
-    "name": "Spare part 7"
+    "name": "Spare part 7",
+    "manufacturerName": "Volvo"
   },
   {
     "sparePartId": 8,
     "partNumber": "SP1008",
-    "name": "Spare part 8"
+    "name": "Spare part 8",
+    "manufacturerName": "Volvo"
   },
   {
     "sparePartId": 9,
     "partNumber": "SP1009",
-    "name": "Spare part 9"
+    "name": "Spare part 9",
+    "manufacturerName": "Volvo"
   },
   {
     "sparePartId": 10,
     "partNumber": "SP1010",
-    "name": "Spare part 10"
+    "name": "Spare part 10",
+    "manufacturerName": "Volvo"
   },
   {
     "sparePartId": 11,
     "partNumber": "SP1011",
-    "name": "Spare part 11"
+    "name": "Spare part 11",
+    "manufacturerName": "Mercedes"
   },
   {
     "sparePartId": 12,
     "partNumber": "SP1012",
-    "name": "Spare part 12"
+    "name": "Spare part 12",
+    "manufacturerName": "Mercedes"
   },
   {
     "sparePartId": 13,
     "partNumber": "SP1013",
-    "name": "Spare part 13"
+    "name": "Spare part 13",
+    "manufacturerName": "Mercedes"
   },
   {
     "sparePartId": 14,
     "partNumber": "SP1014",
-    "name": "Spare part 14"
+    "name": "Spare part 14",
+    "manufacturerName": "Mercedes"
   },
   {
     "sparePartId": 15,
     "partNumber": "SP1015",
-    "name": "Spare part 15"
+    "name": "Spare part 15",
+    "manufacturerName": "Mercedes"
   }
 ]

@@ -8,7 +8,7 @@ import java.util.Objects;
 public class SparePart {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int sparePartId;
+    private Long sparePartId;
     @Column(name = "part_number")
     private String partNumber;
     private String name;
@@ -25,11 +25,11 @@ public class SparePart {
         this.manufacturer = manufacturer;
     }
 
-    public int getSparePartId() {
+    public Long getSparePartId() {
         return sparePartId;
     }
 
-    public void setSparePartId(int sparePartId) {
+    public void setSparePartId(Long sparePartId) {
         this.sparePartId = sparePartId;
     }
 

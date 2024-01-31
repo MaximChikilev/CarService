@@ -30,6 +30,7 @@
                             <li><a th:href="@{/serviceWork/all}">Service works</a></li>
                             <li><a th:href="@{/technicalInspection/all}">Scheduled technical inspections</a></li>
                             <li><a th:href="@{/maintenanceSchedule/all}">Maintenance Schedule</a></li>
+                            <li><a th:href="@{/gpsTracker/all}">Gps tracker data</a></li>
                         </ul>
                     </li>
                     <li class="dropdown">
@@ -51,6 +52,7 @@
             <td><b>Service work id</b></td>
             <td><b>Name</b></td>
             <td><b>Duration in minutes</b></td>
+            <td><b>Spare parts</b></td>
         </tr>
         </thead>
         <th:block th:each="entity : ${entities}">
@@ -64,9 +66,9 @@
                     </ul>
                 </td>
                 <td>
-                    <a th:href="@{/serviceWork/edit(id=${entity.serviceWorkId})}">Edit</a>
-                    <a th:href="@{/serviceWork/delete(id=${entity.serviceWorkId})}">Delete</a>
-                    <a th:href="@{/serviceWork/addSpareParts(id=${entity.serviceWorkId})}">Add spare parts</a>
+                    <a th:href="@{/serviceWork/edit(id=${entity.serviceWorkId})}">(Edit)</a>
+                    <a th:href="@{/serviceWork/delete(id=${entity.serviceWorkId})}">(Delete)</a>
+                    <a th:href="@{/serviceWork/addSpareParts(id=${entity.serviceWorkId})}">(Add spare parts)</a>
                 </td>
             </tr>
         </th:block>

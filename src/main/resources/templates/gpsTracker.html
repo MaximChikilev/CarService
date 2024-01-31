@@ -1,0 +1,139 @@
+<html xmlns:th="http://www.thymeleaf.org" xmlns:c="http://www.thymeleaf.org/extras/core">
+<!DOCTYPE html>
+<head>
+    <title>Prog.kiev.ua</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
+</head>
+
+<body>
+<div class="container">
+    <h4><a th:href="@{/}">Car Service</a></h4>
+    <nav class="navbar navbar-default">
+        <div class="container-fluid">
+            <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+                <ul id="groupList" class="nav navbar-nav">
+                    <li class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true"
+                           aria-expanded="false">Entities <span class="caret"></span></a>
+                        <ul class="dropdown-menu">
+                            <li><a th:href="@{/car/all}">View car list</a></li>
+                            <li><a th:href="@{/manufacturer/all}">View manufacturers list</a></li>
+                            <li><a th:href="@{/client/all}">View clients list</a></li>
+                        </ul>
+                    </li>
+                    <li class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true"
+                           aria-expanded="false">Service <span class="caret"></span></a>
+                        <ul class="dropdown-menu">
+                            <li><a th:href="@{/sparePart/all}">Spare parts</a></li>
+                            <li><a th:href="@{/serviceWork/all}">Service works</a></li>
+                            <li><a th:href="@{/technicalInspection/all}">Scheduled technical inspections</a></li>
+                            <li><a th:href="@{/maintenanceSchedule/all}">Maintenance Schedule</a></li>
+                            <li><a th:href="@{/gpsTracker/all}">Gps tracker data</a></li>
+                        </ul>
+                    </li>
+                    <li class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true"
+                           aria-expanded="false">Stock <span class="caret"></span></a>
+                        <ul class="dropdown-menu">
+                            <li><a th:href="@{/stock/all}">View stock</a></li>
+                        </ul>
+                    </li>
+                    <li><a th:href="@{/editPersonalData}">Edit personal data</a></li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+    <h4> Maintenance schedule </h4>
+    <table class="table table-striped">
+        <thead>
+        <tr>
+            <td><b>Car</b></td>
+            <td><b>Date</b></td>
+            <td><b>Mileage</b></td>
+        </tr>
+        </thead>
+        <th:block th:each="entity : ${entities}">
+            <tr>
+                <td th:text="${entity.car.licensePlateNumber}"></td>
+                <td th:text="${#dates.format(entity.date, 'yyyy-MM-dd')}"></td>
+                <td th:text="${entity.mileage}"></td>
+                <td>
+                    <a th:href="@{/gpsTracker/edit(id=${entity.id})}">Edit</a>
+                    <a th:href="@{/gpsTracker/delete(id=${entity.id})}">Delete</a>
+                </td>
+            </tr>
+        </th:block>
+    </table>
+    <nav aria-label="Page navigation">
+        <ul class="pagination">
+            <th:block th:if="${allPages != null}">
+                <th:block th:each="i : ${#numbers.sequence(1, allPages)}">
+                    <li><a th:href="@{/gpsTracker/all(page=${i-1})}" th:text="${i}"></a></li>
+                </th:block>
+            </th:block>
+        </ul>
+    </nav>
+    <br>
+    <h4 th:text="${actionTitle}"></h4>
+    <form th:action="@{/gpsTracker/save}" th:object="${newEntity}" method="post">
+        <table class="editable-table">
+            <thead>
+            <tr>
+                <td><b>Car</b></td>
+                <td><b>Date</b></td>
+                <td><b>Mileage</b></td>
+            </tr>
+            </thead>
+            <tbody>
+            <tr>
+                <td>
+                    <select th:field="*{car.carId}">
+                        <option th:each="manu : ${cars}"
+                                th:value="${manu.carId}"
+                                th:text="${manu.licensePlateNumber}"
+                                th:selected="${newEntity.car != null and manu.carId == newEntity.car.carId}"></option>
+                    </select>
+                </td>
+                <td><input type="date" th:field="*{date}"/></td>
+                <td><input type="text" th:field="*{mileage}" /></td>
+                <td>
+                    <button type="submit">Save changes</button>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </form>
+    <h4> Find GPS tracker data </h4>
+    <form th:action="@{/gpsTracker/find}" th:object="${findParams}" method="post">
+        <table class="editable-table">
+            <thead>
+            <tr>
+                <td><b>Find value</b></td>
+                <td><b>Field name</b></td>
+            </tr>
+            </thead>
+            <tbody>
+            <tr>
+                <td><input type="text" th:field="*{value}" /></td>
+                <td>
+                    <select th:field="*{fieldName}">
+                        <option th:each="name : ${fieldsList}"
+                                th:value="${name}"
+                                th:text="${name}"
+                                th:selected="${name == findParams.fieldName}"></option>
+                    </select>
+                </td>
+                <td>
+                    <button type="submit">Find maintenance inspections</button>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </form>
+
+</div>
+</body>
+</html>

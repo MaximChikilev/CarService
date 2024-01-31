@@ -1,4 +1,5 @@
 package com.example.carservice.entity;
+
 import javax.persistence.*;
 
 @Entity
@@ -16,16 +17,18 @@ public class Car {
     @ManyToOne
     @JoinColumn(name = "manufacturer_id")
     private Manufacturer manufacturer;
+    private int mileage;
 
     public Car() {
     }
 
-    public Car(String licensePlateNumber, String model, String vinCode, int manufactureYear, Manufacturer manufacturer) {
+    public Car(String licensePlateNumber, String model, String vinCode, int manufactureYear, Manufacturer manufacturer, int mileage) {
         this.licensePlateNumber = licensePlateNumber;
         this.model = model;
         this.vinCode = vinCode;
         this.manufactureYear = manufactureYear;
         this.manufacturer = manufacturer;
+        this.mileage = mileage;
     }
 
     public Long getCarId() {
@@ -74,5 +77,13 @@ public class Car {
 
     public void setManufacturer(Manufacturer manufacturer) {
         this.manufacturer = manufacturer;
+    }
+
+    public int getMileage() {
+        return mileage;
+    }
+
+    public void setMileage(int mileage) {
+        this.mileage = mileage;
     }
 }

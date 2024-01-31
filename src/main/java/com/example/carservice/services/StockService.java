@@ -1,7 +1,6 @@
 package com.example.carservice.services;
 
 import com.example.carservice.entity.Stock;
-import com.example.carservice.repo.CarRepository;
 import com.example.carservice.repo.StockRepository;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Service;
@@ -20,4 +19,11 @@ public class StockService extends EntityService<Stock>{
         methodMap.put("Spare part name",((StockRepository) repository)::findAllByNameContaining);
         return methodMap;
     }
+
+    @Override
+    protected List<Stock> loadEntityListFromJson() {
+        return null;
+    }
+
+
 }

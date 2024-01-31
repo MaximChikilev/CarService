@@ -14,4 +14,6 @@ public interface ServiceWorkRepository extends JpaRepository<ServiceWork,Long> {
     List<ServiceWork> findAllByDuration(@Param("name") String name);
     @Query("SELECT DISTINCT sw FROM ServiceWork sw JOIN sw.spareParts sp WHERE sp.name LIKE %:sparePartName%")
     List<ServiceWork> findBySparePartNameContaining(@Param("sparePartName") String sparePartName);
+    @Query("SELECT s FROM ServiceWork s WHERE s.name = :name")
+    ServiceWork findByName(@Param("name") String name);
 }

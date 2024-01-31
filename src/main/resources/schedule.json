@@ -1,0 +1,23 @@
+[
+  {
+    "maintenanceDate": "2024-01-26",
+    "maintenanceTime": "FIRST_WINDOW",
+    "technicalInspection": "X Inspection",
+    "car": "ABC123",
+    "client": "maxim.chikilev@gmail.com"
+  },
+  {
+    "maintenanceDate": "2024-01-31",
+    "maintenanceTime": "SECOND_WINDOW",
+    "technicalInspection": "S Service",
+    "car": "XYZ789",
+    "client": "chikilevanastya@gmail.com"
+  },
+  {
+    "maintenanceDate": "2024-01-30",
+    "maintenanceTime": "THIRD_WINDOW",
+    "technicalInspection": "M Check",
+    "car": "PQR456",
+    "client": "chikilevtolya@gmail.com"
+  }
+]

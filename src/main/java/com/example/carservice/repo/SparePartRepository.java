@@ -12,4 +12,6 @@ public interface SparePartRepository extends JpaRepository<SparePart,Long> {
     List<SparePart> findAllByNameContaining(@Param("name") String name);
     @Query("SELECT s FROM SparePart s WHERE s.partNumber LIKE %:name%")
     List<SparePart> findAllByPartNumberContaining(@Param("name") String name);
+    @Query("SELECT s FROM SparePart s WHERE s.partNumber = :name")
+    SparePart findByPartNumber(@Param("name") String name);
 }

@@ -1,23 +1,26 @@
 [
   {
     "clientId": 1,
-    "firstName": "John",
-    "secondName": "Doe",
+    "firstName": "Maxim",
+    "secondName": "Chikilev",
     "phoneNumber": "123-456-7890",
-    "address": "123 Main St"
+    "email": "maxim.chikilev@gmail.com",
+    "licensePlateNumber": "ABC123"
   },
   {
     "clientId": 2,
-    "firstName": "Alice",
-    "secondName": "Smith",
+    "firstName": "Nastya",
+    "secondName": "Chikileva",
     "phoneNumber": "987-654-3210",
-    "address": "456 Oak Ave"
+    "email": "chikilevanastya@gmail.com",
+    "licensePlateNumber": "XYZ789"
   },
   {
     "clientId": 3,
-    "firstName": "Bob",
-    "secondName": "Johnson",
+    "firstName": "Tolya",
+    "secondName": "Chikilev",
     "phoneNumber": "555-123-4567",
-    "address": "789 Pine Ln"
+    "email": "chikilevtolya@gmail.com",
+    "licensePlateNumber": "PQR456"
   }
 ]

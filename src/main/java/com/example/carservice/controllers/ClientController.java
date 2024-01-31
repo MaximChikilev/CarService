@@ -1,6 +1,7 @@
 package com.example.carservice.controllers;
 
 import com.example.carservice.entity.Client;
+import com.example.carservice.services.CarService;
 import com.example.carservice.services.ClientService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -13,8 +14,10 @@ import java.util.List;
 @Controller
 @RequestMapping("/client")
 public class ClientController extends MyAbstractController<Client>{
-    protected ClientController(ClientService service) {
+    private final CarService carService;
+    protected ClientController(ClientService service, CarService carService) {
         super(service, "client");
+        this.carService = carService;
     }
 
     @Override
@@ -24,7 +27,7 @@ public class ClientController extends MyAbstractController<Client>{
 
     @Override
     protected void addAdditionalAttributes(Model model) {
-
+        model.addAttribute("cars", carService.getAll());
     }
 
     @Override

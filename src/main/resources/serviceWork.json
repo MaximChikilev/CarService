@@ -2,21 +2,44 @@
   {
     "serviceWorkId": 1,
     "name": "All works for X inspection",
-    "durationInMinutes": 30
+    "durationInMinutes": 30,
+    "spareParts": [
+      {"partNumber": "SP1001"},
+      {"partNumber": "SP1002"},
+      {"partNumber": "SP1003"}
+    ]
   },
   {
     "serviceWorkId": 2,
     "name": "All works for S inspection",
-    "durationInMinutes": 45
+    "durationInMinutes": 45,
+    "spareParts": [
+      {"partNumber": "SP1004"},
+      {"partNumber": "SP1005"},
+      {"partNumber": "SP1006"},
+      {"partNumber": "SP1007"}
+    ]
   },
   {
     "serviceWorkId": 3,
     "name": "All works for M inspection",
-    "durationInMinutes": 60
+    "durationInMinutes": 60,
+    "spareParts": [
+      {"partNumber": "SP1008"},
+      {"partNumber": "SP1009"},
+      {"partNumber": "SP1010"},
+      {"partNumber": "SP1011"}
+    ]
   },
   {
     "serviceWorkId": 4,
     "name": "All works for L inspection",
-    "durationInMinutes": 90
+    "durationInMinutes": 90,
+    "spareParts": [
+      {"partNumber": "SP1012"},
+      {"partNumber": "SP1013"},
+      {"partNumber": "SP1014"},
+      {"partNumber": "SP1015"}
+    ]
   }
 ]

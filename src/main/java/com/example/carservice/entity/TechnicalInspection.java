@@ -9,12 +9,12 @@ import java.util.List;
 public class TechnicalInspection {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int inspectionsId;
+    private Long inspectionsId;
     private String name;
     @Column(name = "mileage_to_pass")
     private int mileageToPass;
-    @OneToMany
-    @JoinColumn(name = "inspectation_id")
+    @ManyToMany
+    @JoinColumn(name = "inspection_id")
     List<ServiceWork> serviceWorks = new ArrayList<>();
     @Column(name = "duration_in_minutes")
     private int durationInMinutes;
@@ -29,11 +29,11 @@ public class TechnicalInspection {
         this.durationInMinutes = durationInMinutes;
     }
 
-    public int getInspectionsId() {
+    public Long getInspectionsId() {
         return inspectionsId;
     }
 
-    public void setInspectionsId(int inspectionsId) {
+    public void setInspectionsId(Long inspectionsId) {
         this.inspectionsId = inspectionsId;
     }
 

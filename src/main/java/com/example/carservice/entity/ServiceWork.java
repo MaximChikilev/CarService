@@ -9,11 +9,11 @@ import java.util.List;
 public class ServiceWork {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int serviceWorkId;
+    private Long serviceWorkId;
     private String name;
     @Column(name = "duration_in_minutes")
     private int durationInMinutes;
-    @OneToMany
+    @ManyToMany
     @JoinColumn(name = "service_work_id")
     private List<SparePart> spareParts = new ArrayList<>();
 
@@ -26,11 +26,11 @@ public class ServiceWork {
         this.spareParts = spareParts;
     }
 
-    public int getServiceWorkId() {
+    public Long getServiceWorkId() {
         return serviceWorkId;
     }
 
-    public void setServiceWorkId(int serviceWorkId) {
+    public void setServiceWorkId(Long serviceWorkId) {
         this.serviceWorkId = serviceWorkId;
     }
 
@@ -58,5 +58,9 @@ public class ServiceWork {
         if (!spareParts.contains(sparePart)) {
             spareParts.add(sparePart);
         }
+    }
+
+    public void setSpareParts(List<SparePart> spareParts) {
+        this.spareParts = spareParts;
     }
 }

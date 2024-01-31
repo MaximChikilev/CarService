@@ -1,7 +1,6 @@
 package com.example.carservice.controllers;
 
-import com.example.carservice.FindParams;
-import com.example.carservice.entity.SparePart;
+import com.example.carservice.entity.FindParams;
 import com.example.carservice.services.EntityService;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.ui.Model;

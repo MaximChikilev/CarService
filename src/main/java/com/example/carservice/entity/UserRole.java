@@ -1,7 +1,7 @@
 package com.example.carservice.entity;
 
 public enum UserRole {
-    ROLE_MANAGER, ROLE_ADMIN;
+    ROLE_CLIENT, ROLE_MANAGER, ROLE_ADMIN;
 
     @Override
     public String toString() {

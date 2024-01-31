@@ -1,11 +1,11 @@
 package com.example.carservice.services;
 
-import com.example.carservice.entity.SparePart;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.transaction.annotation.Transactional;
 
 import org.springframework.data.domain.Pageable;
 
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -53,4 +53,5 @@ public abstract class EntityService<T> {
         return methodMap.get(fieldName).apply(value);
     }
     protected abstract Map<String, Function<String, List<T>>> setSearchFieldsAndCorrespondingMethods();
+    protected abstract List<T> loadEntityListFromJson() throws IOException;
 }

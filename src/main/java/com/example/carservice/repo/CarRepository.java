@@ -5,6 +5,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
+import java.util.Date;
 import java.util.List;
 
 
@@ -19,4 +20,14 @@ public interface CarRepository extends JpaRepository<Car,Long> {
     List<Car> findAllByVinCodeContaining(@Param("name") String name);
     @Query("SELECT s FROM Car s WHERE s.manufacturer.name LIKE %:name%")
     List<Car> findAllByManufacturerNameContaining(@Param("name") String name);
+    @Query("SELECT s FROM Car s WHERE s.licensePlateNumber = :name")
+    Car findByLicensePlateNumber(@Param("name") String name);
+    @Query("SELECT COUNT(ms) FROM MaintenanceSchedule ms " +
+            "WHERE ms.maintenanceDate >= :startDate " +
+            "AND ms.technicalInspection.name = :technicalInspectionName " +
+            "AND ms.car.licensePlateNumber = :licensePlateNumber")
+    int countByDateAndTechnicalInspectionAndCar(
+            @Param("startDate") Date startDate,
+            @Param("technicalInspectionName") String technicalInspectionName,
+            @Param("licensePlateNumber") String licensePlateNumber);
 }

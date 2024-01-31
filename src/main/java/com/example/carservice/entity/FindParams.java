@@ -1,4 +1,4 @@
-package com.example.carservice;
+package com.example.carservice.entity;
 
 public class FindParams {
     private String fieldName = "";

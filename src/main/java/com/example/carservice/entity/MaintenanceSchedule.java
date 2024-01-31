@@ -11,14 +11,15 @@ import java.util.Date;
 public class MaintenanceSchedule {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int maintenanceScheduleId;
+    private Long maintenanceScheduleId;
     @Column(name = "maintenance_date")
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     private Date maintenanceDate;
 
     @Column(name = "time_window")
-    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "HH:mm:ss")
-    private LocalTime maintenanceTime;
+   //@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "HH:mm:ss")
+    @Enumerated(EnumType.STRING)
+    private TimeWindows maintenanceTime;
     @OneToOne
     @JoinColumn(name = "scheduled_technical_inspection_id")
     private TechnicalInspection technicalInspection;
@@ -32,7 +33,7 @@ public class MaintenanceSchedule {
     public MaintenanceSchedule() {
     }
 
-    public MaintenanceSchedule(Date maintenanceDate, LocalTime maintenanceTime, TechnicalInspection technicalInspection, Car car, Client client) {
+    public MaintenanceSchedule(Date maintenanceDate, TimeWindows maintenanceTime, TechnicalInspection technicalInspection, Car car, Client client) {
         this.maintenanceDate = maintenanceDate;
         this.maintenanceTime = maintenanceTime;
         this.technicalInspection = technicalInspection;
@@ -40,11 +41,11 @@ public class MaintenanceSchedule {
         this.client = client;
     }
 
-    public int getMaintenanceScheduleId() {
+    public Long getMaintenanceScheduleId() {
         return maintenanceScheduleId;
     }
 
-    public void setMaintenanceScheduleId(int maintenanceScheduleId) {
+    public void setMaintenanceScheduleId(Long maintenanceScheduleId) {
         this.maintenanceScheduleId = maintenanceScheduleId;
     }
 
@@ -56,11 +57,11 @@ public class MaintenanceSchedule {
         this.maintenanceDate = maintenanceDate;
     }
 
-    public LocalTime getMaintenanceTime() {
+    public TimeWindows getMaintenanceTime() {
         return maintenanceTime;
     }
 
-    public void setMaintenanceTime(LocalTime timeWindow) {
+    public void setMaintenanceTime(TimeWindows timeWindow) {
         this.maintenanceTime = timeWindow;
     }
 

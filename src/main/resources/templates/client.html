@@ -30,6 +30,7 @@
                             <li><a th:href="@{/serviceWork/all}">Service works</a></li>
                             <li><a th:href="@{/technicalInspection/all}">Scheduled technical inspections</a></li>
                             <li><a th:href="@{/maintenanceSchedule/all}">Maintenance Schedule</a></li>
+                            <li><a th:href="@{/gpsTracker/all}">Gps tracker data</a></li>
                         </ul>
                     </li>
                     <li class="dropdown">
@@ -52,7 +53,9 @@
             <td><b>First name</b></td>
             <td><b>Second name</b></td>
             <td><b>Phone number</b></td>
-            <td><b>Address</b></td>
+            <td><b>Email</b></td>
+            <td><b>Car</b></td>
+
         </tr>
         </thead>
         <th:block th:each="client : ${entities}"><tr>
@@ -60,7 +63,9 @@
                 <td th:text="${client.firstName}"></td>
                 <td th:text="${client.secondName}"></td>
                 <td th:text="${client.phoneNumber}"></td>
-                <td th:text="${client.address}"></td>
+                <td th:text="${client.email}"></td>
+                <td th:text="${client.car.licensePlateNumber}"></td>
+
                 <td>
                     <a th:href="@{/client/edit(id=${client.clientId})}">Edit</a>
                     <a th:href="@{/client/delete(id=${client.clientId})}">Delete</a>
@@ -87,7 +92,8 @@
                 <td><b>First name</b></td>
                 <td><b>Second name</b></td>
                 <td><b>Phone number</b></td>
-                <td><b>Address</b></td>
+                <td><b>Email</b></td>
+                <td><b>Car</b></td>
             </tr>
             </thead>
             <tbody>
@@ -96,7 +102,15 @@
                 <td><input type="text" th:field="*{firstName}" /></td>
                 <td><input type="text" th:field="*{secondName}" /></td>
                 <td><input type="text" th:field="*{phoneNumber}" /></td>
-                <td><input type="text" th:field="*{address}" /></td>
+                <td><input type="text" th:field="*{email}" /></td>
+                <td>
+                    <select th:field="*{car.carId}">
+                        <option th:each="manu : ${cars}"
+                                th:value="${manu.carId}"
+                                th:text="${manu.licensePlateNumber}"
+                                th:selected="${newEntity.car != null and manu.carId == newEntity.car.carId}"></option>
+                    </select>
+                </td>
                 <td>
                     <button type="submit">Save changes</button>
                 </td>

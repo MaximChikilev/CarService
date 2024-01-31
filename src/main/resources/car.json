@@ -4,20 +4,26 @@
     "licensePlateNumber": "ABC123",
     "model": "Sedan",
     "vinCode": "12345678901234567",
-    "manufactureYear": 2022
+    "manufactureYear": 2022,
+    "mileage": 58000,
+    "manufacturerName": "Scania"
   },
   {
     "carId": 2,
     "licensePlateNumber": "XYZ789",
     "model": "SUV",
     "vinCode": "98765432109876543",
-    "manufactureYear": 2021
+    "manufactureYear": 2021,
+    "mileage": 28000,
+    "manufacturerName": "Mercedes"
   },
   {
     "carId": 3,
     "licensePlateNumber": "PQR456",
     "model": "Hatchback",
     "vinCode": "54321098765432109",
-    "manufactureYear": 2023
+    "manufactureYear": 2023,
+    "mileage": 88000,
+    "manufacturerName": "Volvo"
   }
 ]

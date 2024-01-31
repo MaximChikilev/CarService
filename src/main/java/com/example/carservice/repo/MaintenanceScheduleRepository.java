@@ -5,6 +5,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
+import java.util.Date;
 import java.util.List;
 
 public interface MaintenanceScheduleRepository extends JpaRepository<MaintenanceSchedule,Long> {
@@ -14,4 +15,6 @@ public interface MaintenanceScheduleRepository extends JpaRepository<Maintenance
     List<MaintenanceSchedule> findAllByClientPhoneNumberContaining(@Param("value") String value);
     @Query("SELECT s FROM MaintenanceSchedule s WHERE s.technicalInspection.name LIKE %:value%")
     List<MaintenanceSchedule> findAllByTechnicalInspectionNameContaining(@Param("value") String value);
+    List<MaintenanceSchedule> findByMaintenanceDateBetween(Date startDate, Date endDate);
+
 }
