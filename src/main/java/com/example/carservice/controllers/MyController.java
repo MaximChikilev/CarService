@@ -67,6 +67,13 @@ public class MyController {
         return "registerNewUser";
     }
 
+    @GetMapping("/home")
+    public String home() {
+        User currentUser = utils.getCurrentUser();
+        if (utils.isUserHasRole(currentUser, "ROLE_CLIENT")) return "redirect:/clientPage";
+        return "redirect:/";
+    }
+
     @GetMapping("/")
     public String getHome(Model model) {
         User currentUser = utils.getCurrentUser();

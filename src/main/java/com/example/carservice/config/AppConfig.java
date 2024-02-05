@@ -1,7 +1,6 @@
 package com.example.carservice.config;
 
 import com.example.carservice.entity.CustomUser;
-import com.example.carservice.entity.MaintenanceSchedule;
 import com.example.carservice.entity.UserRole;
 import com.example.carservice.services.GpsTrackerManagerService;
 import com.example.carservice.services.UserService;

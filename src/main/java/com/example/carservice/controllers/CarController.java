@@ -10,6 +10,7 @@ import com.example.carservice.services.ManufacturerService;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.reflect.TypeToken;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
@@ -26,10 +27,11 @@ import java.util.List;
 @Controller
 @RequestMapping("/car")
 public class CarController extends MyAbstractController<Car> {
+
     private final EntityService<Manufacturer> manufacturerEntityService;
 
-    protected CarController(CarService service, ManufacturerService manufacturerEntityService) {
-        super(service, "car");
+    protected CarController(CarService service, ManufacturerService manufacturerEntityService, @Value("${carSearchFields}") String searchFields) {
+        super(service, "car", searchFields);
         this.manufacturerEntityService = manufacturerEntityService;
     }
 
@@ -43,20 +45,17 @@ public class CarController extends MyAbstractController<Car> {
         model.addAttribute("manufacturers", manufacturerEntityService.getAll());
     }
 
-    @Override
-    protected List<String> getListPossibleSearchFields() {
-        return new ArrayList<>(Arrays.asList("License plate number","Manufacturer year","Model","Vin code","Manufacturer name"));
-    }
     @PostMapping("/upload/gpsTrackerData")
     public ResponseEntity<String> uploadGpsTrackerData(@RequestBody String json) {
         Gson gson = new GsonBuilder()
                 .registerTypeAdapter(GpsTrackerData.class, new GpsTrackerDataDeserializer())
                 .create();
-        Type listType = new TypeToken<List<GpsTrackerData>>() {}.getType();
+        Type listType = new TypeToken<List<GpsTrackerData>>() {
+        }.getType();
 
         try {
             List<GpsTrackerData> gpsTrackerDataList = gson.fromJson(json, listType);
-            ((CarService)service).saveGpsTrackerData(gpsTrackerDataList);
+            ((CarService) service).saveGpsTrackerData(gpsTrackerDataList);
             return new ResponseEntity<>("GpsTrackerData uploaded successfully", HttpStatus.OK);
         } catch (Exception e) {
             return new ResponseEntity<>("Error processing GpsTrackerData: " + e.getMessage(), HttpStatus.BAD_REQUEST);

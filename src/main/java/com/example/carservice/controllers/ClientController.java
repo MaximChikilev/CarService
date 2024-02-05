@@ -1,10 +1,17 @@
 package com.example.carservice.controllers;
 
 import com.example.carservice.entity.Client;
+import com.example.carservice.entity.CustomUser;
+import com.example.carservice.entity.UserRole;
 import com.example.carservice.services.CarService;
 import com.example.carservice.services.ClientService;
+import com.example.carservice.services.UserService;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import java.util.ArrayList;
@@ -13,11 +20,15 @@ import java.util.List;
 
 @Controller
 @RequestMapping("/client")
-public class ClientController extends MyAbstractController<Client>{
+public class ClientController extends MyAbstractController<Client> {
     private final CarService carService;
-    protected ClientController(ClientService service, CarService carService) {
-        super(service, "client");
+    private final UserService userService;
+
+
+    protected ClientController(ClientService service, CarService carService, UserService userService, @Value("${clientSearchFields}") String searchFields) {
+        super(service, "client", searchFields);
         this.carService = carService;
+        this.userService = userService;
     }
 
     @Override
@@ -31,7 +42,12 @@ public class ClientController extends MyAbstractController<Client>{
     }
 
     @Override
-    protected List<String> getListPossibleSearchFields() {
-        return new ArrayList<>(Arrays.asList("First name","Second name","Phone number","Address"));
+    @PostMapping("/save")
+    public String save(@ModelAttribute Client entity) {
+        if (((ClientService) service).getClientByEmail(entity.getEmail()) == null) {
+            userService.createNewCustomUserFromClientData(entity);
+        }
+        service.save(entity);
+        return allRedirect;
     }
 }

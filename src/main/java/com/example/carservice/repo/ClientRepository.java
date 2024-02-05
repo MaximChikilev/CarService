@@ -26,4 +26,6 @@ public interface ClientRepository extends JpaRepository<Client, Long> {
    @Query("SELECT NEW com.example.carservice.dto.ClientCarAVGMileageDTO (c.firstName,c.secondName, c.phoneNumber,c.email, g.car.licensePlateNumber,g.car.mileage,AVG(g.mileage)) " +
            "FROM Client c LEFT JOIN GpsTrackerData g ON c.car = g.car GROUP BY c.firstName, c.secondName, c.phoneNumber, c.email, g.car.licensePlateNumber,g.car.mileage")
     List<ClientCarAVGMileageDTO> getClientCarAverageMileage();
+   @Query("SELECT c.car.licensePlateNumber FROM Client c WHERE c.email=:name ")
+    List<String> getLicensePlateNumbersByEmail(@Param("name") String name);
 }

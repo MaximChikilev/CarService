@@ -77,6 +77,11 @@ public class MaintenanceSchedule {
         return car;
     }
 
+    public MaintenanceSchedule(Date maintenanceDate, TimeWindows maintenanceTime) {
+        this.maintenanceDate = maintenanceDate;
+        this.maintenanceTime = maintenanceTime;
+    }
+
     public void setCar(Car car) {
         this.car = car;
     }

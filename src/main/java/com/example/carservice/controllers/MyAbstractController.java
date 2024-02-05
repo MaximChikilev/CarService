@@ -6,6 +6,8 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 public abstract class MyAbstractController<T> {
@@ -13,11 +15,13 @@ public abstract class MyAbstractController<T> {
     protected String entityName;
     static final int ITEMS_PER_PAGE = 6;
     protected String allRedirect;
+    protected String searchFields;
 
-    protected MyAbstractController(EntityService<T> service, String name) {
+    protected MyAbstractController(EntityService<T> service, String name, final String searchFields) {
         this.service = service;
         this.entityName = name;
         allRedirect = "redirect:/" + entityName + "/all";
+        this.searchFields = searchFields;
     }
 
     @GetMapping("/all")
@@ -72,5 +76,7 @@ public abstract class MyAbstractController<T> {
     protected abstract T getNewInstance();
 
     protected abstract void addAdditionalAttributes(Model model);
-    protected abstract List<String> getListPossibleSearchFields();
+    protected List<String> getListPossibleSearchFields(){
+        return new ArrayList<>(Arrays.asList(searchFields.split(",")));
+    }
 }

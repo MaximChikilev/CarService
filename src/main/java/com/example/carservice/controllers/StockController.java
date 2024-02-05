@@ -3,6 +3,7 @@ package com.example.carservice.controllers;
 import com.example.carservice.entity.Stock;
 import com.example.carservice.services.SparePartService;
 import com.example.carservice.services.StockService;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -10,13 +11,15 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+
 @Controller
 @RequestMapping("/stock")
-public class StockController extends MyAbstractController<Stock>{
+public class StockController extends MyAbstractController<Stock> {
 
     private final SparePartService sparePartService;
-    protected StockController(StockService service, SparePartService sparePartService) {
-        super(service, "stock");
+
+    protected StockController(StockService service, SparePartService sparePartService, @Value("${stockSearchFields}") String searchFields) {
+        super(service, "stock", searchFields);
         this.sparePartService = sparePartService;
     }
 
@@ -28,10 +31,5 @@ public class StockController extends MyAbstractController<Stock>{
     @Override
     protected void addAdditionalAttributes(Model model) {
         model.addAttribute("spareParts", sparePartService.getAll());
-    }
-
-    @Override
-    protected List<String> getListPossibleSearchFields() {
-        return new ArrayList<>(Arrays.asList("Spare part name"));
     }
 }

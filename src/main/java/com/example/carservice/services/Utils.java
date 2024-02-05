@@ -24,13 +24,13 @@ public class Utils {
     private final EntityService<ServiceWork> serviceWorkService;
     private final EntityService<TechnicalInspection> technicalInspectionService;
     private final EntityService<MaintenanceSchedule> maintenanceScheduleService;
-    private final EntityService<GpsTrackerData> gpsTrackerDataService;
-    private final GpsTrackerManagerService gpsTrackerManagerService;
 
 
-    public Utils(EntityService<Car> carService, EntityService<Manufacturer> manufacturerService, EntityService<Client> clientService,
-                 EntityService<SparePart> sparePartService, EntityService<ServiceWork> serviceWorkService, EntityService<TechnicalInspection> technicalInspectionService,
-                 MaintenanceScheduleService maintenanceScheduleService, EntityService<GpsTrackerData> gpsTrackerDataService, GpsTrackerManagerService gpsTrackerManagerService) {
+    public Utils(EntityService<Car> carService, EntityService<Manufacturer> manufacturerService,
+                 EntityService<Client> clientService, EntityService<SparePart> sparePartService,
+                 EntityService<ServiceWork> serviceWorkService,
+                 EntityService<TechnicalInspection> technicalInspectionService,
+                 MaintenanceScheduleService maintenanceScheduleService) {
         this.carService = carService;
         this.manufacturerService = manufacturerService;
         this.clientService = clientService;
@@ -38,8 +38,7 @@ public class Utils {
         this.serviceWorkService = serviceWorkService;
         this.technicalInspectionService = technicalInspectionService;
         this.maintenanceScheduleService = maintenanceScheduleService;
-        this.gpsTrackerDataService = gpsTrackerDataService;
-        this.gpsTrackerManagerService = gpsTrackerManagerService;
+
     }
 
     public void loadAllEntityLists() {
@@ -51,13 +50,12 @@ public class Utils {
             serviceWorkService.saveAll(serviceWorkService.loadEntityListFromJson());
             technicalInspectionService.saveAll(technicalInspectionService.loadEntityListFromJson());
             maintenanceScheduleService.saveAll(maintenanceScheduleService.loadEntityListFromJson());
-            //gpsTrackerDataService.saveAll(gpsTrackerDataService.loadEntityListFromJson());
         } catch (IOException e) {
             e.printStackTrace();
         }
     }
 
-    public User getCurrentUser() {
+    public static User getCurrentUser() {
         return (User) SecurityContextHolder
                 .getContext()
                 .getAuthentication()

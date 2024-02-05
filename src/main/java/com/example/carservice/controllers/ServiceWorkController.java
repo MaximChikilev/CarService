@@ -5,6 +5,7 @@ import com.example.carservice.entity.SparePart;
 import com.example.carservice.services.EntityService;
 import com.example.carservice.services.ServiceWorkService;
 import com.example.carservice.services.SparePartService;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -22,8 +23,8 @@ import java.util.List;
 public class ServiceWorkController extends MyAbstractController<ServiceWork> {
     private final SparePartService sparePartService;
 
-    protected ServiceWorkController(ServiceWorkService service, SparePartService sparePartService) {
-        super(service, "serviceWork");
+    protected ServiceWorkController(ServiceWorkService service, SparePartService sparePartService, @Value("${serviceWorkSearchFields}") String searchFields) {
+        super(service, "serviceWork", searchFields);
         this.sparePartService = sparePartService;
     }
 
@@ -37,31 +38,27 @@ public class ServiceWorkController extends MyAbstractController<ServiceWork> {
 
     }
 
-    @Override
-    protected List<String> getListPossibleSearchFields() {
-        return new ArrayList<>(Arrays.asList("Name", "Duration", "Spare part name"));
-    }
-
     @GetMapping("/addSpareParts")
     public String getSparePartsToAdd(@RequestParam Long id, Model model, @RequestParam(required = false, defaultValue = "0") Integer page) {
-        addAttributesToPagesFroAddManyEntities(model,id,page);
+        addAttributesToPagesFroAddManyEntities(model, id, page);
         return "addSparePartsToServiceWork";
     }
+
     @GetMapping("/deleteSparePart")
     public String deleteSparePart(@RequestParam Long spId,
                                   @RequestParam Long swId,
-                                  Model model){
-        ((ServiceWorkService)service).deleteSparePartFromServiceWork(swId,spId);
-        addAttributesToPagesFroAddManyEntities(model, swId,0);
+                                  Model model) {
+        ((ServiceWorkService) service).deleteSparePartFromServiceWork(swId, spId);
+        addAttributesToPagesFroAddManyEntities(model, swId, 0);
         return "addSparePartsToServiceWork";
     }
 
     @PostMapping("/addSelectedSpareparts")
     public String addSelectedSpareparts(Model model,
-            @RequestParam(value = "toDelete[]") Long[] toDelete,
-            @RequestParam(value = "serviceWorkId") Long serviceWorkId) {
-        ((ServiceWorkService)service).addSparePartsToServiceWork(toDelete,serviceWorkId);
-        addAttributesToPagesFroAddManyEntities(model, serviceWorkId,0);
+                                        @RequestParam(value = "toDelete[]") Long[] toDelete,
+                                        @RequestParam(value = "serviceWorkId") Long serviceWorkId) {
+        ((ServiceWorkService) service).addSparePartsToServiceWork(toDelete, serviceWorkId);
+        addAttributesToPagesFroAddManyEntities(model, serviceWorkId, 0);
         return "addSparePartsToServiceWork";
     }
 

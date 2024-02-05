@@ -3,6 +3,7 @@ package com.example.carservice.controllers;
 import com.example.carservice.entity.CustomUser;
 import com.example.carservice.entity.UserRole;
 import com.example.carservice.services.UserService;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -20,8 +21,8 @@ import java.util.stream.Collectors;
 public class UserController extends MyAbstractController<CustomUser> {
     private final PasswordEncoder passwordEncoder;
 
-    protected UserController(UserService service, PasswordEncoder passwordEncoder) {
-        super(service, "user");
+    protected UserController(UserService service, PasswordEncoder passwordEncoder, @Value("${userSearchFields}") String searchFields) {
+        super(service, "user", searchFields);
         this.passwordEncoder = passwordEncoder;
     }
 
@@ -51,11 +52,6 @@ public class UserController extends MyAbstractController<CustomUser> {
     @Override
     protected void addAdditionalAttributes(Model model) {
         model.addAttribute("possibleRoles", getRolesList());
-    }
-
-    @Override
-    protected List<String> getListPossibleSearchFields() {
-        return new ArrayList<>(Arrays.asList("Role"));
     }
 
     private List<String> getRolesList() {

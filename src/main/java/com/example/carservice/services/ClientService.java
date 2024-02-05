@@ -19,14 +19,16 @@ import java.util.function.Function;
 public class ClientService extends EntityService<Client> {
     private final ClientJsonManager clientJsonManager;
     private final InspectionService inspectionService;
+    private final UserService userService;
     private final CarService carService;
     @Value("${daysBeforeService}")
     private int daysBeforeService;
 
-    protected ClientService(ClientRepository repository, ClientJsonManager clientJsonManager, InspectionService inspectionService, CarService carService) {
+    protected ClientService(ClientRepository repository, ClientJsonManager clientJsonManager, InspectionService inspectionService, UserService userService, CarService carService) {
         super(repository);
         this.clientJsonManager = clientJsonManager;
         this.inspectionService = inspectionService;
+        this.userService = userService;
         this.carService = carService;
     }
 
@@ -46,6 +48,7 @@ public class ClientService extends EntityService<Client> {
             if (client.getCar() != null) {
                 client.setCar(carService.getByLicencePlateNumber(client.getCar().getLicensePlateNumber()));
             }
+            userService.createNewCustomUserFromClientData(client);
         }
         return clients;
     }
@@ -72,6 +75,9 @@ public class ClientService extends EntityService<Client> {
             }
         }
         return list;
+    }
+    public List<String> getLicensePlateNumbersByEmail(String email){
+        return ((ClientRepository) repository).getLicensePlateNumbersByEmail(email);
     }
 
 
