@@ -1,0 +1,73 @@
+<html xmlns:th="http://www.thymeleaf.org" xmlns:c="http://www.thymeleaf.org/extras/core">
+<!DOCTYPE html>
+<head>
+    <title>Prog.kiev.ua</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
+</head>
+
+<body>
+<div class="container">
+    <h4><a th:href="@{/}">Car Service. Client page.</a></h4>
+    <form th:action="@{/clientPage/saveUserChsnges}" th:object="${User}" method="post">
+        <table class="editable-table">
+            <thead>
+            <tr>
+                <td><b>Login</b></td>
+                <td><b>Password</b></td>
+                <td><b>Email</b></td>
+            </tr>
+            </thead>
+            <tbody>
+            <tr>
+                <td><input type="text" th:field="*{login}" th:readonly="true"/></td>
+                <td><input type="password" th:field="*{password}" /></td>
+                <td><input type="text" th:field="*{email}" th:readonly="true"/></td>
+                <td>
+                    <button type="submit">Save changes</button>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </form>
+    <h4>Current inspections</h4>
+    <table class="table table-striped">
+        <thead>
+        <tr>
+            <td><b>License plate number</b></td>
+            <td><b>Inspection name</b></td>
+            <td><b>Date</b></td>
+            <td><b>Time</b></td>
+        </tr>
+        </thead>
+        <th:block th:each="entity : ${inspectionsSchedule}"><tr>
+            <td th:text="${entity.car.licensePlateNumber}"></td>
+            <td th:text="${entity.technicalInspection.name}"></td>
+            <td th:text="${#dates.format(entity.maintenanceDate, 'yyyy-MM-dd')}"></td>
+            <td th:text="${entity.maintenanceTime.getHours}"></td>
+        </tr>
+        </th:block>
+    </table>
+    <form th:action="@{/clientPage/singUpForAppointment}" th:object="${clientScheduleData}" method="post">
+        <h4>Select car</h4>
+        <select th:field="*{selectedLicensePlateNumber}">
+            <option th:each="manu : ${licensePlateNumbers}"
+                    th:value="${manu}"
+                    th:text="${manu}"
+            ></option>
+        </select>
+        <h4>Free Time Windows for Inspection</h4>
+        <select th:field="*{selectedDateTime}">
+            <option th:each="dataTime : ${freeDataTimes}"
+                    th:value="${dataTime}"
+                    th:text="${dataTime}"
+            ></option>
+        </select>
+        <br>
+        <br>
+        <button type="submit">Choose</button>
+    </form>
+</div>
+</body>
+</html>
