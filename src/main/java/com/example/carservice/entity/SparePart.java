@@ -1,71 +1,81 @@
 package com.example.carservice.entity;
 
-import javax.persistence.*;
-
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.Column;
+import javax.persistence.ManyToOne;
+import javax.persistence.JoinColumn;
 import java.util.Objects;
 
 @Entity
 public class SparePart {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long sparePartId;
-    @Column(name = "part_number")
-    private String partNumber;
-    private String name;
-    @ManyToOne
-    @JoinColumn(name = "manufacturer_id")
-    private Manufacturer manufacturer;
+  @Id
+  @GeneratedValue(strategy = GenerationType.IDENTITY)
+  private Long sparePartId;
 
-    public SparePart() {
-    }
+  @Column(name = "part_number")
+  private String partNumber;
 
-    public SparePart(String partNumber, String name, Manufacturer manufacturer) {
-        this.partNumber = partNumber;
-        this.name = name;
-        this.manufacturer = manufacturer;
-    }
+  private String name;
 
-    public Long getSparePartId() {
-        return sparePartId;
-    }
+  @ManyToOne
+  @JoinColumn(name = "manufacturer_id")
+  private Manufacturer manufacturer;
 
-    public void setSparePartId(Long sparePartId) {
-        this.sparePartId = sparePartId;
-    }
+  public SparePart() {}
 
-    public String getPartNumber() {
-        return partNumber;
-    }
+  public SparePart(String partNumber, String name, Manufacturer manufacturer) {
+    this.partNumber = partNumber;
+    this.name = name;
+    this.manufacturer = manufacturer;
+  }
 
-    public void setPartNumber(String partNumber) {
-        this.partNumber = partNumber;
-    }
+  public Long getSparePartId() {
+    return sparePartId;
+  }
 
-    public String getName() {
-        return name;
-    }
+  public void setSparePartId(Long sparePartId) {
+    this.sparePartId = sparePartId;
+  }
 
-    public void setName(String name) {
-        this.name = name;
-    }
+  public String getPartNumber() {
+    return partNumber;
+  }
 
-    public Manufacturer getManufacturer() {
-        return manufacturer;
-    }
+  public void setPartNumber(String partNumber) {
+    this.partNumber = partNumber;
+  }
 
-    public void setManufacturer(Manufacturer manufacturer) {
-        this.manufacturer = manufacturer;
-    }
+  public String getName() {
+    return name;
+  }
 
-    @Override
-    public boolean equals(Object object) {
-        if (this == object) return true;
-        if (!(object instanceof SparePart sparePart)) return false;
-        return getSparePartId() == sparePart.getSparePartId() && Objects.equals(getPartNumber(), sparePart.getPartNumber()) && Objects.equals(getName(), sparePart.getName()) && Objects.equals(getManufacturer(), sparePart.getManufacturer());
-    }
+  public void setName(String name) {
+    this.name = name;
+  }
 
-    @Override
-    public int hashCode() {
-        return Objects.hash(getSparePartId(), getPartNumber(), getName(), getManufacturer());
-    }
+  public Manufacturer getManufacturer() {
+    return manufacturer;
+  }
+
+  public void setManufacturer(Manufacturer manufacturer) {
+    this.manufacturer = manufacturer;
+  }
+
+  @Override
+  public boolean equals(Object object) {
+    if (this == object) return true;
+    if (!(object instanceof SparePart sparePart)) return false;
+    return getSparePartId() == sparePart.getSparePartId()
+        && Objects.equals(getPartNumber(), sparePart.getPartNumber())
+        && Objects.equals(getName(), sparePart.getName())
+        && Objects.equals(getManufacturer(), sparePart.getManufacturer());
+  }
+
+  @Override
+  public int hashCode() {
+    return Objects.hash(getSparePartId(), getPartNumber(), getName(), getManufacturer());
+  }
 }

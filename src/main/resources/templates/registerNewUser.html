@@ -17,7 +17,12 @@
             </thead>
             <tbody>
             <tr>
-                <td><input type="text" th:field="*{login}"/></td>
+                <th:block th:if="${exist}">
+                    <td><input type="text" th:field="*{login}" th:readonly="true"/></td>
+                </th:block>
+                <th:block th:unless="${exist}">
+                    <td><input type="text" th:field="*{login}"/></td>
+                </th:block>
                 <td><input type="password" th:field="*{password}" /></td>
                 <td><input type="text" th:field="*{email}" /></td>
                 <td>

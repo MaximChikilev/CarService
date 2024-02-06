@@ -5,18 +5,24 @@ import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
+
 @Component
 public class MessageSender implements EmailService {
-    private final JavaMailSender javaMailSender;
+  private final JavaMailSender javaMailSender;
 
-    public MessageSender(JavaMailSender javaMailSender) {
-        this.javaMailSender = javaMailSender;
-    }
+  public MessageSender(JavaMailSender javaMailSender) {
+    this.javaMailSender = javaMailSender;
+  }
 
-    @Override
-    public void SendMessages(List<SimpleMailMessage> messageList) {
-        for (SimpleMailMessage message : messageList) {
-            javaMailSender.send(message);
-        }
+  @Override
+  public void SendMessages(List<SimpleMailMessage> messageList) {
+    for (SimpleMailMessage message : messageList) {
+      javaMailSender.send(message);
     }
+  }
+
+  @Override
+  public void SendMessage(SimpleMailMessage massage) {
+    javaMailSender.send(massage);
+  }
 }

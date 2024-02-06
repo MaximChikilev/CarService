@@ -19,44 +19,22 @@ import java.util.stream.Collectors;
 @Controller
 @RequestMapping("/user")
 public class UserController extends MyAbstractController<CustomUser> {
-    private final PasswordEncoder passwordEncoder;
 
-    protected UserController(UserService service, PasswordEncoder passwordEncoder, @Value("${userSearchFields}") String searchFields) {
-        super(service, "user", searchFields);
-        this.passwordEncoder = passwordEncoder;
-    }
+  protected UserController(UserService service, @Value("${userSearchFields}") String searchFields) {
+    super(service, "user", searchFields);
+  }
 
-    @PostMapping("/save")
-    @Override
-    public String save(@ModelAttribute CustomUser customUser) {
-        if (!((UserService) service).isUserExist(customUser)) {
-            customUser.setPassword(passwordEncoder.encode(customUser.getPassword()));
-            service.save(customUser);
-        } else {
-            CustomUser userFromDB = ((UserService) service).getByLogin(customUser.getLogin());
-            if (customUser.getPassword() != "") {
-                userFromDB.setPassword(passwordEncoder.encode(customUser.getPassword()));
-            }
-            userFromDB.setRole(customUser.getRole());
-            userFromDB.setEmail(customUser.getEmail());
-            service.save(userFromDB);
-        }
-        return allRedirect;
-    }
+  @Override
+  protected CustomUser getNewInstance() {
+    return new CustomUser();
+  }
 
-    @Override
-    protected CustomUser getNewInstance() {
-        return new CustomUser();
-    }
+  @Override
+  protected void addAdditionalAttributes(Model model) {
+    model.addAttribute("possibleRoles", getRolesList());
+  }
 
-    @Override
-    protected void addAdditionalAttributes(Model model) {
-        model.addAttribute("possibleRoles", getRolesList());
-    }
-
-    private List<String> getRolesList() {
-        return Arrays.stream(UserRole.values())
-                .map(UserRole::name)
-                .collect(Collectors.toList());
-    }
+  private List<String> getRolesList() {
+    return Arrays.stream(UserRole.values()).map(UserRole::name).collect(Collectors.toList());
+  }
 }

@@ -1,46 +1,52 @@
 package com.example.carservice.entity;
 
-import javax.persistence.*;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.OneToOne;
+import javax.persistence.JoinColumn;
 
 @Entity
 public class Stock {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
-    @OneToOne
-    @JoinColumn(name = "spare_part_id")
-    private SparePart sparePart;
-    private int quantity;
+  @Id
+  @GeneratedValue(strategy = GenerationType.IDENTITY)
+  private Long id;
 
-    public Stock() {
-    }
+  @OneToOne
+  @JoinColumn(name = "spare_part_id")
+  private SparePart sparePart;
 
-    public Stock(SparePart sparePart, int quantity) {
-        this.sparePart = sparePart;
-        this.quantity = quantity;
-    }
+  private int quantity;
 
-    public Long getId() {
-        return id;
-    }
+  public Stock() {}
 
-    public void setId(Long id) {
-        this.id = id;
-    }
+  public Stock(SparePart sparePart, int quantity) {
+    this.sparePart = sparePart;
+    this.quantity = quantity;
+  }
 
-    public SparePart getSparePart() {
-        return sparePart;
-    }
+  public Long getId() {
+    return id;
+  }
 
-    public void setSparePart(SparePart sparePart) {
-        this.sparePart = sparePart;
-    }
+  public void setId(Long id) {
+    this.id = id;
+  }
 
-    public int getQuantity() {
-        return quantity;
-    }
+  public SparePart getSparePart() {
+    return sparePart;
+  }
 
-    public void setQuantity(int quantity) {
-        this.quantity = quantity;
-    }
+  public void setSparePart(SparePart sparePart) {
+    this.sparePart = sparePart;
+  }
+
+  public int getQuantity() {
+    return quantity;
+  }
+
+  public void setQuantity(int quantity) {
+    this.quantity = quantity;
+  }
 }

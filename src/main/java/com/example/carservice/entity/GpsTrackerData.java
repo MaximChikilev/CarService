@@ -1,55 +1,63 @@
 package com.example.carservice.entity;
 
-import javax.persistence.*;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.ManyToOne;
+import javax.persistence.JoinColumn;
 import java.util.Date;
+
 @Entity
 public class GpsTrackerData {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
-    @ManyToOne@JoinColumn(name = "car_id")
-    private Car car;
-    private Date date;
-    private int mileage;
+  @Id
+  @GeneratedValue(strategy = GenerationType.IDENTITY)
+  private Long id;
 
-    public GpsTrackerData(Car car, Date date, int mileage) {
-        this.car = car;
-        this.date = date;
-        this.mileage = mileage;
-    }
+  @ManyToOne
+  @JoinColumn(name = "car_id")
+  private Car car;
 
-    public GpsTrackerData() {
-    }
+  private Date date;
+  private int mileage;
 
-    public Long getId() {
-        return id;
-    }
+  public GpsTrackerData(Car car, Date date, int mileage) {
+    this.car = car;
+    this.date = date;
+    this.mileage = mileage;
+  }
 
-    public void setId(Long id) {
-        this.id = id;
-    }
+  public GpsTrackerData() {}
 
-    public Car getCar() {
-        return car;
-    }
+  public Long getId() {
+    return id;
+  }
 
-    public void setCar(Car car) {
-        this.car = car;
-    }
+  public void setId(Long id) {
+    this.id = id;
+  }
 
-    public Date getDate() {
-        return date;
-    }
+  public Car getCar() {
+    return car;
+  }
 
-    public void setDate(Date date) {
-        this.date = date;
-    }
+  public void setCar(Car car) {
+    this.car = car;
+  }
 
-    public int getMileage() {
-        return mileage;
-    }
+  public Date getDate() {
+    return date;
+  }
 
-    public void setMileage(int mileage) {
-        this.mileage = mileage;
-    }
+  public void setDate(Date date) {
+    this.date = date;
+  }
+
+  public int getMileage() {
+    return mileage;
+  }
+
+  public void setMileage(int mileage) {
+    this.mileage = mileage;
+  }
 }

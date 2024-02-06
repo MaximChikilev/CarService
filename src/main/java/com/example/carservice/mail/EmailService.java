@@ -6,4 +6,5 @@ import java.util.List;
 
 public interface EmailService {
   void SendMessages(List<SimpleMailMessage> messageList);
+  void SendMessage(SimpleMailMessage massage);
 }

@@ -1,34 +1,37 @@
 package com.example.carservice.entity;
 
-import javax.persistence.*;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
 
 @Entity
 public class Manufacturer {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long manufacturerId;
-    private String name;
+  @Id
+  @GeneratedValue(strategy = GenerationType.IDENTITY)
+  private Long manufacturerId;
 
-    public Manufacturer() {
-    }
+  private String name;
 
-    public Manufacturer(String name) {
-        this.name = name;
-    }
+  public Manufacturer() {}
 
-    public Long getManufacturerId() {
-        return manufacturerId;
-    }
+  public Manufacturer(String name) {
+    this.name = name;
+  }
 
-    public void setManufacturerId(Long manufacturerId) {
-        this.manufacturerId = manufacturerId;
-    }
+  public Long getManufacturerId() {
+    return manufacturerId;
+  }
 
-    public String getName() {
-        return name;
-    }
+  public void setManufacturerId(Long manufacturerId) {
+    this.manufacturerId = manufacturerId;
+  }
 
-    public void setName(String name) {
-        this.name = name;
-    }
+  public String getName() {
+    return name;
+  }
+
+  public void setName(String name) {
+    this.name = name;
+  }
 }

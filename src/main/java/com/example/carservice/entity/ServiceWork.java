@@ -1,66 +1,73 @@
 package com.example.carservice.entity;
 
-import javax.persistence.*;
-
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.Column;
+import javax.persistence.ManyToMany;
+import javax.persistence.JoinColumn;
 import java.util.ArrayList;
 import java.util.List;
 
 @Entity
 public class ServiceWork {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long serviceWorkId;
-    private String name;
-    @Column(name = "duration_in_minutes")
-    private int durationInMinutes;
-    @ManyToMany
-    @JoinColumn(name = "service_work_id")
-    private List<SparePart> spareParts = new ArrayList<>();
+  @Id
+  @GeneratedValue(strategy = GenerationType.IDENTITY)
+  private Long serviceWorkId;
 
-    public ServiceWork() {
-    }
+  private String name;
 
-    public ServiceWork(String name, int durationInMinutes, List<SparePart> spareParts) {
-        this.name = name;
-        this.durationInMinutes = durationInMinutes;
-        this.spareParts = spareParts;
-    }
+  @Column(name = "duration_in_minutes")
+  private int durationInMinutes;
 
-    public Long getServiceWorkId() {
-        return serviceWorkId;
-    }
+  @ManyToMany
+  @JoinColumn(name = "service_work_id")
+  private List<SparePart> spareParts = new ArrayList<>();
 
-    public void setServiceWorkId(Long serviceWorkId) {
-        this.serviceWorkId = serviceWorkId;
-    }
+  public ServiceWork() {}
 
-    public String getName() {
-        return name;
-    }
+  public ServiceWork(String name, int durationInMinutes, List<SparePart> spareParts) {
+    this.name = name;
+    this.durationInMinutes = durationInMinutes;
+    this.spareParts = spareParts;
+  }
 
-    public void setName(String name) {
-        this.name = name;
-    }
+  public Long getServiceWorkId() {
+    return serviceWorkId;
+  }
 
-    public int getDurationInMinutes() {
-        return durationInMinutes;
-    }
+  public void setServiceWorkId(Long serviceWorkId) {
+    this.serviceWorkId = serviceWorkId;
+  }
 
-    public void setDurationInMinutes(int durationInMinutes) {
-        this.durationInMinutes = durationInMinutes;
-    }
+  public String getName() {
+    return name;
+  }
 
-    public List<SparePart> getSpareParts() {
-        return spareParts;
-    }
+  public void setName(String name) {
+    this.name = name;
+  }
 
-    public void addSparePart(SparePart sparePart) {
-        if (!spareParts.contains(sparePart)) {
-            spareParts.add(sparePart);
-        }
-    }
+  public int getDurationInMinutes() {
+    return durationInMinutes;
+  }
 
-    public void setSpareParts(List<SparePart> spareParts) {
-        this.spareParts = spareParts;
+  public void setDurationInMinutes(int durationInMinutes) {
+    this.durationInMinutes = durationInMinutes;
+  }
+
+  public List<SparePart> getSpareParts() {
+    return spareParts;
+  }
+
+  public void addSparePart(SparePart sparePart) {
+    if (!spareParts.contains(sparePart)) {
+      spareParts.add(sparePart);
     }
+  }
+
+  public void setSpareParts(List<SparePart> spareParts) {
+    this.spareParts = spareParts;
+  }
 }

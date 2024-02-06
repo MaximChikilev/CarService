@@ -20,36 +20,27 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 @EnableGlobalMethodSecurity(prePostEnabled = true)
 public class AppConfig extends GlobalMethodSecurityConfiguration {
 
-    @Value("${spring.mail.username}")
-    private String fromAddress;
-    @Bean
-    public PasswordEncoder passwordEncoder() {
-        return new BCryptPasswordEncoder();
-    }
-    @Bean
-    public CommandLineRunner demo(final UserService userService,
-                                  final PasswordEncoder encoder,
-                                  final Utils utils,
-                                  final GpsTrackerManagerService gpsService) {
-        return new CommandLineRunner() {
-            @Override
-            public void run(String... strings) throws Exception {
-                userService.save(new CustomUser("admin",encoder.encode("password"), UserRole.ROLE_ADMIN,"madmax@gmail.com"));
-                utils.loadAllEntityLists();
-                gpsService.uploadGpsTrackerData();
-            }
-        };
-    }
-    @Bean
-    @Scope("prototype")
-    public SimpleMailMessage reminderMessageTemplate() {
-        SimpleMailMessage message = new SimpleMailMessage();
+  @Value("${spring.mail.username}")
+  private String fromAddress;
 
-        message.setSubject("Car Service. Reminder to sign up for the service");
-        message.setText("Dear %s, you have an appointment for service at: %t (%s)");
-        message.setFrom(fromAddress);
+  @Bean
+  public PasswordEncoder passwordEncoder() {
+    return new BCryptPasswordEncoder();
+  }
 
-        return message;
-    }
-
+  @Bean
+  public CommandLineRunner demo(
+      final UserService userService,
+      final Utils utils,
+      final GpsTrackerManagerService gpsService) {
+    return new CommandLineRunner() {
+      @Override
+      public void run(String... strings) throws Exception {
+        userService.save(new CustomUser("admin", "password", UserRole.ROLE_ADMIN, "madmax@gmail.com"));
+        userService.save(new CustomUser("user", "user", UserRole.ROLE_MANAGER, "user@gmail.com"));
+        utils.loadAllEntityLists();
+        gpsService.uploadGpsTrackerData();
+      }
+    };
+  }
 }

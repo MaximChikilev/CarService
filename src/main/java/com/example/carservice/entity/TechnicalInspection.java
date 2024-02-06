@@ -1,84 +1,93 @@
 package com.example.carservice.entity;
 
-import javax.persistence.*;
-
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.Column;
+import javax.persistence.ManyToMany;
+import javax.persistence.JoinColumn;
 import java.util.ArrayList;
 import java.util.List;
 
 @Entity
 public class TechnicalInspection {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long inspectionsId;
-    private String name;
-    @Column(name = "mileage_to_pass")
-    private int mileageToPass;
-    @ManyToMany
-    @JoinColumn(name = "inspection_id")
-    List<ServiceWork> serviceWorks = new ArrayList<>();
-    @Column(name = "duration_in_minutes")
-    private int durationInMinutes;
+  @Id
+  @GeneratedValue(strategy = GenerationType.IDENTITY)
+  private Long inspectionsId;
 
-    public TechnicalInspection() {
-    }
+  private String name;
 
-    public TechnicalInspection(String name, int mileageToPass, List<ServiceWork> serviceWorks, int durationInMinutes) {
-        this.name = name;
-        this.mileageToPass = mileageToPass;
-        this.serviceWorks = serviceWorks;
-        this.durationInMinutes = durationInMinutes;
-    }
+  @Column(name = "mileage_to_pass")
+  private int mileageToPass;
 
-    public Long getInspectionsId() {
-        return inspectionsId;
-    }
+  @ManyToMany
+  @JoinColumn(name = "inspection_id")
+  List<ServiceWork> serviceWorks = new ArrayList<>();
 
-    public void setInspectionsId(Long inspectionsId) {
-        this.inspectionsId = inspectionsId;
-    }
+  @Column(name = "duration_in_minutes")
+  private int durationInMinutes;
 
-    public String getName() {
-        return name;
-    }
+  public TechnicalInspection() {}
 
-    public void setName(String name) {
-        this.name = name;
-    }
+  public TechnicalInspection(
+      String name, int mileageToPass, List<ServiceWork> serviceWorks, int durationInMinutes) {
+    this.name = name;
+    this.mileageToPass = mileageToPass;
+    this.serviceWorks = serviceWorks;
+    this.durationInMinutes = durationInMinutes;
+  }
 
-    public int getMileageToPass() {
-        return mileageToPass;
-    }
+  public Long getInspectionsId() {
+    return inspectionsId;
+  }
 
-    public void setMileageToPass(int mileageToPass) {
-        this.mileageToPass = mileageToPass;
-    }
+  public void setInspectionsId(Long inspectionsId) {
+    this.inspectionsId = inspectionsId;
+  }
 
-    public List<ServiceWork> getServiceWorks() {
-        return serviceWorks;
-    }
+  public String getName() {
+    return name;
+  }
 
-    public void setServiceWorks(List<ServiceWork> serviceWorks) {
-        this.serviceWorks = serviceWorks;
-    }
+  public void setName(String name) {
+    this.name = name;
+  }
 
-    public void addServiceWork(ServiceWork serviceWork) {
-        if (!serviceWorks.contains(serviceWork)) serviceWorks.add(serviceWork);
-    }
+  public int getMileageToPass() {
+    return mileageToPass;
+  }
 
-    public int getDurationInMinutes() {
-        return durationInMinutes;
-    }
+  public void setMileageToPass(int mileageToPass) {
+    this.mileageToPass = mileageToPass;
+  }
 
-    public void setDurationInMinutes(int durationInMinutes) {
-        this.durationInMinutes = durationInMinutes;
-    }
+  public List<ServiceWork> getServiceWorks() {
+    return serviceWorks;
+  }
 
-    public void setDurationInMinutes() {
-        durationInMinutes = 0;
-        if (serviceWorks != null) {
-            for (ServiceWork sw : serviceWorks) {
-                durationInMinutes += sw.getDurationInMinutes();
-            }
-        }
+  public void setServiceWorks(List<ServiceWork> serviceWorks) {
+    this.serviceWorks = serviceWorks;
+  }
+
+  public void addServiceWork(ServiceWork serviceWork) {
+    if (!serviceWorks.contains(serviceWork)) serviceWorks.add(serviceWork);
+  }
+
+  public int getDurationInMinutes() {
+    return durationInMinutes;
+  }
+
+  public void setDurationInMinutes(int durationInMinutes) {
+    this.durationInMinutes = durationInMinutes;
+  }
+
+  public void setDurationInMinutes() {
+    durationInMinutes = 0;
+    if (serviceWorks != null) {
+      for (ServiceWork sw : serviceWorks) {
+        durationInMinutes += sw.getDurationInMinutes();
+      }
     }
+  }
 }

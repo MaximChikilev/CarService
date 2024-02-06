@@ -1,89 +1,106 @@
 package com.example.carservice.entity;
 
-import javax.persistence.*;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.Column;
+import javax.persistence.ManyToOne;
+import javax.persistence.JoinColumn;
 
 @Entity
 public class Car {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long carId;
-    @Column(name = "licence_plate_number")
-    private String licensePlateNumber;
-    private String model;
-    @Column(name = "vin_code")
-    private String vinCode;
-    @Column(name = "manufacture_year")
-    private int manufactureYear;
-    @ManyToOne
-    @JoinColumn(name = "manufacturer_id")
-    private Manufacturer manufacturer;
-    private int mileage;
+  @Id
+  @GeneratedValue(strategy = GenerationType.IDENTITY)
+  private Long carId;
 
-    public Car() {
-    }
+  @Column(name = "licence_plate_number")
+  private String licensePlateNumber;
 
-    public Car(String licensePlateNumber, String model, String vinCode, int manufactureYear, Manufacturer manufacturer, int mileage) {
-        this.licensePlateNumber = licensePlateNumber;
-        this.model = model;
-        this.vinCode = vinCode;
-        this.manufactureYear = manufactureYear;
-        this.manufacturer = manufacturer;
-        this.mileage = mileage;
-    }
+  private String model;
 
-    public Long getCarId() {
-        return carId;
-    }
+  @Column(name = "vin_code")
+  private String vinCode;
 
-    public void setCarId(Long carId) {
-        this.carId = carId;
-    }
+  @Column(name = "manufacture_year")
+  private int manufactureYear;
 
-    public String getLicensePlateNumber() {
-        return licensePlateNumber;
-    }
+  @ManyToOne
+  @JoinColumn(name = "manufacturer_id")
+  private Manufacturer manufacturer;
 
-    public void setLicensePlateNumber(String licensePlateNumber) {
-        this.licensePlateNumber = licensePlateNumber;
-    }
+  private int mileage;
 
-    public String getModel() {
-        return model;
-    }
+  public Car() {}
 
-    public void setModel(String model) {
-        this.model = model;
-    }
+  public Car(
+      String licensePlateNumber,
+      String model,
+      String vinCode,
+      int manufactureYear,
+      Manufacturer manufacturer,
+      int mileage) {
+    this.licensePlateNumber = licensePlateNumber;
+    this.model = model;
+    this.vinCode = vinCode;
+    this.manufactureYear = manufactureYear;
+    this.manufacturer = manufacturer;
+    this.mileage = mileage;
+  }
 
-    public String getVinCode() {
-        return vinCode;
-    }
+  public Long getCarId() {
+    return carId;
+  }
 
-    public void setVinCode(String vinCode) {
-        this.vinCode = vinCode;
-    }
+  public void setCarId(Long carId) {
+    this.carId = carId;
+  }
 
-    public int getManufactureYear() {
-        return manufactureYear;
-    }
+  public String getLicensePlateNumber() {
+    return licensePlateNumber;
+  }
 
-    public void setManufactureYear(int manufactureYear) {
-        this.manufactureYear = manufactureYear;
-    }
+  public void setLicensePlateNumber(String licensePlateNumber) {
+    this.licensePlateNumber = licensePlateNumber;
+  }
 
-    public Manufacturer getManufacturer() {
-        return manufacturer;
-    }
+  public String getModel() {
+    return model;
+  }
 
-    public void setManufacturer(Manufacturer manufacturer) {
-        this.manufacturer = manufacturer;
-    }
+  public void setModel(String model) {
+    this.model = model;
+  }
 
-    public int getMileage() {
-        return mileage;
-    }
+  public String getVinCode() {
+    return vinCode;
+  }
 
-    public void setMileage(int mileage) {
-        this.mileage = mileage;
-    }
+  public void setVinCode(String vinCode) {
+    this.vinCode = vinCode;
+  }
+
+  public int getManufactureYear() {
+    return manufactureYear;
+  }
+
+  public void setManufactureYear(int manufactureYear) {
+    this.manufactureYear = manufactureYear;
+  }
+
+  public Manufacturer getManufacturer() {
+    return manufacturer;
+  }
+
+  public void setManufacturer(Manufacturer manufacturer) {
+    this.manufacturer = manufacturer;
+  }
+
+  public int getMileage() {
+    return mileage;
+  }
+
+  public void setMileage(int mileage) {
+    this.mileage = mileage;
+  }
 }

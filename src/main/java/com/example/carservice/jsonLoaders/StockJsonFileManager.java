@@ -5,10 +5,10 @@ import com.google.gson.reflect.TypeToken;
 
 import java.util.List;
 
-public class StockJsonFileManager extends JasonFilesManager<Stock>{
+public class StockJsonFileManager extends JasonFilesManager<Stock> {
 
-    public StockJsonFileManager(String path) {
-        super(path);
-        listType = new TypeToken<List<Stock>>() { }.getType();
-    }
+  public StockJsonFileManager(String path) {
+    super(path);
+    listType = new TypeToken<List<Stock>>() {}.getType();
+  }
 }

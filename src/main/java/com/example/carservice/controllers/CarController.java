@@ -18,47 +18,48 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-
 import java.lang.reflect.Type;
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 @Controller
 @RequestMapping("/car")
 public class CarController extends MyAbstractController<Car> {
 
-    private final EntityService<Manufacturer> manufacturerEntityService;
+  private final EntityService<Manufacturer> manufacturerEntityService;
 
-    protected CarController(CarService service, ManufacturerService manufacturerEntityService, @Value("${carSearchFields}") String searchFields) {
-        super(service, "car", searchFields);
-        this.manufacturerEntityService = manufacturerEntityService;
+  protected CarController(
+      CarService service,
+      ManufacturerService manufacturerEntityService,
+      @Value("${carSearchFields}") String searchFields) {
+    super(service, "car", searchFields);
+    this.manufacturerEntityService = manufacturerEntityService;
+  }
+
+  @Override
+  protected Car getNewInstance() {
+    return new Car();
+  }
+
+  @Override
+  protected void addAdditionalAttributes(Model model) {
+    model.addAttribute("manufacturers", manufacturerEntityService.getAll());
+  }
+
+  @PostMapping("/upload/gpsTrackerData")
+  public ResponseEntity<String> uploadGpsTrackerData(@RequestBody String json) {
+    Gson gson =
+        new GsonBuilder()
+            .registerTypeAdapter(GpsTrackerData.class, new GpsTrackerDataDeserializer())
+            .create();
+    Type listType = new TypeToken<List<GpsTrackerData>>() {}.getType();
+
+    try {
+      List<GpsTrackerData> gpsTrackerDataList = gson.fromJson(json, listType);
+      ((CarService) service).saveGpsTrackerData(gpsTrackerDataList);
+      return new ResponseEntity<>("GpsTrackerData uploaded successfully", HttpStatus.OK);
+    } catch (Exception e) {
+      return new ResponseEntity<>(
+          "Error processing GpsTrackerData: " + e.getMessage(), HttpStatus.BAD_REQUEST);
     }
-
-    @Override
-    protected Car getNewInstance() {
-        return new Car();
-    }
-
-    @Override
-    protected void addAdditionalAttributes(Model model) {
-        model.addAttribute("manufacturers", manufacturerEntityService.getAll());
-    }
-
-    @PostMapping("/upload/gpsTrackerData")
-    public ResponseEntity<String> uploadGpsTrackerData(@RequestBody String json) {
-        Gson gson = new GsonBuilder()
-                .registerTypeAdapter(GpsTrackerData.class, new GpsTrackerDataDeserializer())
-                .create();
-        Type listType = new TypeToken<List<GpsTrackerData>>() {
-        }.getType();
-
-        try {
-            List<GpsTrackerData> gpsTrackerDataList = gson.fromJson(json, listType);
-            ((CarService) service).saveGpsTrackerData(gpsTrackerDataList);
-            return new ResponseEntity<>("GpsTrackerData uploaded successfully", HttpStatus.OK);
-        } catch (Exception e) {
-            return new ResponseEntity<>("Error processing GpsTrackerData: " + e.getMessage(), HttpStatus.BAD_REQUEST);
-        }
-    }
+  }
 }
