@@ -1,0 +1,1 @@
+web: java -jar out/artifacts/CarService_jar/CarService.jar
