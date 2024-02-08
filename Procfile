@@ -1,1 +1,1 @@
-web: java -jar out/artifacts/CarService_jar/CarService.jar
+web: java -Dserver.port=$PORT $JAVA_OPTS -jar your-application.jar
