@@ -67,8 +67,9 @@ public class SparePart {
   @Override
   public boolean equals(Object object) {
     if (this == object) return true;
-    if (!(object instanceof SparePart sparePart)) return false;
-    return getSparePartId() == sparePart.getSparePartId()
+    if (!(object instanceof SparePart)) return false;
+      SparePart sparePart = (SparePart) object;
+      return getSparePartId() == sparePart.getSparePartId()
         && Objects.equals(getPartNumber(), sparePart.getPartNumber())
         && Objects.equals(getName(), sparePart.getName())
         && Objects.equals(getManufacturer(), sparePart.getManufacturer());
