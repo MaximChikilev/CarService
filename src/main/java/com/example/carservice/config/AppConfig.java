@@ -39,7 +39,7 @@ public class AppConfig extends GlobalMethodSecurityConfiguration {
         userService.save(new CustomUser("admin", "password", UserRole.ROLE_ADMIN, "madmax@gmail.com"));
         userService.save(new CustomUser("user", "user", UserRole.ROLE_MANAGER, "user@gmail.com"));
         utils.loadAllEntityLists();
-        gpsService.uploadGpsTrackerData();
+        //gpsService.uploadGpsTrackerData();
       }
     };
   }
