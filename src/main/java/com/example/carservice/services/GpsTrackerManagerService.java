@@ -19,7 +19,6 @@ import java.util.Random;
 
 @Service
 public class GpsTrackerManagerService {
-  private static final String UPLOAD_URL = "http://localhost:8888/car/upload/gpsTrackerData";
   private final CarService carService;
   private final GpsTrackerDataRepository gpsTrackerDataRepository;
 
@@ -29,21 +28,7 @@ public class GpsTrackerManagerService {
     this.gpsTrackerDataRepository = gpsTrackerDataRepository;
   }
 
-  public void uploadGpsTrackerData() {
-    Gson gsonForGpsTrackerUpload =
-        new GsonBuilder()
-            .registerTypeAdapter(GpsTrackerData.class, new GpsTrackerDataSerializer())
-            .create();
-    HttpHeaders headers = new HttpHeaders();
-    headers.setContentType(MediaType.APPLICATION_JSON);
-    String jsonGpsTrackerData = gsonForGpsTrackerUpload.toJson(generateDailyGpsTrackerData());
-    HttpEntity<String> requestEntity = new HttpEntity<>(jsonGpsTrackerData, headers);
-    RestTemplate restTemplate = new RestTemplate();
-    ResponseEntity<String> responseEntity =
-        restTemplate.postForEntity(UPLOAD_URL, requestEntity, String.class);
-  }
-
-  private List<GpsTrackerData> generateDailyGpsTrackerData() {
+  public void generateDailyGpsTrackerData() {
     Random random = new Random();
     var list = new ArrayList<GpsTrackerData>();
     var carList = carService.getAll();
@@ -51,6 +36,6 @@ public class GpsTrackerManagerService {
       list.add(new GpsTrackerData(car, new Date(), random.nextInt(500)));
     }
     gpsTrackerDataRepository.saveAll(list);
-    return list;
+    carService.saveGpsTrackerData(list);
   }
 }

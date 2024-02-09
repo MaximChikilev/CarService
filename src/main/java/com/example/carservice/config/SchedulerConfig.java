@@ -49,7 +49,7 @@ public class SchedulerConfig {
 
   @Scheduled(cron = "${grsTrackerData.schedule}")
   public void sendGpsTrackerData() {
-    gpsTrackerManagerService.uploadGpsTrackerData();
+    gpsTrackerManagerService.generateDailyGpsTrackerData();
   }
 
   @Scheduled(cron = "${remindingCustomersComeForService.schedule}")

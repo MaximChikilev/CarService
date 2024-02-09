@@ -23,8 +23,6 @@ public class SecurityConfig {
         .hasAnyRole("CLIENT")
         .antMatchers("/register")
         .permitAll()
-        .antMatchers("/car/upload/gpsTrackerData")
-        .permitAll()
         .and()
         .exceptionHandling()
         .accessDeniedPage("/unauthorized")

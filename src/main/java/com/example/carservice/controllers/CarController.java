@@ -44,22 +44,4 @@ public class CarController extends MyAbstractController<Car> {
   protected void addAdditionalAttributes(Model model) {
     model.addAttribute("manufacturers", manufacturerEntityService.getAll());
   }
-
-  @PostMapping("/upload/gpsTrackerData")
-  public ResponseEntity<String> uploadGpsTrackerData(@RequestBody String json) {
-    Gson gson =
-        new GsonBuilder()
-            .registerTypeAdapter(GpsTrackerData.class, new GpsTrackerDataDeserializer())
-            .create();
-    Type listType = new TypeToken<List<GpsTrackerData>>() {}.getType();
-
-    try {
-      List<GpsTrackerData> gpsTrackerDataList = gson.fromJson(json, listType);
-      ((CarService) service).saveGpsTrackerData(gpsTrackerDataList);
-      return new ResponseEntity<>("GpsTrackerData uploaded successfully", HttpStatus.OK);
-    } catch (Exception e) {
-      return new ResponseEntity<>(
-          "Error processing GpsTrackerData: " + e.getMessage(), HttpStatus.BAD_REQUEST);
-    }
-  }
 }
