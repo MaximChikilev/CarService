@@ -22,7 +22,7 @@ public interface ServiceWorkRepository extends JpaRepository<ServiceWork, Long> 
   ServiceWork findByName(@Param("name") String name);
 
   @Query(
-      "SELECT NEW com.example.carservice.dto.ConnectionsWithOtherEntityDTO('Service work', COUNT(ti.inspectionsId))"
+      "SELECT NEW com.example.carservice.dto.ConnectionsWithOtherEntityDTO('Technical inspection', COUNT(ti.inspectionsId))"
           + "FROM TechnicalInspection ti JOIN ti.serviceWorks sw WHERE sw.serviceWorkId =:id")
   List<ConnectionsWithOtherEntityDTO> getConnectionWithTechnicalInspection(@Param("id") Long id);
 }
