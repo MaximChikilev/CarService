@@ -17,7 +17,7 @@ public abstract class MyAbstractController<T> {
   protected final EntityService<T> service;
   protected String entityName;
   static final int ITEMS_PER_PAGE = 6;
-  static String connectionsWithOtherEntitiesPage = "ConnectionWithOtherEntities";
+  static String connectionsWithOtherEntitiesPage = "connectionWithOtherEntities";
   protected String returnUrl;
   protected String allRedirect;
   protected String searchFields;
