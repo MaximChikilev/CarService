@@ -1,6 +1,7 @@
 package com.example.carservice.repo;
 
 import com.example.carservice.dto.ClientCarAVGMileageDTO;
+import com.example.carservice.dto.ConnectionsWithOtherEntityDTO;
 import com.example.carservice.entity.Client;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
@@ -30,4 +31,8 @@ public interface ClientRepository extends JpaRepository<Client, Long> {
 
   @Query("SELECT c.car.licensePlateNumber FROM Client c WHERE c.email=:name ")
   List<String> getLicensePlateNumbersByEmail(@Param("name") String name);
+
+  @Query("SELECT NEW com.example.carservice.dto.ConnectionsWithOtherEntityDTO('Schedule', COUNT(c.maintenanceScheduleId)) " +
+          "FROM MaintenanceSchedule c WHERE c.client.clientId=:id ")
+  List<ConnectionsWithOtherEntityDTO> getConnectionWithMaintenanceSchedule(@Param("id") Long id);
 }

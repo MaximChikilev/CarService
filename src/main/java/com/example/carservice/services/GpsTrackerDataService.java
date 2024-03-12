@@ -1,5 +1,6 @@
 package com.example.carservice.services;
 
+import com.example.carservice.dto.ConnectionsWithOtherEntityDTO;
 import com.example.carservice.entity.GpsTrackerData;
 import com.example.carservice.jsonLoaders.manager.GpsTrackerDataJsonManager;
 import com.example.carservice.repo.GpsTrackerDataRepository;
@@ -43,5 +44,10 @@ public class GpsTrackerDataService extends EntityService<GpsTrackerData> {
       }
     }
     return gpsTrackerDataList;
+  }
+
+  @Override
+  public List<ConnectionsWithOtherEntityDTO> getConnectionsWithOtherTables(Long id) {
+    return null;
   }
 }

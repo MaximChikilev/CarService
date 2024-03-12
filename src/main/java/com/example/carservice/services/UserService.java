@@ -1,5 +1,6 @@
 package com.example.carservice.services;
 
+import com.example.carservice.dto.ConnectionsWithOtherEntityDTO;
 import com.example.carservice.entity.Client;
 import com.example.carservice.entity.CustomUser;
 import com.example.carservice.entity.UserRole;
@@ -35,6 +36,11 @@ public class UserService extends EntityService<CustomUser> {
 
   @Override
   protected List<CustomUser> loadEntityListFromJson() {
+    return null;
+  }
+
+  @Override
+  public List<ConnectionsWithOtherEntityDTO> getConnectionsWithOtherTables(Long id) {
     return null;
   }
 

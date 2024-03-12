@@ -1,5 +1,6 @@
 package com.example.carservice.repo;
 
+import com.example.carservice.dto.ConnectionsWithOtherEntityDTO;
 import com.example.carservice.entity.ServiceWork;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
@@ -19,4 +20,9 @@ public interface ServiceWorkRepository extends JpaRepository<ServiceWork, Long> 
 
   @Query("SELECT s FROM ServiceWork s WHERE s.name = :name")
   ServiceWork findByName(@Param("name") String name);
+
+  @Query(
+      "SELECT NEW com.example.carservice.dto.ConnectionsWithOtherEntityDTO('Service work', COUNT(ti.inspectionsId))"
+          + "FROM TechnicalInspection ti JOIN ti.serviceWorks sw WHERE sw.serviceWorkId =:id")
+  List<ConnectionsWithOtherEntityDTO> getConnectionWithTechnicalInspection(@Param("id") Long id);
 }

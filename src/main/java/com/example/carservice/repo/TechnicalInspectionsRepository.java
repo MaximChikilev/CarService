@@ -1,5 +1,6 @@
 package com.example.carservice.repo;
 
+import com.example.carservice.dto.ConnectionsWithOtherEntityDTO;
 import com.example.carservice.dto.InspectionDTO;
 import com.example.carservice.entity.TechnicalInspection;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -20,4 +21,8 @@ public interface TechnicalInspectionsRepository extends JpaRepository<TechnicalI
 
   @Query("SELECT MAX(c.mileageToPass) FROM TechnicalInspection c")
   int getMaxMileageToPass();
+
+  @Query("SELECT NEW com.example.carservice.dto.ConnectionsWithOtherEntityDTO('Schedule', COUNT(c.maintenanceScheduleId)) " +
+          "FROM MaintenanceSchedule c WHERE c.technicalInspection.inspectionsId=:id ")
+  List<ConnectionsWithOtherEntityDTO> getConnectionWithMaintenanceSchedule(@Param("id") Long id);
 }

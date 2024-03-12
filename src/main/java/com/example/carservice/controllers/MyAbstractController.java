@@ -1,5 +1,6 @@
 package com.example.carservice.controllers;
 
+import com.example.carservice.dto.ConnectionsWithOtherEntityDTO;
 import com.example.carservice.entity.FindParams;
 import com.example.carservice.services.EntityService;
 import org.springframework.data.domain.PageRequest;
@@ -16,6 +17,8 @@ public abstract class MyAbstractController<T> {
   protected final EntityService<T> service;
   protected String entityName;
   static final int ITEMS_PER_PAGE = 6;
+  static String connectionsWithOtherEntitiesPage = "ConnectionWithOtherEntities";
+  protected String returnUrl;
   protected String allRedirect;
   protected String searchFields;
 
@@ -23,6 +26,7 @@ public abstract class MyAbstractController<T> {
     this.service = service;
     this.entityName = name;
     allRedirect = "redirect:/" + entityName + "/all";
+    this.returnUrl = "/" + entityName + "/all";
     this.searchFields = searchFields;
   }
 
@@ -34,9 +38,17 @@ public abstract class MyAbstractController<T> {
   }
 
   @GetMapping("/delete")
-  public String delete(@RequestParam Long id) {
-    service.delete(id);
-    return allRedirect;
+  public String delete(@RequestParam Long id, Model model) {
+    List<ConnectionsWithOtherEntityDTO> connectionsWithOtherEntities =
+        service.getConnectionsWithOtherTables(id);
+    if (getConnectionsCount(connectionsWithOtherEntities) != 0L) {
+      model.addAttribute("entities", connectionsWithOtherEntities);
+      model.addAttribute("returnUrl", returnUrl);
+      return connectionsWithOtherEntitiesPage;
+    } else {
+      service.delete(id);
+      return allRedirect;
+    }
   }
 
   @PostMapping("/save")
@@ -80,7 +92,18 @@ public abstract class MyAbstractController<T> {
 
   private long getPageCount() {
     long totalCount = service.count();
-    return (totalCount / ITEMS_PER_PAGE) + ((totalCount % ITEMS_PER_PAGE > 0) ? 1 : 0);
+    return (totalCount == 0)
+        ? 1
+        : (totalCount / ITEMS_PER_PAGE) + ((totalCount % ITEMS_PER_PAGE > 0) ? 1 : 0);
+  }
+
+  private Long getConnectionsCount(List<ConnectionsWithOtherEntityDTO> list) {
+    Long counter = 0L;
+    if (list==null) return counter;
+    for (ConnectionsWithOtherEntityDTO element : list) {
+      counter += element.getConnectionsCount();
+    }
+    return counter;
   }
 
   protected abstract T getNewInstance();

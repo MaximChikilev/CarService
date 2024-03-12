@@ -1,5 +1,6 @@
 package com.example.carservice.services;
 
+import com.example.carservice.dto.ConnectionsWithOtherEntityDTO;
 import com.example.carservice.entity.Stock;
 import com.example.carservice.repo.StockRepository;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -22,6 +23,11 @@ public class StockService extends EntityService<Stock> {
 
   @Override
   protected List<Stock> loadEntityListFromJson() {
+    return null;
+  }
+
+  @Override
+  public List<ConnectionsWithOtherEntityDTO> getConnectionsWithOtherTables(Long id) {
     return null;
   }
 }

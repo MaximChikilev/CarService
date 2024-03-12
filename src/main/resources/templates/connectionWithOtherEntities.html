@@ -1,0 +1,72 @@
+<html xmlns:th="http://www.thymeleaf.org" xmlns:c="http://www.thymeleaf.org/extras/core">
+<!DOCTYPE html>
+<head>
+    <title>Prog.kiev.ua</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
+</head>
+
+<body>
+<div class="container">
+    <h4><a th:href="@{/}">Car Service</a></h4>
+    <nav class="navbar navbar-default">
+        <div class="container-fluid">
+            <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+                <ul id="groupList" class="nav navbar-nav">
+                    <li class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true"
+                           aria-expanded="false">Entities <span class="caret"></span></a>
+                        <ul class="dropdown-menu">
+                            <li><a th:href="@{/car/all}">View car list</a></li>
+                            <li><a th:href="@{/manufacturer/all}">View manufacturers list</a></li>
+                            <li><a th:href="@{/client/all}">View clients list</a></li>
+                        </ul>
+                    </li>
+                    <li class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true"
+                           aria-expanded="false">Service <span class="caret"></span></a>
+                        <ul class="dropdown-menu">
+                            <li><a th:href="@{/sparePart/all}">Spare parts</a></li>
+                            <li><a th:href="@{/serviceWork/all}">Service works</a></li>
+                            <li><a th:href="@{/technicalInspection/all}">Scheduled technical inspections</a></li>
+                            <li><a th:href="@{/maintenanceSchedule/all}">Maintenance Schedule</a></li>
+                            <li><a th:href="@{/gpsTracker/all}">Gps tracker data</a></li>
+                        </ul>
+                    </li>
+                    <li class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true"
+                           aria-expanded="false">Stock <span class="caret"></span></a>
+                        <ul class="dropdown-menu">
+                            <li><a th:href="@{/stock/all}">View stock</a></li>
+                        </ul>
+                    </li>
+                    <li><a th:href="@{/editPersonalData}">Edit personal data</a></li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+    <h4> Unable to delete entry.</h4>
+    <h5> Data integrity will be violated </h5>
+    <h5> Connections must be removed </h5>
+    <br>
+    <h4> Connections with other entities </h4>
+    <table class="table table-striped">
+        <thead>
+        <tr>
+            <td><b>Entity name</b></td>
+            <td><b>Connections count</b></td>
+        </tr>
+        </thead>
+        <th:block th:each="entity : ${entities}">
+            <tr>
+                <td th:text="${entity.entityName}"></td>
+                <td th:text="${entity.connectionsCount}"></td>
+            </tr>
+        </th:block>
+    </table>
+    <a th:href="${returnUrl}">Return</a>
+    <br>
+</div>
+</body>
+</html>

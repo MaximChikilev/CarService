@@ -1,5 +1,7 @@
 package com.example.carservice.repo;
 
+import com.example.carservice.dto.ConnectionsWithOtherEntityDTO;
+import com.example.carservice.dto.InspectionDTO;
 import com.example.carservice.entity.Car;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
@@ -35,4 +37,11 @@ public interface CarRepository extends JpaRepository<Car, Long> {
       @Param("startDate") Date startDate,
       @Param("technicalInspectionName") String technicalInspectionName,
       @Param("licensePlateNumber") String licensePlateNumber);
+
+  @Query("SELECT NEW com.example.carservice.dto.ConnectionsWithOtherEntityDTO('Client', COUNT(c.clientId)) " +
+          "FROM Client c WHERE c.car.carId=:carId ")
+  List<ConnectionsWithOtherEntityDTO> getConnectionWithClients(@Param("carId") Long carId);
+  @Query("SELECT NEW com.example.carservice.dto.ConnectionsWithOtherEntityDTO('Schedule', COUNT(c.maintenanceScheduleId)) " +
+          "FROM MaintenanceSchedule c WHERE c.car.carId=:carId ")
+  List<ConnectionsWithOtherEntityDTO> getConnectionWithSchedule(@Param("carId") Long carId);
 }

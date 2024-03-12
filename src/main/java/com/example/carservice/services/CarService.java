@@ -1,6 +1,7 @@
 package com.example.carservice.services;
 
 import com.example.carservice.dto.ClientCarRecommendedToServiceDTO;
+import com.example.carservice.dto.ConnectionsWithOtherEntityDTO;
 import com.example.carservice.entity.GpsTrackerData;
 import com.example.carservice.jsonLoaders.manager.CarJsonManager;
 import com.example.carservice.repo.CarRepository;
@@ -48,6 +49,14 @@ public class CarService extends EntityService<Car> {
       }
     }
     return cars;
+  }
+
+  @Override
+  public List<ConnectionsWithOtherEntityDTO> getConnectionsWithOtherTables(Long id) {
+    List<ConnectionsWithOtherEntityDTO> list = new ArrayList<>();
+    list.addAll(((CarRepository)repository).getConnectionWithClients(id));
+    list.addAll(((CarRepository)repository).getConnectionWithSchedule(id));
+    return list;
   }
 
   public Car getByLicencePlateNumber(String licencePlateNumber) {

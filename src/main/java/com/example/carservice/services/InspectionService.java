@@ -1,13 +1,16 @@
 package com.example.carservice.services;
 
+import com.example.carservice.dto.ConnectionsWithOtherEntityDTO;
 import com.example.carservice.dto.InspectionDTO;
 import com.example.carservice.jsonLoaders.manager.TechnicalInspectionJsonManager;
+import com.example.carservice.repo.ClientRepository;
 import com.example.carservice.repo.TechnicalInspectionsRepository;
 import com.example.carservice.entity.ServiceWork;
 import com.example.carservice.entity.TechnicalInspection;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Service;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
@@ -46,6 +49,13 @@ public class InspectionService extends EntityService<TechnicalInspection> {
       }
     }
     return technicalInspections;
+  }
+
+  @Override
+  public List<ConnectionsWithOtherEntityDTO> getConnectionsWithOtherTables(Long id) {
+    List<ConnectionsWithOtherEntityDTO> list = new ArrayList<>();
+    list.addAll(((TechnicalInspectionsRepository)repository).getConnectionWithMaintenanceSchedule(id));
+    return list;
   }
 
   public TechnicalInspection getByInspectionName(String inspectionName) {

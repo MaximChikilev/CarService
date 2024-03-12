@@ -1,10 +1,13 @@
 package com.example.carservice.services;
 
+import com.example.carservice.dto.ConnectionsWithOtherEntityDTO;
 import com.example.carservice.jsonLoaders.manager.ManufacturerJsonManager;
+import com.example.carservice.repo.CarRepository;
 import com.example.carservice.repo.ManufacturerRepository;
 import com.example.carservice.entity.Manufacturer;
 import org.springframework.stereotype.Service;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.function.Function;
@@ -29,6 +32,14 @@ public class ManufacturerService extends EntityService<Manufacturer> {
   @Override
   protected List<Manufacturer> loadEntityListFromJson() throws IOException {
     return manufacturerJsonManager.loadListFromFile();
+  }
+
+  @Override
+  public List<ConnectionsWithOtherEntityDTO> getConnectionsWithOtherTables(Long id) {
+    List<ConnectionsWithOtherEntityDTO> list = new ArrayList<>();
+    list.addAll(((ManufacturerRepository)repository).getConnectionWithCar(id));
+    list.addAll(((ManufacturerRepository)repository).getConnectionWithSpareParts(id));
+    return list;
   }
 
   public Manufacturer getByName(String name) {

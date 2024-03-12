@@ -1,9 +1,11 @@
 package com.example.carservice.services;
 
+import com.example.carservice.dto.ConnectionsWithOtherEntityDTO;
 import com.example.carservice.jsonLoaders.manager.ServiceWorkJsonManager;
 import com.example.carservice.repo.ServiceWorkRepository;
 import com.example.carservice.entity.ServiceWork;
 import com.example.carservice.entity.SparePart;
+import com.example.carservice.repo.SparePartRepository;
 import org.springframework.stereotype.Service;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -47,6 +49,13 @@ public class ServiceWorkService extends EntityService<ServiceWork> {
       }
     }
     return serviceWorks;
+  }
+
+  @Override
+  public List<ConnectionsWithOtherEntityDTO> getConnectionsWithOtherTables(Long id) {
+    List<ConnectionsWithOtherEntityDTO> list = new ArrayList<>();
+    list.addAll(((ServiceWorkRepository)repository).getConnectionWithTechnicalInspection(id));
+    return list;
   }
 
   public void deleteSparePartFromServiceWork(long swId, long spId) {

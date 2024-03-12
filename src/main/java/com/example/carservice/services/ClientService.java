@@ -2,10 +2,12 @@ package com.example.carservice.services;
 
 import com.example.carservice.dto.ClientCarAVGMileageDTO;
 import com.example.carservice.dto.ClientCarRecommendedToServiceDTO;
+import com.example.carservice.dto.ConnectionsWithOtherEntityDTO;
 import com.example.carservice.dto.InspectionDTO;
 import com.example.carservice.jsonLoaders.manager.ClientJsonManager;
 import com.example.carservice.repo.ClientRepository;
 import com.example.carservice.entity.Client;
+import com.example.carservice.repo.ManufacturerRepository;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import java.io.IOException;
@@ -56,6 +58,13 @@ public class ClientService extends EntityService<Client> {
       userService.createNewCustomUserFromClientData(client);
     }
     return clients;
+  }
+
+  @Override
+  public List<ConnectionsWithOtherEntityDTO> getConnectionsWithOtherTables(Long id) {
+    List<ConnectionsWithOtherEntityDTO> list = new ArrayList<>();
+    list.addAll(((ClientRepository)repository).getConnectionWithMaintenanceSchedule(id));
+    return list;
   }
 
   public Client getClientByEmail(String email) {

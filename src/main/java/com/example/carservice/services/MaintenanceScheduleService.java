@@ -1,6 +1,7 @@
 package com.example.carservice.services;
 
 import com.example.carservice.dto.CarDateTimeChoiceDTO;
+import com.example.carservice.dto.ConnectionsWithOtherEntityDTO;
 import com.example.carservice.dto.FreeDataTimeForInspectionDTO;
 import com.example.carservice.dto.InspectionDTO;
 import com.example.carservice.entity.*;
@@ -65,6 +66,11 @@ public class MaintenanceScheduleService extends EntityService<MaintenanceSchedul
             inspectionService.getByInspectionName(schedule.getTechnicalInspection().getName()));
     }
     return schedules;
+  }
+
+  @Override
+  public List<ConnectionsWithOtherEntityDTO> getConnectionsWithOtherTables(Long id) {
+    return null;
   }
 
   public List<MaintenanceSchedule> getScheduleRegisteredForServiceDuringThePeriod(Date endDate) {

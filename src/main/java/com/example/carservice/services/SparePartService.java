@@ -1,6 +1,8 @@
 package com.example.carservice.services;
 
+import com.example.carservice.dto.ConnectionsWithOtherEntityDTO;
 import com.example.carservice.jsonLoaders.manager.SparePartJsonManager;
+import com.example.carservice.repo.ClientRepository;
 import com.example.carservice.repo.SparePartRepository;
 import com.example.carservice.entity.SparePart;
 import org.springframework.stereotype.Service;
@@ -43,6 +45,13 @@ public class SparePartService extends EntityService<SparePart> {
       }
     }
     return spareParts;
+  }
+
+  @Override
+  public List<ConnectionsWithOtherEntityDTO> getConnectionsWithOtherTables(Long id) {
+    List<ConnectionsWithOtherEntityDTO> list = new ArrayList<>();
+    list.addAll(((SparePartRepository)repository).getConnectionWithServiceWork(id));
+    return list;
   }
 
   public List<SparePart> replacingObjectsAfterDeserializationWithReal(List<SparePart> inputList) {

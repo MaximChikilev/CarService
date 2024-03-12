@@ -1,5 +1,6 @@
 package com.example.carservice.services;
 
+import com.example.carservice.dto.ConnectionsWithOtherEntityDTO;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.data.domain.Pageable;
@@ -62,4 +63,6 @@ public abstract class EntityService<T> {
       setSearchFieldsAndCorrespondingMethods();
 
   protected abstract List<T> loadEntityListFromJson() throws IOException;
+
+  public abstract List<ConnectionsWithOtherEntityDTO> getConnectionsWithOtherTables(Long id);
 }
