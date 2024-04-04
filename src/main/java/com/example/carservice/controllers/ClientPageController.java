@@ -44,8 +44,9 @@ public class ClientPageController {
     initializeModelAttributes(model);
     return "clientPage";
   }
+
   @PostMapping("/clientPage/saveUserChanges")
-  public String saveUserChanges(Model model, @ModelAttribute CustomUser user){
+  public String saveUserChanges(Model model, @ModelAttribute CustomUser user) {
     user.setRole(UserRole.ROLE_CLIENT);
     userService.save(user);
     initializeModelAttributes(model);
@@ -72,6 +73,11 @@ public class ClientPageController {
         maintenanceScheduleService.getFreeMaintenanceSchedulesUntilDate(untilScheduleDate);
     model.addAttribute("User", user);
     model.addAttribute("licensePlateNumbers", licensePlateNumbers);
+    if (licensePlateNumbers.isEmpty()) {
+      model.addAttribute("hasCars", false);
+    } else {
+      model.addAttribute("hasCars", true);
+    }
     model.addAttribute("freeDataTimes", freeDataTimes.getFreeDateTime());
     model.addAttribute("clientScheduleData", new CarDateTimeChoiceDTO());
 
