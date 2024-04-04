@@ -30,18 +30,34 @@ public class MyController {
   }
 
   @PostMapping("/saveNewUser")
-  public String saveNewUser(@ModelAttribute CustomUser customUser) {
+  public String saveNewUser(@ModelAttribute CustomUser customUser, Model model) {
     customUser.setRole(UserRole.ROLE_CLIENT);
-    userService.save(customUser);
-    return "redirect:/";
-  }
+    if ((!userService.isUserExist(customUser))
+        && (userService.isEmailCorrect(customUser.getEmail()))
+        && (userService.isPasswordCorrect(customUser.getPassword()))) {
+      userService.save(customUser);
+      return "redirect:/";
+    }else {
+      model.addAttribute("newUser", customUser);
+      model.addAttribute("exist", userService.isUserExist(customUser));
+      model.addAttribute("emptyLogin", customUser.getLogin().isEmpty());
+      model.addAttribute("badPassword", !userService.isPasswordCorrect(customUser.getPassword()));
+      model.addAttribute("badEmail", !userService.isEmailCorrect(customUser.getEmail()));
+      return "registerNewUser";
+    }
 
+  }
+  @PostMapping("/saveUserData")
+  public String saveUserData(@ModelAttribute CustomUser customUser) {
+      userService.save(customUser);
+      return "redirect:/";
+  }
   @GetMapping("/editPersonalData")
   public String editPersonalData(Model model) {
     CustomUser user = userService.getByLogin(Utils.getCurrentUser().getUsername());
     model.addAttribute("newUser", user);
     model.addAttribute("exist", true);
-    return "registerNewUser";
+    return "editPersonalData";
   }
 
   @GetMapping("/home")

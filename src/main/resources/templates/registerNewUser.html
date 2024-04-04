@@ -18,12 +18,19 @@
             <tbody>
             <tr>
                 <th:block th:if="${exist}">
-                    <td><input type="text" th:field="*{login}" th:readonly="true"/></td>
+                    <h4>User with same login already exist!</h4>
                 </th:block>
-                <th:block th:unless="${exist}">
-                    <td><input type="text" th:field="*{login}"/></td>
+                <th:block th:if="${emptyLogin}">
+                    <h4>Login cannot be empty!</h4>
+                </th:block>
+                <td><input type="text" th:field="*{login}"/></td>
+                <th:block th:if="${badPassword}">
+                    <h4>Password cannot be less than 8 characters!</h4>
                 </th:block>
                 <td><input type="password" th:field="*{password}" /></td>
+                <th:block th:if="${badEmail}">
+                    <h4>Incorrect email!</h4>
+                </th:block>
                 <td><input type="text" th:field="*{email}" /></td>
                 <td>
                     <button type="submit">Save changes</button>
@@ -31,9 +38,6 @@
             </tr>
             </tbody>
         </table>
-        <div th:if="${exists != null}">
-            <p>User already exists!</p>
-        </div>
     </form>
 </div>
 </body>

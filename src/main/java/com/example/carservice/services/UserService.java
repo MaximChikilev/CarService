@@ -7,6 +7,7 @@ import com.example.carservice.entity.UserRole;
 import com.example.carservice.mail.MessageSender;
 import com.example.carservice.mail.NewClientMessageGenerator;
 import com.example.carservice.repo.UserRepository;
+import org.apache.commons.validator.routines.EmailValidator;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -63,6 +64,14 @@ public class UserService extends EntityService<CustomUser> {
     var password = passwordEncoder.encode(client.getPhoneNumber());
     repository.save(new CustomUser(login, password, UserRole.ROLE_CLIENT, client.getEmail()));
     messageSender.SendMessage(new NewClientMessageGenerator().getMessage(client));
+  }
+
+  public boolean isEmailCorrect(String email) {
+    return (EmailValidator.getInstance()
+            .isValid(email));
+  }
+  public boolean isPasswordCorrect(String password){
+    return password.length()>=8;
   }
 
   @Override
