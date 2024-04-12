@@ -98,6 +98,7 @@
                 <td><input type="text" th:field="*{name}" /></td>
                 <td><input type="number" th:field="*{durationInMinutes}" oninput="this.value = this.value.replace(/[^0-9]/g, '');" /></td>
                 <td><input type="hidden" th:field="*{serviceWorkId}"/></td>
+                <td><input type="hidden" th:field="*{spareParts}"/></td>
                 <td>
                     <button type="submit">Save changes</button>
                 </td>

@@ -68,18 +68,16 @@ public class TechnicalInspection {
 
   public void setServiceWorks(List<ServiceWork> serviceWorks) {
     this.serviceWorks = serviceWorks;
+    setDurationInMinutes();
   }
 
   public void addServiceWork(ServiceWork serviceWork) {
     if (!serviceWorks.contains(serviceWork)) serviceWorks.add(serviceWork);
+    setDurationInMinutes();
   }
 
   public int getDurationInMinutes() {
     return durationInMinutes;
-  }
-
-  public void setDurationInMinutes(int durationInMinutes) {
-    this.durationInMinutes = durationInMinutes;
   }
 
   public void setDurationInMinutes() {
