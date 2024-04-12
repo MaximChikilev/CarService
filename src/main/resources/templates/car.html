@@ -42,6 +42,7 @@
                         </ul>
                     </li>
                     <li><a th:href="@{/editPersonalData}">Edit personal data</a></li>
+                    <li><a th:href="@{/logout}">Logout</a></li>
                 </ul>
             </div>
         </div>
@@ -103,8 +104,8 @@
                 <td><input type="text" th:field="*{licensePlateNumber}" /></td>
                 <td><input type="text" th:field="*{model}" /></td>
                 <td><input type="text" th:field="*{vinCode}" /></td>
-                <td><input type="text" th:field="*{manufactureYear}" /></td>
-                <td><input type="text" th:field="*{mileage}" /></td>
+                <td><input type="number" th:field="*{manufactureYear}" oninput="this.value = this.value.replace(/[^0-9]/g, '');" /></td>
+                <td><input type="number" th:field="*{mileage}" oninput="this.value = this.value.replace(/[^0-9]/g, '');" /></td>
                 <td>
                     <select th:field="*{manufacturer.manufacturerId}">
                         <option th:each="manu : ${manufacturers}"

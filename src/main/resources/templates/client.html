@@ -41,6 +41,7 @@
                         </ul>
                     </li>
                     <li><a th:href="@{/editPersonalData}">Edit personal data</a></li>
+                    <li><a th:href="@{/logout}">Logout</a></li>
                 </ul>
             </div>
         </div>
@@ -101,8 +102,8 @@
                 <td><input type="text" th:field="*{clientId}" th:readonly="true"/></td>
                 <td><input type="text" th:field="*{firstName}" /></td>
                 <td><input type="text" th:field="*{secondName}" /></td>
-                <td><input type="text" th:field="*{phoneNumber}" /></td>
-                <td><input type="text" th:field="*{email}" /></td>
+                <td><input type="text" th:field="*{phoneNumber}" oninput="this.value = this.value.replace(/[^0-9\-]/g, '');" /></td>
+                <td><input type="email" th:field="*{email}" /></td>
                 <td>
                     <select th:field="*{car.carId}">
                         <option th:each="manu : ${cars}"

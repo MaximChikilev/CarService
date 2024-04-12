@@ -4,6 +4,9 @@ import com.example.carservice.entity.CustomUser;
 import com.example.carservice.entity.UserRole;
 import com.example.carservice.services.UserService;
 import com.example.carservice.services.Utils;
+import jakarta.servlet.http.HttpServletRequest;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -77,5 +80,13 @@ public class MyController {
   @GetMapping("/login")
   public String loginPage() {
     return "login";
+  }
+  @GetMapping("/logout")
+  public String logout(HttpServletRequest request) {
+    Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+    if (authentication != null) {
+      request.getSession().invalidate();
+    }
+    return "redirect:/login";
   }
 }

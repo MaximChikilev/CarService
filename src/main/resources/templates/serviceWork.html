@@ -41,6 +41,7 @@
                         </ul>
                     </li>
                     <li><a th:href="@{/editPersonalData}">Edit personal data</a></li>
+                    <li><a th:href="@{/logout}">Logout</a></li>
                 </ul>
             </div>
         </div>
@@ -97,7 +98,7 @@
             <tr>
                 <td><input type="text" th:field="*{serviceWorkId}" th:readonly="true"/></td>
                 <td><input type="text" th:field="*{name}" /></td>
-                <td><input type="text" th:field="*{durationInMinutes}" /></td>
+                <td><input type="number" th:field="*{durationInMinutes}" oninput="this.value = this.value.replace(/[^0-9]/g, '');" /></td>
                 <td>
                     <button type="submit">Save changes</button>
                 </td>

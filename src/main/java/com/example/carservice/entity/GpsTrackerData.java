@@ -1,5 +1,7 @@
 package com.example.carservice.entity;
 
+import org.springframework.format.annotation.DateTimeFormat;
+
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -17,7 +19,7 @@ public class GpsTrackerData {
   @ManyToOne
   @JoinColumn(name = "car_id")
   private Car car;
-
+  @DateTimeFormat(pattern = "yyyy-MM-dd")
   private Date date;
   private int mileage;
 

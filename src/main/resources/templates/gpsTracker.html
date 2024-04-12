@@ -42,11 +42,12 @@
                         </ul>
                     </li>
                     <li><a th:href="@{/editPersonalData}">Edit personal data</a></li>
+                    <li><a th:href="@{/logout}">Logout</a></li>
                 </ul>
             </div>
         </div>
     </nav>
-    <h4> Maintenance schedule </h4>
+    <h4> Gps tracker data </h4>
     <table class="table table-striped">
         <thead>
         <tr>
@@ -98,7 +99,7 @@
                     </select>
                 </td>
                 <td><input type="date" th:field="*{date}"/></td>
-                <td><input type="text" th:field="*{mileage}" /></td>
+                <td><input type="number" th:field="*{mileage}" oninput="this.value = this.value.replace(/[^0-9]/g, '');" /></td>
                 <td>
                     <button type="submit">Save changes</button>
                 </td>
