@@ -84,7 +84,6 @@
         <table class="editable-table">
             <thead>
             <tr>
-                <td><b>User id</b></td>
                 <td><b>Login</b></td>
                 <td><b>Password</b></td>
                 <td><b>Role</b></td>
@@ -93,7 +92,7 @@
             </thead>
             <tbody>
             <tr>
-                <td><input type="text" th:field="*{id}" th:readonly="true"/></td>
+
                 <td><input type="text" th:field="*{login}" /></td>
                 <td><input type="password" th:field="*{password}" /></td>
                 <td>
@@ -103,6 +102,7 @@
                     </select>
                 </td>
                 <td><input type="text" th:field="*{email}" /></td>
+                <td><input type="hidden" th:field="*{id}"/></td>
                 <td>
                     <button type="submit">Save changes</button>
                 </td>

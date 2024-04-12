@@ -79,14 +79,13 @@
         <table class="editable-table">
             <thead>
             <tr>
-                <th>Manufacturer id</th>
                 <th>Manufacturer name</th>
             </tr>
             </thead>
             <tbody>
             <tr>
-                <td><input type="text" th:field="*{manufacturerId}" th:readonly="true"/></td>
                 <td><input type="text" th:field="*{name}" /></td>
+                <td><input type="hidden" th:field="*{manufacturerId}"/></td>
                 <td>
                     <button type="submit">Save changes</button>
                 </td>

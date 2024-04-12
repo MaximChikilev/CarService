@@ -62,6 +62,9 @@ public class CarService extends EntityService<Car> {
   public Car getByLicencePlateNumber(String licencePlateNumber) {
     return ((CarRepository) repository).findByLicensePlateNumber(licencePlateNumber);
   }
+  public List<Car> getCarWithoutOwners(){
+    return ((CarRepository) repository).findCarsWithoutOwners();
+  }
 
   public void saveGpsTrackerData(List<GpsTrackerData> list) {
     List<Car> carList = new ArrayList<>();

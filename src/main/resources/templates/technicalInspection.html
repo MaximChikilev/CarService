@@ -92,16 +92,15 @@
         <table class="editable-table">
             <thead>
             <tr>
-                <td><b>Inspection id</b></td>
                 <td><b>Name</b></td>
                 <td><b>Mileage to pass</b></td>
             </tr>
             </thead>
             <tbody>
             <tr>
-                <td><input type="text" th:field="*{inspectionsId}" th:readonly="true"/></td>
                 <td><input type="text" th:field="*{name}" /></td>
                 <td><input type="number" th:field="*{mileageToPass}" oninput="this.value = this.value.replace(/[^0-9]/g, '');" /></td>
+                <td><input type="hidden" th:field="*{inspectionsId}"/></td>
                 <td>
                     <button type="submit">Save changes</button>
                 </td>

@@ -98,8 +98,9 @@
                                 th:selected="${newEntity.car != null and manu.carId == newEntity.car.carId}"></option>
                     </select>
                 </td>
-                <td><input type="date" th:field="*{date}"/></td>
+                <td><input type="date" th:field="*{date}"id="dateInput"/></td>
                 <td><input type="number" th:field="*{mileage}" oninput="this.value = this.value.replace(/[^0-9]/g, '');" /></td>
+                <td><input type="hidden" th:field="*{id}"/></td>
                 <td>
                     <button type="submit">Save changes</button>
                 </td>
@@ -136,5 +137,9 @@
     </form>
 
 </div>
+<script>
+    var today = new Date().toISOString().slice(0,10);
+    document.getElementById('dateInput').value = today;
+</script>
 </body>
 </html>

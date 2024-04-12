@@ -96,7 +96,7 @@
             </thead>
             <tbody>
             <tr>
-                <td><input type="date" th:field="*{maintenanceDate}"/></td>
+                <td><input type="date" th:field="*{maintenanceDate}"id="dateInput"/></td>
                 <td>
                     <select th:field="*{maintenanceTime}">
                         <option th:each="role : ${T(com.example.carservice.entity.TimeWindows).values()}"
@@ -127,6 +127,7 @@
                                 th:selected="${newEntity.client != null and manu.clientId == newEntity.client.clientId}"></option>
                     </select>
                 </td>
+                <td><input type="hidden" th:field="*{maintenanceScheduleId}"/></td>
                 <td>
                     <button type="submit">Save changes</button>
                 </td>
@@ -163,5 +164,9 @@
     </form>
 
 </div>
+<script>
+    var today = new Date().toISOString().slice(0,10);
+    document.getElementById('dateInput').value = today;
+</script>
 </body>
 </html>

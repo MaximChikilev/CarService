@@ -83,14 +83,12 @@
         <table class="editable-table">
             <thead>
             <tr>
-                <td><b>Id</b></td>
                 <td><b>Spare part</b></td>
                 <td><b>quantity</b></td>
             </tr>
             </thead>
             <tbody>
             <tr>
-                <td><input type="text" th:field="*{id}" th:readonly="true"/></td>
                 <td>
                     <select th:field="*{sparePart.sparePartId}">
                         <option th:each="manu : ${spareParts}"
@@ -100,6 +98,7 @@
                     </select>
                 </td>
                 <td><input type="number" th:field="*{quantity}" oninput="this.value = this.value.replace(/[^0-9]/g, '');" /></td>
+                <td><input type="hidden" th:field="*{id}"/></td>
                 <td>
                     <button type="submit">Save changes</button>
                 </td>

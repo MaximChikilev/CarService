@@ -34,7 +34,7 @@ public class ClientController extends MyAbstractController<Client> {
 
   @Override
   protected void addAdditionalAttributes(Model model) {
-    model.addAttribute("cars", carService.getAll());
+    model.addAttribute("cars", carService.getCarWithoutOwners());
   }
 
   @Override

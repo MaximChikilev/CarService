@@ -84,7 +84,6 @@
         <table class="editable-table">
             <thead>
             <tr>
-                <td><b>Spare part id</b></td>
                 <td><b>Part number</b></td>
                 <td><b>Name</b></td>
                 <td><b>Manufacturer</b></td>
@@ -92,7 +91,6 @@
             </thead>
             <tbody>
             <tr>
-                <td><input type="text" th:field="*{sparePartId}" th:readonly="true"/></td>
                 <td><input type="text" th:field="*{partNumber}" /></td>
                 <td><input type="text" th:field="*{name}" /></td>
                 <td>
@@ -103,6 +101,7 @@
                                 th:selected="${newEntity.manufacturer != null and manu.manufacturerId == newEntity.manufacturer.manufacturerId}"></option>
                     </select>
                 </td>
+                <td><input type="hidden" th:field="*{sparePartId}"/></td>
                 <td>
                     <button type="submit">Save changes</button>
                 </td>

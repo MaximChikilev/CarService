@@ -89,7 +89,6 @@
         <table class="editable-table">
             <thead>
             <tr>
-                <th>Car id</th>
                 <th>License plate number</th>
                 <th>Model</th>
                 <th>Vin code</th>
@@ -100,7 +99,6 @@
             </thead>
             <tbody>
             <tr>
-                <td><input type="text" th:field="*{carId}" th:readonly="true"/></td>
                 <td><input type="text" th:field="*{licensePlateNumber}" /></td>
                 <td><input type="text" th:field="*{model}" /></td>
                 <td><input type="text" th:field="*{vinCode}" /></td>
@@ -114,6 +112,7 @@
                                 th:selected="${newEntity.manufacturer != null and manu.manufacturerId == newEntity.manufacturer.manufacturerId}"></option>
                     </select>
                 </td>
+                <td><input type="hidden" th:field="*{carId}"/></td>
                 <td>
                     <button type="submit">Save changes</button>
                 </td>

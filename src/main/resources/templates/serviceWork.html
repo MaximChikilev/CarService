@@ -89,16 +89,15 @@
         <table class="editable-table">
             <thead>
             <tr>
-                <td><b>Service work id</b></td>
                 <td><b>Name</b></td>
                 <td><b>Duration</b></td>
             </tr>
             </thead>
             <tbody>
             <tr>
-                <td><input type="text" th:field="*{serviceWorkId}" th:readonly="true"/></td>
                 <td><input type="text" th:field="*{name}" /></td>
                 <td><input type="number" th:field="*{durationInMinutes}" oninput="this.value = this.value.replace(/[^0-9]/g, '');" /></td>
+                <td><input type="hidden" th:field="*{serviceWorkId}"/></td>
                 <td>
                     <button type="submit">Save changes</button>
                 </td>

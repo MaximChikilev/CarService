@@ -89,7 +89,6 @@
         <table class="editable-table">
             <thead>
             <tr>
-                <td><b>Client id</b></td>
                 <td><b>First name</b></td>
                 <td><b>Second name</b></td>
                 <td><b>Phone number</b></td>
@@ -99,7 +98,6 @@
             </thead>
             <tbody>
             <tr>
-                <td><input type="text" th:field="*{clientId}" th:readonly="true"/></td>
                 <td><input type="text" th:field="*{firstName}" /></td>
                 <td><input type="text" th:field="*{secondName}" /></td>
                 <td><input type="text" th:field="*{phoneNumber}" oninput="this.value = this.value.replace(/[^0-9\-]/g, '');" /></td>
@@ -112,6 +110,7 @@
                                 th:selected="${newEntity.car != null and manu.carId == newEntity.car.carId}"></option>
                     </select>
                 </td>
+                <td><input type="hidden" th:field="*{clientId}"/></td>
                 <td>
                     <button type="submit">Save changes</button>
                 </td>
