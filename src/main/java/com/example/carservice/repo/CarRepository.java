@@ -27,6 +27,8 @@ public interface CarRepository extends JpaRepository<Car, Long> {
 
   @Query("SELECT s FROM Car s WHERE s.licensePlateNumber = :name")
   Car findByLicensePlateNumber(@Param("name") String name);
+  @Query("SELECT s FROM Car s WHERE s.vinCode = :name")
+  Car findByVinCode(@Param("name") String name);
   @Query("SELECT c FROM Car c WHERE c NOT IN (SELECT cl.car FROM Client cl WHERE cl.car IS NOT NULL)")
   List<Car> findCarsWithoutOwners();
 

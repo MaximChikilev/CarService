@@ -87,6 +87,9 @@
         </ul>
     </nav>
     <br>
+    <th:block th:if="${exist}">
+        <h4 style="color: red;">Inspection with same name already exist!</h4>
+    </th:block>
     <h4 th:text="${actionTitle}"></h4>
     <form th:action="@{/technicalInspection/save}" th:object="${newEntity}" method="post">
         <table class="editable-table">
@@ -98,8 +101,8 @@
             </thead>
             <tbody>
             <tr>
-                <td><input type="text" th:field="*{name}" /></td>
-                <td><input type="number" th:field="*{mileageToPass}" oninput="this.value = this.value.replace(/[^0-9]/g, '');" /></td>
+                <td><input type="text" th:field="*{name}" required/></td>
+                <td><input type="number" th:field="*{mileageToPass}" oninput="this.value = this.value.replace(/[^0-9]/g, '');" min="5000" max="2147483647" required/></td>
                 <td><input type="hidden" th:field="*{inspectionsId}"/></td>
                 <td><input type="hidden" th:field="*{serviceWorks}"/></td>
                 <td>

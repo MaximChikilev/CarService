@@ -1,7 +1,9 @@
 package com.example.carservice.controllers;
 
+import com.example.carservice.entity.Car;
 import com.example.carservice.entity.ServiceWork;
 import com.example.carservice.entity.TechnicalInspection;
+import com.example.carservice.services.CarService;
 import com.example.carservice.services.InspectionService;
 import com.example.carservice.services.ServiceWorkService;
 import org.springframework.beans.factory.annotation.Value;
@@ -13,6 +15,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import java.util.List;
+import java.util.Objects;
 
 @Controller
 @RequestMapping("/technicalInspection")
@@ -28,12 +31,23 @@ public class InspectionController extends MyAbstractController<TechnicalInspecti
   }
 
   @Override
-  protected TechnicalInspection getNewInstance() {
+  protected TechnicalInspection getInstanceForModel() {
     return new TechnicalInspection();
   }
 
   @Override
-  protected void addAdditionalAttributes(Model model) {}
+  protected void addAdditionalAttributes(Model model, boolean isDataErrorPresent) {
+    model.addAttribute("exist", false);
+    if (isDataErrorPresent) {
+      TechnicalInspection technicalInspection =
+          ((TechnicalInspection) Objects.requireNonNull(model.getAttribute("newEntity")));
+      TechnicalInspection technicalInspectionFromDB =
+          ((InspectionService) service).getByInspectionName(technicalInspection.getName());
+      if (technicalInspectionFromDB != null) {
+        model.addAttribute("exist", true);
+      }
+    }
+  }
 
   @GetMapping("/addServiceWorks")
   public String getSparePartsToAdd(

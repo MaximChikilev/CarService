@@ -78,6 +78,9 @@
         </ul>
     </nav>
     <br>
+    <th:block th:if="${exist}">
+        <h4 style="color: red;">Record with same spare part name already exist!</h4>
+    </th:block>
     <h4 th:text="${actionTitle}"></h4>
     <form th:action="@{/stock/save}" th:object="${newEntity}" method="post">
         <table class="editable-table">
@@ -97,7 +100,7 @@
                                 th:selected="${newEntity.sparePart != null and manu.sparePartId == newEntity.sparePart.sparePartId}"></option>
                     </select>
                 </td>
-                <td><input type="number" th:field="*{quantity}" oninput="this.value = this.value.replace(/[^0-9]/g, '');" /></td>
+                <td><input type="number" th:field="*{quantity}" oninput="this.value = this.value.replace(/[^0-9]/g, '');" min="1" max="2147483647" required/></td>
                 <td><input type="hidden" th:field="*{id}"/></td>
                 <td>
                     <button type="submit">Save changes</button>

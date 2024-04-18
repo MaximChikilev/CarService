@@ -1,6 +1,7 @@
 package com.example.carservice.services;
 
 import com.example.carservice.entity.*;
+import org.apache.commons.validator.routines.EmailValidator;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.User;
@@ -54,7 +55,10 @@ public class Utils {
       e.printStackTrace();
     }
   }
-
+public static boolean isDateAfterCurrent(Date date){
+    Date currentDate = new Date();
+    return date.after(currentDate);
+}
   public static User getCurrentUser() {
     return (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
   }
@@ -108,5 +112,9 @@ public class Utils {
     calendar.set(Calendar.MILLISECOND, 0);
 
     return calendar.getTime();
+  }
+  public static boolean isEmailCorrect(String email) {
+    return (EmailValidator.getInstance()
+            .isValid(email));
   }
 }

@@ -78,6 +78,12 @@
         </ul>
     </nav>
     <br>
+    <th:block th:if="${exist}">
+        <h4 style="color: red;">Data for this date on this car have already been entered into the system!</h4>
+    </th:block>
+    <th:block th:if="${dateAfterCurrent}">
+        <h4 style="color: red;">You cannot enter a date older than the current one!</h4>
+    </th:block>
     <h4 th:text="${actionTitle}"></h4>
     <form th:action="@{/gpsTracker/save}" th:object="${newEntity}" method="post">
         <table class="editable-table">
@@ -99,7 +105,7 @@
                     </select>
                 </td>
                 <td><input type="date" th:field="*{date}"id="dateInput"/></td>
-                <td><input type="number" th:field="*{mileage}" oninput="this.value = this.value.replace(/[^0-9]/g, '');" /></td>
+                <td><input type="number" th:field="*{mileage}" oninput="this.value = this.value.replace(/[^0-9]/g, '');" max="2147483647" required/></td>
                 <td><input type="hidden" th:field="*{id}"/></td>
                 <td>
                     <button type="submit">Save changes</button>

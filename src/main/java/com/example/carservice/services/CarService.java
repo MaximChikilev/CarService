@@ -7,6 +7,8 @@ import com.example.carservice.jsonLoaders.manager.CarJsonManager;
 import com.example.carservice.repo.CarRepository;
 import com.example.carservice.entity.Car;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
@@ -28,11 +30,25 @@ public class CarService extends EntityService<Car> {
   }
 
   @Override
+  public Long getId(Car entity) {
+    return entity.getCarId();
+  }
+
+  @Transactional
+  @Override
+  public boolean isDataErrorPresent(Car entity) {
+    boolean result = false;
+    String vinCode = entity.getVinCode();
+    Car car = getByVinCode(vinCode);
+    if (car!=null) result = true;
+    return result;
+  }
+
+  @Override
   protected Map<String, Function<String, List<Car>>> setSearchFieldsAndCorrespondingMethods() {
     methodMap.put(
         "License plate number",
         ((CarRepository) repository)::findAllByLicensePlateNumberContaining);
-    methodMap.put("Manufacturer year", ((CarRepository) repository)::findAllByManufacturerYear);
     methodMap.put("Model", ((CarRepository) repository)::findAllByModelContaining);
     methodMap.put("Vin code", ((CarRepository) repository)::findAllByVinCodeContaining);
     methodMap.put(
@@ -40,8 +56,9 @@ public class CarService extends EntityService<Car> {
     return methodMap;
   }
 
+  @Transactional
   @Override
-  protected List<Car> loadEntityListFromJson() throws IOException {
+  public List<Car> loadEntityListFromJson() throws IOException {
     var cars = carJsonManager.loadListFromFile();
     for (Car car : cars) {
       if (car.getManufacturer() != null) {
@@ -51,21 +68,31 @@ public class CarService extends EntityService<Car> {
     return cars;
   }
 
+  @Transactional
   @Override
   public List<ConnectionsWithOtherEntityDTO> getConnectionsWithOtherTables(Long id) {
     List<ConnectionsWithOtherEntityDTO> list = new ArrayList<>();
-    list.addAll(((CarRepository)repository).getConnectionWithClients(id));
-    list.addAll(((CarRepository)repository).getConnectionWithSchedule(id));
+    list.addAll(((CarRepository) repository).getConnectionWithClients(id));
+    list.addAll(((CarRepository) repository).getConnectionWithSchedule(id));
     return list;
   }
 
+  @Transactional
   public Car getByLicencePlateNumber(String licencePlateNumber) {
     return ((CarRepository) repository).findByLicensePlateNumber(licencePlateNumber);
   }
-  public List<Car> getCarWithoutOwners(){
+
+  @Transactional
+  public Car getByVinCode(String vinCode) {
+    return ((CarRepository) repository).findByVinCode(vinCode);
+  }
+
+  @Transactional
+  public List<Car> getCarWithoutOwners() {
     return ((CarRepository) repository).findCarsWithoutOwners();
   }
 
+  @Transactional
   public void saveGpsTrackerData(List<GpsTrackerData> list) {
     List<Car> carList = new ArrayList<>();
     for (GpsTrackerData element : list) {
@@ -76,12 +103,14 @@ public class CarService extends EntityService<Car> {
     repository.saveAll(carList);
   }
 
+  @Transactional
   public boolean isCarRegisteredToInspection(
       ClientCarRecommendedToServiceDTO clientCarRecommendedToService) {
     return ((CarRepository) repository)
             .countByDateAndTechnicalInspectionAndCar(
                 Utils.getTodayDate(),
                 clientCarRecommendedToService.getInspectionName(),
-                clientCarRecommendedToService.getClientCarAVGMileageDTO().getLicensePlateNumber()) != 0;
+                clientCarRecommendedToService.getClientCarAVGMileageDTO().getLicensePlateNumber())
+        != 0;
   }
 }

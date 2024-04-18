@@ -23,9 +23,9 @@
             <tbody>
             <tr>
                 <td><input type="text" th:field="*{inspectionsId}" th:readonly="true"/></td>
-                <td><input type="text" th:field="*{name}" /></td>
-                <td><input type="text" th:field="*{mileageToPass}" /></td>
-                <td><input type="text" th:field="*{durationInMinutes}" /></td>
+                <td><input type="text" th:field="*{name}" th:readonly="true"/></td>
+                <td><input type="text" th:field="*{mileageToPass}" th:readonly="true"/></td>
+                <td><input type="text" th:field="*{durationInMinutes}" th:readonly="true"/></td>
                 <td>
                     <ul>
                         <li th:each="serviceWork : ${inspection.serviceWorks}">

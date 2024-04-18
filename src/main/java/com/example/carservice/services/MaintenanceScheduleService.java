@@ -8,6 +8,8 @@ import com.example.carservice.entity.*;
 import com.example.carservice.jsonLoaders.manager.ScheduleJsonManager;
 import com.example.carservice.repo.MaintenanceScheduleRepository;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
 import java.io.IOException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -38,6 +40,22 @@ public class MaintenanceScheduleService extends EntityService<MaintenanceSchedul
   }
 
   @Override
+  public Long getId(MaintenanceSchedule entity) {
+    return entity.getMaintenanceScheduleId();
+  }
+
+  @Transactional
+  @Override
+  public boolean isDataErrorPresent(MaintenanceSchedule entity) {
+    boolean result = false;
+    MaintenanceSchedule maintenanceSchedule =
+        getByMaintenanceDateAndAndMaintenanceTime(
+            entity.getMaintenanceDate(), entity.getMaintenanceTime());
+    if (maintenanceSchedule != null) result = true;
+    return result;
+  }
+
+  @Override
   protected Map<String, Function<String, List<MaintenanceSchedule>>>
       setSearchFieldsAndCorrespondingMethods() {
     methodMap.put(
@@ -52,8 +70,9 @@ public class MaintenanceScheduleService extends EntityService<MaintenanceSchedul
     return methodMap;
   }
 
+  @Transactional
   @Override
-  protected List<MaintenanceSchedule> loadEntityListFromJson() throws IOException {
+  public List<MaintenanceSchedule> loadEntityListFromJson() throws IOException {
     var schedules = scheduleJsonManager.loadListFromFile();
     for (MaintenanceSchedule schedule : schedules) {
       if (schedule.getCar() != null)
@@ -68,11 +87,13 @@ public class MaintenanceScheduleService extends EntityService<MaintenanceSchedul
     return schedules;
   }
 
+  @Transactional
   @Override
   public List<ConnectionsWithOtherEntityDTO> getConnectionsWithOtherTables(Long id) {
     return null;
   }
 
+  @Transactional
   public List<MaintenanceSchedule> getScheduleRegisteredForServiceDuringThePeriod(Date endDate) {
     var schedules =
         ((MaintenanceScheduleRepository) repository)
@@ -80,6 +101,7 @@ public class MaintenanceScheduleService extends EntityService<MaintenanceSchedul
     return schedules;
   }
 
+  @Transactional
   public FreeDataTimeForInspectionDTO getFreeMaintenanceSchedulesUntilDate(Date endDate) {
     Date currentDate = Utils.getTodayDate();
     Calendar calendar = Calendar.getInstance();
@@ -100,6 +122,7 @@ public class MaintenanceScheduleService extends EntityService<MaintenanceSchedul
     return new FreeDataTimeForInspectionDTO(freeDataTimes);
   }
 
+  @Transactional
   public void signUpNewInspection(CarDateTimeChoiceDTO carDateTimeChoice) throws ParseException {
     Car car = carService.getByLicencePlateNumber(carDateTimeChoice.getSelectedLicensePlateNumber());
     Client client = getClientByCurrentUser();
@@ -109,13 +132,15 @@ public class MaintenanceScheduleService extends EntityService<MaintenanceSchedul
     repository.save(new MaintenanceSchedule(date, timeWindows, inspection, car, client));
   }
 
-  private Client getClientByCurrentUser() {
+  @Transactional
+  public Client getClientByCurrentUser() {
     String userLogin = Utils.getCurrentUser().getUsername();
     CustomUser customUser = userService.findByLoginOrEmail(userLogin);
     return clientService.getClientByEmail(customUser.getEmail());
   }
 
-  private TechnicalInspection getTechnicalInspectionByCar(Car car) {
+  @Transactional
+  public TechnicalInspection getTechnicalInspectionByCar(Car car) {
     List<InspectionDTO> inspections = inspectionService.getInspectionNameWithMileageToPass();
     String inspectionNameWithCloserMileageToPass = "";
     int mileageUntilPass = -1;
@@ -132,8 +157,16 @@ public class MaintenanceScheduleService extends EntityService<MaintenanceSchedul
     return inspectionService.getByInspectionName(inspectionNameWithCloserMileageToPass);
   }
 
+  @Transactional
   public List<MaintenanceSchedule> findByLicensePlateNumberAndDate(String licensePlateNumber) {
     return ((MaintenanceScheduleRepository) repository)
         .findByLicensePlateNumberAndDate(licensePlateNumber, Utils.getTodayDate());
+  }
+
+  @Transactional
+  public MaintenanceSchedule getByMaintenanceDateAndAndMaintenanceTime(
+      Date date, TimeWindows timeWindows) {
+    return ((MaintenanceScheduleRepository) repository)
+        .findByMaintenanceDateAndAndMaintenanceTime(date, timeWindows);
   }
 }

@@ -59,10 +59,17 @@ public abstract class EntityService<T> {
     return methodMap.get(fieldName).apply(value);
   }
 
+  public abstract Long getId(T entity);
+  public boolean isDataErrorPresent(T entity){
+    return false;
+  }
+
   protected abstract Map<String, Function<String, List<T>>>
       setSearchFieldsAndCorrespondingMethods();
 
-  protected abstract List<T> loadEntityListFromJson() throws IOException;
+  @Transactional
+  public abstract List<T> loadEntityListFromJson() throws IOException;
 
+  @Transactional
   public abstract List<ConnectionsWithOtherEntityDTO> getConnectionsWithOtherTables(Long id);
 }

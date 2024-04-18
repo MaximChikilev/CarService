@@ -16,7 +16,9 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import java.text.ParseException;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @Controller
 public class ClientPageController {
@@ -48,7 +50,12 @@ public class ClientPageController {
   @PostMapping("/clientPage/saveUserChanges")
   public String saveUserChanges(Model model, @ModelAttribute CustomUser user) {
     user.setRole(UserRole.ROLE_CLIENT);
-    userService.save(user);
+    if(!Utils.isEmailCorrect(user.getEmail())) {
+      model.addAttribute("incorrectEmail", true);
+    }else{
+      userService.save(user);
+      model.addAttribute("incorrectEmail", true);
+    }
     initializeModelAttributes(model);
     return "clientPage";
   }
@@ -82,5 +89,10 @@ public class ClientPageController {
     model.addAttribute("clientScheduleData", new CarDateTimeChoiceDTO());
 
     return model;
+  }
+  private Map<String,String> checkData(CustomUser customUser){
+    Map<String,String> checkResult = new HashMap<>();
+
+    return checkResult;
   }
 }

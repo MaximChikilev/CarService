@@ -18,18 +18,18 @@
             <tbody>
             <tr>
                 <th:block th:if="${exist}">
-                    <h4>User with same login already exist!</h4>
+                    <h4 style="color: red;"> User with same login already exist!</h4>
                 </th:block>
                 <th:block th:if="${emptyLogin}">
-                    <h4>Login cannot be empty!</h4>
+                    <h4 style="color: red;">Login cannot be empty!</h4>
                 </th:block>
                 <td><input type="text" th:field="*{login}"/></td>
                 <th:block th:if="${badPassword}">
-                    <h4>Password cannot be less than 8 characters!</h4>
+                    <h4 style="color: red;">Password cannot be less than 8 characters!</h4>
                 </th:block>
                 <td><input type="password" th:field="*{password}" /></td>
                 <th:block th:if="${badEmail}">
-                    <h4>Incorrect email!</h4>
+                    <h4 style="color: red;">Incorrect email!</h4>
                 </th:block>
                 <td><input type="text" th:field="*{email}" /></td>
                 <td>

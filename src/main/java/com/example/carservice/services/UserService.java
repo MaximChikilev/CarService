@@ -1,6 +1,7 @@
 package com.example.carservice.services;
 
 import com.example.carservice.dto.ConnectionsWithOtherEntityDTO;
+import com.example.carservice.entity.Car;
 import com.example.carservice.entity.Client;
 import com.example.carservice.entity.CustomUser;
 import com.example.carservice.entity.UserRole;
@@ -28,6 +29,15 @@ public class UserService extends EntityService<CustomUser> {
     this.messageSender = messageSender;
   }
 
+  @Transactional
+  @Override
+  public boolean isDataErrorPresent(CustomUser entity) {
+    boolean result = false;
+    if (isUserExist(entity)) result = true;
+    if (!Utils.isEmailCorrect(entity.getEmail())) result = true;
+    return result;
+  }
+
   @Override
   protected Map<String, Function<String, List<CustomUser>>>
       setSearchFieldsAndCorrespondingMethods() {
@@ -35,30 +45,36 @@ public class UserService extends EntityService<CustomUser> {
     return methodMap;
   }
 
+  @Transactional
   @Override
-  protected List<CustomUser> loadEntityListFromJson() {
+  public List<CustomUser> loadEntityListFromJson() {
     return null;
   }
 
+  @Transactional
   @Override
   public List<ConnectionsWithOtherEntityDTO> getConnectionsWithOtherTables(Long id) {
     return null;
   }
 
+  @Transactional
   public CustomUser findByLoginOrEmail(String login) {
     return ((UserRepository) repository).findByLogin(login);
   }
 
+  @Transactional
   public boolean isUserExist(CustomUser customUser) {
     CustomUser testCustomUser = ((UserRepository) repository).findByLogin(customUser.getLogin());
     if (testCustomUser != null) return true;
     return false;
   }
 
+  @Transactional
   public CustomUser getByLogin(String login) {
     return ((UserRepository) repository).findByLogin(login);
   }
 
+  @Transactional
   public void createNewCustomUserFromClientData(Client client) {
     var login = client.getFirstName() + client.getSecondName();
     var password = passwordEncoder.encode(client.getPhoneNumber());
@@ -66,12 +82,8 @@ public class UserService extends EntityService<CustomUser> {
     messageSender.SendMessage(new NewClientMessageGenerator().getMessage(client));
   }
 
-  public boolean isEmailCorrect(String email) {
-    return (EmailValidator.getInstance()
-            .isValid(email));
-  }
-  public boolean isPasswordCorrect(String password){
-    return password.length()>=8;
+  public boolean isPasswordCorrect(String password) {
+    return password.length() >= 8;
   }
 
   @Override
@@ -89,5 +101,10 @@ public class UserService extends EntityService<CustomUser> {
       userFromDB.setEmail(user.getEmail());
       repository.save(userFromDB);
     }
+  }
+
+  @Override
+  public Long getId(CustomUser entity) {
+    return entity.getId();
   }
 }

@@ -1,12 +1,15 @@
 package com.example.carservice.services;
 
 import com.example.carservice.dto.ConnectionsWithOtherEntityDTO;
+import com.example.carservice.entity.Car;
 import com.example.carservice.jsonLoaders.manager.ServiceWorkJsonManager;
 import com.example.carservice.repo.ServiceWorkRepository;
 import com.example.carservice.entity.ServiceWork;
 import com.example.carservice.entity.SparePart;
 import com.example.carservice.repo.SparePartRepository;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
@@ -29,6 +32,20 @@ public class ServiceWorkService extends EntityService<ServiceWork> {
   }
 
   @Override
+  public Long getId(ServiceWork entity) {
+    return entity.getServiceWorkId();
+  }
+
+  @Transactional
+  @Override
+  public boolean isDataErrorPresent(ServiceWork entity) {
+    boolean result = false;
+    ServiceWork serviceWork = getByName(entity.getName());
+    if (serviceWork != null) result = true;
+    return result;
+  }
+
+  @Override
   protected Map<String, Function<String, List<ServiceWork>>>
       setSearchFieldsAndCorrespondingMethods() {
     methodMap.put("Name", ((ServiceWorkRepository) repository)::findAllByNameContaining);
@@ -38,8 +55,9 @@ public class ServiceWorkService extends EntityService<ServiceWork> {
     return methodMap;
   }
 
+  @Transactional
   @Override
-  protected List<ServiceWork> loadEntityListFromJson() throws IOException {
+  public List<ServiceWork> loadEntityListFromJson() throws IOException {
     var serviceWorks = serviceWorkJsonManager.loadListFromFile();
     for (ServiceWork serviceWork : serviceWorks) {
       if (serviceWork.getSpareParts() != null) {
@@ -51,13 +69,15 @@ public class ServiceWorkService extends EntityService<ServiceWork> {
     return serviceWorks;
   }
 
+  @Transactional
   @Override
   public List<ConnectionsWithOtherEntityDTO> getConnectionsWithOtherTables(Long id) {
     List<ConnectionsWithOtherEntityDTO> list = new ArrayList<>();
-    list.addAll(((ServiceWorkRepository)repository).getConnectionWithTechnicalInspection(id));
+    list.addAll(((ServiceWorkRepository) repository).getConnectionWithTechnicalInspection(id));
     return list;
   }
 
+  @Transactional
   public void deleteSparePartFromServiceWork(long swId, long spId) {
     Optional<ServiceWork> optionalSw = repository.findById(swId);
     if (!optionalSw.isPresent()) return;
@@ -69,6 +89,7 @@ public class ServiceWorkService extends EntityService<ServiceWork> {
     repository.save(serviceWork);
   }
 
+  @Transactional
   public void addSparePartsToServiceWork(Long[] sparePartsId, Long serviceWorkId) {
     Optional<ServiceWork> optionalSw = repository.findById(serviceWorkId);
     if (!optionalSw.isPresent()) return;
@@ -80,6 +101,7 @@ public class ServiceWorkService extends EntityService<ServiceWork> {
     repository.save(serviceWork);
   }
 
+  @Transactional
   public List<ServiceWork> replacingObjectsAfterDeserializationWithReal(
       List<ServiceWork> inputList) {
     var targetList = new ArrayList<ServiceWork>();
@@ -88,5 +110,10 @@ public class ServiceWorkService extends EntityService<ServiceWork> {
       if (realServiceWork != null) targetList.add(realServiceWork);
     }
     return targetList;
+  }
+
+  @Transactional
+  public ServiceWork getByName(String name) {
+    return ((ServiceWorkRepository) repository).findByName(name);
   }
 }

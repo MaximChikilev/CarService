@@ -82,6 +82,9 @@
         </ul>
     </nav>
     <br>
+    <th:block th:if="${exist}">
+        <h4 style="color: red;">This time is busy, please try another time!</h4>
+    </th:block>
     <h4 th:text="${actionTitle}"></h4>
     <form th:action="@{/maintenanceSchedule/save}" th:object="${newEntity}" method="post">
         <table class="editable-table">

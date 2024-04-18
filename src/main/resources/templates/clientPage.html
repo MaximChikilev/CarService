@@ -15,6 +15,9 @@
             <td><li style="list-style-type: none;"><a th:href="@{/logout}">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Logout</a></li></td>
         </tr>
     </table>
+    <th:block th:if="${incorrectEmail}">
+        <h4 style="color: red;">Incorrect email!</h4>
+    </th:block>
     <form th:action="@{/clientPage/saveUserChanges}" th:object="${User}" method="post">
         <table class="editable-table">
             <thead>
@@ -27,8 +30,8 @@
             <tbody>
             <tr>
                 <td><input type="text" th:field="*{login}" th:readonly="true"/></td>
-                <td><input type="password" th:field="*{password}" /></td>
-                <td><input type="text" th:field="*{email}" th:readonly="true"/></td>
+                <td><input type="password" th:field="*{password}" minlength="8" maxlength="50"/></td>
+                <td><input type="email" th:field="*{email}" required maxlength="50"/></td>
                 <td>
                     <button type="submit">Save changes</button>
                 </td>

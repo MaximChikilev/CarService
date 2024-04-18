@@ -16,6 +16,8 @@ public interface SparePartRepository extends JpaRepository<SparePart, Long> {
 
   @Query("SELECT s FROM SparePart s WHERE s.partNumber = :name")
   SparePart findByPartNumber(@Param("name") String name);
+  @Query("SELECT s FROM SparePart s WHERE s.name = :name AND s.partNumber=:partNumber")
+  SparePart findByNameAndPartNumberAndManufacturer(@Param("name") String name,@Param("partNumber") String partNumber);
 
   @Query(
       "SELECT NEW com.example.carservice.dto.ConnectionsWithOtherEntityDTO('Service work', COUNT(sw.serviceWorkId))"

@@ -1,7 +1,9 @@
 package com.example.carservice.controllers;
 
+import com.example.carservice.entity.Car;
 import com.example.carservice.entity.ServiceWork;
 import com.example.carservice.entity.SparePart;
+import com.example.carservice.services.CarService;
 import com.example.carservice.services.ServiceWorkService;
 import com.example.carservice.services.SparePartService;
 import org.springframework.beans.factory.annotation.Value;
@@ -13,6 +15,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import java.util.List;
+import java.util.Objects;
 
 @Controller
 @RequestMapping("/serviceWork")
@@ -28,12 +31,21 @@ public class ServiceWorkController extends MyAbstractController<ServiceWork> {
   }
 
   @Override
-  protected ServiceWork getNewInstance() {
+  protected ServiceWork getInstanceForModel() {
     return new ServiceWork();
   }
 
   @Override
-  protected void addAdditionalAttributes(Model model) {}
+  protected void addAdditionalAttributes(Model model, boolean isDataErrorPresent) {
+    model.addAttribute("exist", false);
+    if (isDataErrorPresent) {
+      ServiceWork serviceWork = ((ServiceWork) Objects.requireNonNull(model.getAttribute("newEntity")));
+      ServiceWork serviceWorkFromDB = ((ServiceWorkService) service).getByName(serviceWork.getName());
+      if (serviceWorkFromDB != null) {
+        model.addAttribute("exist", true);
+      }
+    }
+  }
 
   @GetMapping("/addSpareParts")
   public String getSparePartsToAdd(

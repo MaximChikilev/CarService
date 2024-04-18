@@ -21,8 +21,8 @@
             <tbody>
             <tr>
                 <td><input type="text" th:field="*{serviceWorkId}" th:readonly="true"/></td>
-                <td><input type="text" th:field="*{name}" /></td>
-                <td><input type="text" th:field="*{durationInMinutes}" /></td>
+                <td><input type="text" th:field="*{name}" th:readonly="true"/></td>
+                <td><input type="text" th:field="*{durationInMinutes}" th:readonly="true"/></td>
                 <td>
                     <ul>
                         <li th:each="sparePart : ${serviceWork.spareParts}">

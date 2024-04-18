@@ -84,6 +84,15 @@
         </ul>
     </nav>
     <br>
+    <th:block th:if="${existEmail}">
+        <h4 style="color: red;">Client with same email already exist!</h4>
+    </th:block>
+    <th:block th:if="${existPhoneNumber}">
+        <h4 style="color: red;">Client with same phone number already exist!</h4>
+    </th:block>
+    <th:block th:if="${incorrectEmail}">
+        <h4 style="color: red;">Email is incorrect.!</h4>
+    </th:block>
     <h4 th:text="${actionTitle}"></h4>
     <form th:action="@{/client/save}" th:object="${newEntity}" method="post">
         <table class="editable-table">
@@ -98,10 +107,10 @@
             </thead>
             <tbody>
             <tr>
-                <td><input type="text" th:field="*{firstName}" /></td>
-                <td><input type="text" th:field="*{secondName}" /></td>
-                <td><input type="text" th:field="*{phoneNumber}" oninput="this.value = this.value.replace(/[^0-9\-]/g, '');" /></td>
-                <td><input type="email" th:field="*{email}" /></td>
+                <td><input type="text" th:field="*{firstName}" required maxlength="50"/></td>
+                <td><input type="text" th:field="*{secondName}" required maxlength="50"/></td>
+                <td><input type="text" th:field="*{phoneNumber}" oninput="this.value = this.value.replace(/[^0-9\-]/g, '');" maxlength="50"/></td>
+                <td><input type="email" th:field="*{email}" required maxlength="50"/></td>
                 <td>
                     <select th:field="*{car.carId}">
                         <option th:each="manu : ${cars}"

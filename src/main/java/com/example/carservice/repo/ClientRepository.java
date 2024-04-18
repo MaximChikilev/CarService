@@ -23,6 +23,8 @@ public interface ClientRepository extends JpaRepository<Client, Long> {
 
   @Query("SELECT s FROM Client s WHERE s.email = :name")
   Client findByEmail(@Param("name") String name);
+  @Query("SELECT s FROM Client s WHERE s.phoneNumber = :name")
+  Client findByPhoneNumber(@Param("name") String name);
 
   @Query(
       "SELECT NEW com.example.carservice.dto.ClientCarAVGMileageDTO (c.firstName,c.secondName, c.phoneNumber,c.email, g.car.licensePlateNumber,g.car.mileage,AVG(g.mileage)) "

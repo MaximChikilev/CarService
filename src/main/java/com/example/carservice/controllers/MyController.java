@@ -10,9 +10,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.*;
 
 @Controller
 public class MyController {
@@ -36,7 +34,7 @@ public class MyController {
   public String saveNewUser(@ModelAttribute CustomUser customUser, Model model) {
     customUser.setRole(UserRole.ROLE_CLIENT);
     if ((!userService.isUserExist(customUser))
-        && (userService.isEmailCorrect(customUser.getEmail()))
+        && (utils.isEmailCorrect(customUser.getEmail()))
         && (userService.isPasswordCorrect(customUser.getPassword()))) {
       userService.save(customUser);
       return "redirect:/";
@@ -45,13 +43,18 @@ public class MyController {
       model.addAttribute("exist", userService.isUserExist(customUser));
       model.addAttribute("emptyLogin", customUser.getLogin().isEmpty());
       model.addAttribute("badPassword", !userService.isPasswordCorrect(customUser.getPassword()));
-      model.addAttribute("badEmail", !userService.isEmailCorrect(customUser.getEmail()));
+      model.addAttribute("badEmail", !utils.isEmailCorrect(customUser.getEmail()));
       return "registerNewUser";
     }
 
   }
   @PostMapping("/saveUserData")
-  public String saveUserData(@ModelAttribute CustomUser customUser) {
+  public String saveUserData(@ModelAttribute CustomUser customUser, Model model) {
+    if (!Utils.isEmailCorrect(customUser.getEmail())){
+      model.addAttribute("newUser", customUser);
+      model.addAttribute("incorrectEmail", true);
+      return "editPersonalData";
+    }
       userService.save(customUser);
       return "redirect:/";
   }
@@ -59,7 +62,7 @@ public class MyController {
   public String editPersonalData(Model model) {
     CustomUser user = userService.getByLogin(Utils.getCurrentUser().getUsername());
     model.addAttribute("newUser", user);
-    model.addAttribute("exist", true);
+    model.addAttribute("incorrectEmail", false);
     return "editPersonalData";
   }
 

@@ -4,6 +4,9 @@
     <title>Prog.kiev.ua</title>
 </head>
 <body>
+<th:block th:if="${incorrectEmail}">
+    <h4 style="color: red;">Incorrect email!</h4>
+</th:block>
 <h4> Edit customUser </h4>
 <div >
     <form th:action="@{/saveUserData}" th:object="${newUser}" method="post">
@@ -18,8 +21,8 @@
             <tbody>
             <tr>
                 <td><input type="text" th:field="*{login}" th:readonly="true"/></td>
-                <td><input type="password" th:field="*{password}" /></td>
-                <td><input type="text" th:field="*{email}" /></td>
+                <td><input type="password" th:field="*{password}" minlength="8" maxlength="50"/></td>
+                <td><input type="text" th:field="*{email}" required/></td>
                 <td><input type="text" th:field="*{role}" th:readonly="true"/></td>
                 <td>
                     <button type="submit">Save changes</button>

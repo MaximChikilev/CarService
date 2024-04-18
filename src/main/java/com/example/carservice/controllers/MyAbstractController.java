@@ -4,6 +4,7 @@ import com.example.carservice.dto.ConnectionsWithOtherEntityDTO;
 import com.example.carservice.entity.FindParams;
 import com.example.carservice.services.EntityService;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -31,13 +32,15 @@ public abstract class MyAbstractController<T> {
   }
 
   @GetMapping("/all")
+  @PreAuthorize("hasAnyRole('ADMIN', 'MANAGER')")
   public String allEntities(
       Model model, @RequestParam(required = false, defaultValue = "0") Integer page) {
-    addAttributes(model, 0L, page);
+    addAttributes(model, getInstanceForModel(), page,false);
     return entityName;
   }
 
   @GetMapping("/delete")
+  @PreAuthorize("hasAnyRole('ADMIN', 'MANAGER')")
   public String delete(@RequestParam Long id, Model model) {
     List<ConnectionsWithOtherEntityDTO> connectionsWithOtherEntities =
         service.getConnectionsWithOtherTables(id);
@@ -52,42 +55,56 @@ public abstract class MyAbstractController<T> {
   }
 
   @PostMapping("/save")
-  public String save(@ModelAttribute T entity) {
-    service.save(entity);
-    return allRedirect;
+  @PreAuthorize("hasAnyRole('ADMIN', 'MANAGER')")
+  public String save(@ModelAttribute T entity,Model model) {
+    if(!isDataErrorPresent(entity)){
+      service.save(entity);
+      return allRedirect;
+    }else{
+      addAttributes(model,entity,0,true);
+      return entityName;
+    }
+
+
   }
 
   @GetMapping("/edit")
+  @PreAuthorize("hasAnyRole('ADMIN', 'MANAGER')")
   public String edit(
       Model model,
       @RequestParam Long id,
       @RequestParam(required = false, defaultValue = "0") Integer page) {
-    addAttributes(model, id, page);
+    addAttributes(model, service.getById(id), page, false);
     return entityName;
   }
 
   @PostMapping("/find")
+  @PreAuthorize("hasAnyRole('ADMIN', 'MANAGER')")
   public String find(
       @ModelAttribute FindParams findParams,
       Model model,
       @RequestParam(required = false, defaultValue = "0") Integer page) {
-    addAttributes(model, 0L, page);
+    addAttributes(model, getInstanceForModel(), page, false);
     List<T> list =
         service.getAllByFieldNameAndValue(findParams.getFieldName(), findParams.getValue());
     model.addAttribute("entities", list);
     return entityName;
   }
 
-  protected void addAttributes(Model model, Long id, int page) {
+  protected void addAttributes(Model model, T entity, int page, boolean isDataErrorPresent) {
     if (page < 0) page = 0;
     List<T> entityList = service.getAll(PageRequest.of(page, ITEMS_PER_PAGE));
     model.addAttribute("allPages", getPageCount());
     model.addAttribute("entities", entityList);
-    model.addAttribute("newEntity", (id == 0) ? getNewInstance() : service.getById(id));
-    model.addAttribute("actionTitle", (id == 0) ? "New" : "Edit");
+    model.addAttribute("newEntity", entity);
+    model.addAttribute("actionTitle", (service.getId(entity) == null) ? "New" : "Edit");
     model.addAttribute("findParams", new FindParams());
     model.addAttribute("fieldsList", getListPossibleSearchFields());
-    addAdditionalAttributes(model);
+    addAdditionalAttributes(model, isDataErrorPresent);
+  }
+
+  protected boolean isDataErrorPresent(T entity){
+    return service.isDataErrorPresent(entity);
   }
 
   private long getPageCount() {
@@ -106,9 +123,9 @@ public abstract class MyAbstractController<T> {
     return counter;
   }
 
-  protected abstract T getNewInstance();
+  protected abstract T getInstanceForModel();
 
-  protected abstract void addAdditionalAttributes(Model model);
+  protected abstract void addAdditionalAttributes(Model model, boolean isDataErrorPresent);
 
   protected List<String> getListPossibleSearchFields() {
     return new ArrayList<>(Arrays.asList(searchFields.split(",")));

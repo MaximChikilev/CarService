@@ -84,6 +84,9 @@
         </ul>
     </nav>
     <br>
+    <th:block th:if="${exist}">
+        <h4 style="color: red;">Car with same VIN code already exist!</h4>
+    </th:block>
     <h4 th:text="${actionTitle}"></h4>
     <form th:action="@{/car/save}" th:object="${newEntity}" method="post">
         <table class="editable-table">
@@ -99,11 +102,11 @@
             </thead>
             <tbody>
             <tr>
-                <td><input type="text" th:field="*{licensePlateNumber}" /></td>
-                <td><input type="text" th:field="*{model}" /></td>
-                <td><input type="text" th:field="*{vinCode}" /></td>
-                <td><input type="number" th:field="*{manufactureYear}" oninput="this.value = this.value.replace(/[^0-9]/g, '');" /></td>
-                <td><input type="number" th:field="*{mileage}" oninput="this.value = this.value.replace(/[^0-9]/g, '');" /></td>
+                <td><input type="text" th:field="*{licensePlateNumber}" required maxlength="20"/></td>
+                <td><input type="text" th:field="*{model}" maxlength="50"/></td>
+                <td><input type="text" th:field="*{vinCode}" maxlength="17" required minlength="17"/></td>
+                <td><input type="number" th:field="*{manufactureYear}" oninput="this.value = this.value.replace(/[^0-9]/g, '');" min="1" max="2147483647" required /></td>
+                <td><input type="number" th:field="*{mileage}" oninput="this.value = this.value.replace(/[^0-9]/g, '');" max="2147483647" required/></td>
                 <td>
                     <select th:field="*{manufacturer.manufacturerId}">
                         <option th:each="manu : ${manufacturers}"

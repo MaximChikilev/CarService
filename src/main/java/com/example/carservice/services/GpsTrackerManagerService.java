@@ -11,6 +11,7 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.client.RestTemplate;
 import java.util.ArrayList;
 import java.util.Date;
@@ -28,6 +29,7 @@ public class GpsTrackerManagerService {
     this.gpsTrackerDataRepository = gpsTrackerDataRepository;
   }
 
+  @Transactional
   public void generateDailyGpsTrackerData() {
     Random random = new Random();
     var list = new ArrayList<GpsTrackerData>();
