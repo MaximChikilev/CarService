@@ -45,10 +45,12 @@ public class ClientController extends MyAbstractController<Client> {
     if (isDataErrorPresent) {
       Client client = ((Client) Objects.requireNonNull(model.getAttribute("newEntity")));
       Client clientFromBD = ((ClientService) service).getClientByEmail(client.getEmail());
-      if ((clientFromBD != null) && (!client.getClientId().equals(clientFromBD.getClientId())))
+      if ((clientFromBD != null)
+          && ((client.getClientId() == null) || (!isIdTheSame(client, clientFromBD))))
         model.addAttribute("existEmail", true);
       clientFromBD = ((ClientService) service).getClientByPhoneNumber(client.getPhoneNumber());
-      if ((clientFromBD != null) && (!client.getClientId().equals(clientFromBD.getClientId())))
+      if ((clientFromBD != null)
+          && ((client.getClientId() == null) || (!isIdTheSame(client, clientFromBD))))
         model.addAttribute("existPhoneNumber", true);
       if (!Utils.isEmailCorrect(client.getEmail())) model.addAttribute("incorrectEmail", true);
     }
@@ -67,5 +69,9 @@ public class ClientController extends MyAbstractController<Client> {
       addAttributes(model, entity, 0, true);
       return entityName;
     }
+  }
+
+  private boolean isIdTheSame(Client client1, Client client2) {
+    return client1.getClientId().equals(client2.getClientId());
   }
 }

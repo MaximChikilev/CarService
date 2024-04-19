@@ -1,6 +1,7 @@
 package com.example.carservice.controllers;
 
 import com.example.carservice.entity.Car;
+import com.example.carservice.entity.Client;
 import com.example.carservice.entity.CustomUser;
 import com.example.carservice.entity.UserRole;
 import com.example.carservice.services.CarService;
@@ -44,11 +45,11 @@ public class UserController extends MyAbstractController<CustomUser> {
           ((CustomUser) Objects.requireNonNull(model.getAttribute("newEntity")));
       CustomUser customUserFromDB = (((UserService) service).findByLogin(customUser.getLogin()));
       if ((customUserFromDB != null)
-          && (!customUser.getId().equals(customUserFromDB.getId())))
+              && ((customUser.getId() == null) || (!isIdTheSame(customUser, customUserFromDB))))
         model.addAttribute("exist", true);
       customUserFromDB = (((UserService) service).findByEmail(customUser.getEmail()));
       if ((customUserFromDB != null)
-          && (!customUser.getId().equals(customUserFromDB.getId())))
+              && ((customUser.getId() == null) || (!isIdTheSame(customUser, customUserFromDB))))
         model.addAttribute("existEmail", true);
       if (!Utils.isEmailCorrect(customUser.getEmail())) model.addAttribute("incorrectEmail", true);
     }
@@ -56,5 +57,8 @@ public class UserController extends MyAbstractController<CustomUser> {
 
   private List<String> getRolesList() {
     return Arrays.stream(UserRole.values()).map(UserRole::name).collect(Collectors.toList());
+  }
+  private boolean isIdTheSame(CustomUser user1, CustomUser user2) {
+    return user1.getId().equals(user2.getId());
   }
 }

@@ -31,6 +31,9 @@
                 <th:block th:if="${badEmail}">
                     <h4 style="color: red;">Incorrect email!</h4>
                 </th:block>
+                <th:block th:if="${existEmail}">
+                    <h4 style="color: red;">User with same email already exist!</h4>
+                </th:block>
                 <td><input type="text" th:field="*{email}" /></td>
                 <td>
                     <button type="submit">Save changes</button>

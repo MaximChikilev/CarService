@@ -18,6 +18,9 @@
     <th:block th:if="${incorrectEmail}">
         <h4 style="color: red;">Incorrect email!</h4>
     </th:block>
+    <th:block th:if="${existEmail}">
+        <h4 style="color: red;">User with same email already exist!</h4>
+    </th:block>
     <form th:action="@{/clientPage/saveUserChanges}" th:object="${User}" method="post">
         <table class="editable-table">
             <thead>
@@ -74,10 +77,10 @@
         </select>
         <br>
         <br>
-        <div th:if="${hasCar}">
+        <div th:if="${hasCars}">
             <button type="submit">Choose</button>
         </div>
-        <div th:unless="${hasCar}">
+        <div th:if="${hasNotCars}">
             You do not have registered car. Contact your manager.
         </div>
     </form>

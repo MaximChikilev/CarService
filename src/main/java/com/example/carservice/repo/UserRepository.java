@@ -13,7 +13,7 @@ public interface UserRepository extends JpaRepository<CustomUser, Long> {
   @Query("SELECT u FROM CustomUser u where u.email = :email")
   CustomUser findByEmail(@Param("email") String email);
   @Query("SELECT s FROM CustomUser s WHERE s.login LIKE %:value%")
-  List<CustomUser> findAllByUserRoleContaining(@Param("value") String value);
+  List<CustomUser> findAllByLoginContaining(@Param("value") String value);
 
   @Query("SELECT u FROM CustomUser u where u.login = :login OR u.email = :email")
   CustomUser findByLoginOrEmail(@Param("login") String login, @Param("email") String email);

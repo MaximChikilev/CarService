@@ -76,6 +76,7 @@ public class CarService extends EntityService<Car> {
     List<ConnectionsWithOtherEntityDTO> list = new ArrayList<>();
     list.addAll(((CarRepository) repository).getConnectionWithClients(id));
     list.addAll(((CarRepository) repository).getConnectionWithSchedule(id));
+    list.addAll(((CarRepository) repository).getConnectionWithGpsTrackerData(id));
     return list;
   }
 

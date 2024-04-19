@@ -42,7 +42,7 @@ public class UserService extends EntityService<CustomUser> {
   @Override
   protected Map<String, Function<String, List<CustomUser>>>
       setSearchFieldsAndCorrespondingMethods() {
-    methodMap.put("Role", ((UserRepository) repository)::findAllByUserRoleContaining);
+    methodMap.put("Login", ((UserRepository) repository)::findAllByLoginContaining);
     return methodMap;
   }
 

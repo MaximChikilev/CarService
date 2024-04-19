@@ -50,11 +50,15 @@ public class ClientPageController {
   @PostMapping("/clientPage/saveUserChanges")
   public String saveUserChanges(Model model, @ModelAttribute CustomUser user) {
     user.setRole(UserRole.ROLE_CLIENT);
-    if(!Utils.isEmailCorrect(user.getEmail())) {
-      model.addAttribute("incorrectEmail", true);
-    }else{
+    if (!Utils.isEmailCorrect(user.getEmail())
+        || (userService.findByEmail(user.getEmail()) != null)) {
+      if (!Utils.isEmailCorrect(user.getEmail())) model.addAttribute("incorrectEmail", true);
+      if ((userService.findByEmail(user.getEmail()) != null))
+        model.addAttribute("existEmail", true);
+    } else {
       userService.save(user);
-      model.addAttribute("incorrectEmail", true);
+      model.addAttribute("incorrectEmail", false);
+      model.addAttribute("existEmail", false);
     }
     initializeModelAttributes(model);
     return "clientPage";
@@ -82,17 +86,19 @@ public class ClientPageController {
     model.addAttribute("licensePlateNumbers", licensePlateNumbers);
     if (licensePlateNumbers.isEmpty()) {
       model.addAttribute("hasCars", false);
+      model.addAttribute("hasNotCars", true);
     } else {
       model.addAttribute("hasCars", true);
+      model.addAttribute("hasNotCars", false);
     }
     model.addAttribute("freeDataTimes", freeDataTimes.getFreeDateTime());
     model.addAttribute("clientScheduleData", new CarDateTimeChoiceDTO());
 
     return model;
   }
-  private Map<String,String> checkData(CustomUser customUser){
+  /*private Map<String,String> checkData(CustomUser customUser){
     Map<String,String> checkResult = new HashMap<>();
 
     return checkResult;
-  }
+  }*/
 }

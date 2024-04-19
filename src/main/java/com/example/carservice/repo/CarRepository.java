@@ -48,4 +48,7 @@ public interface CarRepository extends JpaRepository<Car, Long> {
   @Query("SELECT NEW com.example.carservice.dto.ConnectionsWithOtherEntityDTO('Schedule', COUNT(c.maintenanceScheduleId)) " +
           "FROM MaintenanceSchedule c WHERE c.car.carId=:carId ")
   List<ConnectionsWithOtherEntityDTO> getConnectionWithSchedule(@Param("carId") Long carId);
+  @Query("SELECT NEW com.example.carservice.dto.ConnectionsWithOtherEntityDTO('GpsTrackerData', COUNT(c.id)) " +
+          "FROM GpsTrackerData c WHERE c.car.carId=:carId ")
+  List<ConnectionsWithOtherEntityDTO> getConnectionWithGpsTrackerData(@Param("carId") Long carId);
 }

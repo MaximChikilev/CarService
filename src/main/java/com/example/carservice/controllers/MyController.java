@@ -35,29 +35,32 @@ public class MyController {
     customUser.setRole(UserRole.ROLE_CLIENT);
     if ((!userService.isUserExist(customUser))
         && (utils.isEmailCorrect(customUser.getEmail()))
-        && (userService.isPasswordCorrect(customUser.getPassword()))) {
+        && (userService.isPasswordCorrect(customUser.getPassword()))
+        && (userService.findByEmail(customUser.getEmail()) == null)) {
       userService.save(customUser);
       return "redirect:/";
-    }else {
+    } else {
       model.addAttribute("newUser", customUser);
       model.addAttribute("exist", userService.isUserExist(customUser));
       model.addAttribute("emptyLogin", customUser.getLogin().isEmpty());
       model.addAttribute("badPassword", !userService.isPasswordCorrect(customUser.getPassword()));
       model.addAttribute("badEmail", !utils.isEmailCorrect(customUser.getEmail()));
+      model.addAttribute("existEmail", (userService.findByEmail(customUser.getEmail()) != null));
       return "registerNewUser";
     }
-
   }
+
   @PostMapping("/saveUserData")
   public String saveUserData(@ModelAttribute CustomUser customUser, Model model) {
-    if (!Utils.isEmailCorrect(customUser.getEmail())){
+    if (!Utils.isEmailCorrect(customUser.getEmail())) {
       model.addAttribute("newUser", customUser);
       model.addAttribute("incorrectEmail", true);
       return "editPersonalData";
     }
-      userService.save(customUser);
-      return "redirect:/";
+    userService.save(customUser);
+    return "redirect:/";
   }
+
   @GetMapping("/editPersonalData")
   public String editPersonalData(Model model) {
     CustomUser user = userService.getByLogin(Utils.getCurrentUser().getUsername());
@@ -84,6 +87,7 @@ public class MyController {
   public String loginPage() {
     return "login";
   }
+
   @GetMapping("/logout")
   public String logout(HttpServletRequest request) {
     Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
