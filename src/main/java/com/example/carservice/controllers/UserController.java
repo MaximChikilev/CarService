@@ -37,10 +37,19 @@ public class UserController extends MyAbstractController<CustomUser> {
   protected void addAdditionalAttributes(Model model, boolean isDataErrorPresent) {
     model.addAttribute("possibleRoles", getRolesList());
     model.addAttribute("exist", false);
+    model.addAttribute("existEmail", false);
+    model.addAttribute("incorrectEmail", false);
     if (isDataErrorPresent) {
       CustomUser customUser =
           ((CustomUser) Objects.requireNonNull(model.getAttribute("newEntity")));
-      if (((UserService) service).isUserExist(customUser)) model.addAttribute("exist", true);
+      CustomUser customUserFromDB = (((UserService) service).findByLogin(customUser.getLogin()));
+      if ((customUserFromDB != null)
+          && (!customUser.getId().equals(customUserFromDB.getId())))
+        model.addAttribute("exist", true);
+      customUserFromDB = (((UserService) service).findByEmail(customUser.getEmail()));
+      if ((customUserFromDB != null)
+          && (!customUser.getId().equals(customUserFromDB.getId())))
+        model.addAttribute("existEmail", true);
       if (!Utils.isEmailCorrect(customUser.getEmail())) model.addAttribute("incorrectEmail", true);
     }
   }

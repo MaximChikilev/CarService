@@ -82,6 +82,9 @@
     <th:block th:if="${exist}">
         <h4 style="color: red;">User with same login already exist!</h4>
     </th:block>
+    <th:block th:if="${existEmail}">
+        <h4 style="color: red;">User with same email already exist!</h4>
+    </th:block>
     <th:block th:if="${incorrectEmail}">
         <h4 style="color: red;">Incorrect email!</h4>
     </th:block>
@@ -100,7 +103,7 @@
             <tr>
 
                 <td><input type="text" th:field="*{login}" required maxlength="50"/></td>
-                <td><input type="password" th:field="*{password}" required minlength="8" maxlength="50"/></td>
+                <td><input type="password" th:field="*{password}" minlength="8" maxlength="50"/></td>
                 <td>
                     <select th:field="*{role}">
                         <option th:each="role : ${T(com.example.carservice.entity.UserRole).values()}"

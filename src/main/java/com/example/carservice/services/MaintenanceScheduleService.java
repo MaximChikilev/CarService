@@ -51,7 +51,11 @@ public class MaintenanceScheduleService extends EntityService<MaintenanceSchedul
     MaintenanceSchedule maintenanceSchedule =
         getByMaintenanceDateAndAndMaintenanceTime(
             entity.getMaintenanceDate(), entity.getMaintenanceTime());
-    if (maintenanceSchedule != null) result = true;
+    if ((maintenanceSchedule != null)
+        && ((getId(entity) == null)
+            || (!entity
+                .getMaintenanceScheduleId()
+                .equals(maintenanceSchedule.getMaintenanceScheduleId())))) result = true;
     return result;
   }
 
@@ -135,7 +139,7 @@ public class MaintenanceScheduleService extends EntityService<MaintenanceSchedul
   @Transactional
   public Client getClientByCurrentUser() {
     String userLogin = Utils.getCurrentUser().getUsername();
-    CustomUser customUser = userService.findByLoginOrEmail(userLogin);
+    CustomUser customUser = userService.findByLogin(userLogin);
     return clientService.getClientByEmail(customUser.getEmail());
   }
 

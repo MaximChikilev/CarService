@@ -57,6 +57,7 @@ public abstract class MyAbstractController<T> {
   @PostMapping("/save")
   @PreAuthorize("hasAnyRole('ADMIN', 'MANAGER')")
   public String save(@ModelAttribute T entity,Model model) {
+    Long id = service.getId(entity);
     if(!isDataErrorPresent(entity)){
       service.save(entity);
       return allRedirect;

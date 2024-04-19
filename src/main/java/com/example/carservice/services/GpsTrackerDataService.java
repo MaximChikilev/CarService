@@ -40,8 +40,8 @@ public class GpsTrackerDataService extends EntityService<GpsTrackerData> {
     boolean result = false;
     GpsTrackerData gpsTrackerData =
         getByLicencePlateNumberAndDate(entity.getCar(), entity.getDate());
-    if (gpsTrackerData != null) result = true;
-    if(Utils.isDateAfterCurrent(entity.getDate())) result = true;
+    if ((gpsTrackerData != null) && ((getId(entity) == null)||(!entity.getId().equals(gpsTrackerData.getId())))) result = true;
+    if (Utils.isDateAfterCurrent(entity.getDate())) result = true;
     return result;
   }
 
@@ -74,7 +74,6 @@ public class GpsTrackerDataService extends EntityService<GpsTrackerData> {
   }
 
   public GpsTrackerData getByLicencePlateNumberAndDate(Car car, Date date) {
-    return ((GpsTrackerDataRepository) repository)
-        .findByCarLicensePlateNumberAndAndDate(car, date);
+    return ((GpsTrackerDataRepository) repository).findByCarLicensePlateNumberAndAndDate(car, date);
   }
 }

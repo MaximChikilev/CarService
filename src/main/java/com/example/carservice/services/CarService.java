@@ -40,7 +40,9 @@ public class CarService extends EntityService<Car> {
     boolean result = false;
     String vinCode = entity.getVinCode();
     Car car = getByVinCode(vinCode);
-    if (car!=null) result = true;
+    if ((car != null) && ((getId(entity) == null)||(!entity.getCarId().equals(car.getCarId())))) {
+      result = true;
+    }
     return result;
   }
 

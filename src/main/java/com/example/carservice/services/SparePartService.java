@@ -37,7 +37,9 @@ public class SparePartService extends EntityService<SparePart> {
     String name = entity.getName();
     String partNumber = entity.getPartNumber();
     SparePart sparePart = getByNamePartNumber(name, partNumber);
-    if (sparePart != null) result = true;
+    if ((sparePart != null)
+        && ((getId(entity) == null)
+            || (!entity.getSparePartId().equals(sparePart.getSparePartId())))) result = true;
     return result;
   }
 

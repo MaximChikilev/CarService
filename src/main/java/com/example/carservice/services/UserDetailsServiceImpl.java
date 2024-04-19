@@ -23,7 +23,7 @@ public class UserDetailsServiceImpl implements UserDetailsService {
   @Transactional
   @Override
   public UserDetails loadUserByUsername(String login) throws UsernameNotFoundException {
-    CustomUser customUser = userService.findByLoginOrEmail(login);
+    CustomUser customUser = userService.findByLogin(login);
     if (customUser == null) throw new UsernameNotFoundException(login + " not found");
 
     List<GrantedAuthority> roles =

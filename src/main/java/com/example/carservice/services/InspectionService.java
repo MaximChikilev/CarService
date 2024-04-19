@@ -43,7 +43,8 @@ public class InspectionService extends EntityService<TechnicalInspection> {
   public boolean isDataErrorPresent(TechnicalInspection entity) {
     boolean result = false;
     TechnicalInspection technicalInspection = getByInspectionName(entity.getName());
-    if (technicalInspection != null) result = true;
+    if ((technicalInspection != null)
+        && ((getId(entity) == null) || (!entity.getInspectionsId().equals(technicalInspection.getInspectionsId())))) result = true;
     return result;
   }
 

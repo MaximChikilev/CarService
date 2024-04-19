@@ -41,7 +41,9 @@ public class ServiceWorkService extends EntityService<ServiceWork> {
   public boolean isDataErrorPresent(ServiceWork entity) {
     boolean result = false;
     ServiceWork serviceWork = getByName(entity.getName());
-    if (serviceWork != null) result = true;
+    if ((serviceWork != null)
+        && ((getId(entity) == null)
+            || (!entity.getServiceWorkId().equals(serviceWork.getServiceWorkId())))) result = true;
     return result;
   }
 

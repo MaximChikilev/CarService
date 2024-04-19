@@ -62,7 +62,10 @@ public class ManufacturerService extends EntityService<Manufacturer> {
     boolean result = false;
     String name = entity.getName();
     Manufacturer manufacturer = getByName(name);
-    if (manufacturer != null) result = true;
+    if ((manufacturer != null)
+        && ((getId(entity) == null)
+            || (!entity.getManufacturerId().equals(manufacturer.getManufacturerId()))))
+      result = true;
     return result;
   }
 }

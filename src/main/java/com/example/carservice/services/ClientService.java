@@ -126,10 +126,10 @@ public class ClientService extends EntityService<Client> {
     boolean result = false;
     String phoneNumber = entity.getPhoneNumber();
     Client client = getClientByPhoneNumber(phoneNumber);
-    if (client != null) result = true;
+    if ((client != null) && ((getId(entity) == null)||(!entity.getClientId().equals(client.getClientId())))) result = true;
     String email = entity.getEmail();
     client = getClientByEmail(email);
-    if (client != null) result = true;
+    if ((client != null) && ((getId(entity) == null)||(!entity.getClientId().equals(client.getClientId())))) result = true;
     if (!Utils.isEmailCorrect(email)) result = true;
     return result;
   }

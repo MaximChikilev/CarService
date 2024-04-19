@@ -45,24 +45,26 @@ public class ClientController extends MyAbstractController<Client> {
     if (isDataErrorPresent) {
       Client client = ((Client) Objects.requireNonNull(model.getAttribute("newEntity")));
       Client clientFromBD = ((ClientService) service).getClientByEmail(client.getEmail());
-      if (clientFromBD != null) model.addAttribute("existEmail", true);
+      if ((clientFromBD != null) && (!client.getClientId().equals(clientFromBD.getClientId())))
+        model.addAttribute("existEmail", true);
       clientFromBD = ((ClientService) service).getClientByPhoneNumber(client.getPhoneNumber());
-      if (clientFromBD != null) model.addAttribute("existPhoneNumber", true);
-      if (!Utils.isEmailCorrect(client.getEmail()))  model.addAttribute("incorrectEmail", true);
+      if ((clientFromBD != null) && (!client.getClientId().equals(clientFromBD.getClientId())))
+        model.addAttribute("existPhoneNumber", true);
+      if (!Utils.isEmailCorrect(client.getEmail())) model.addAttribute("incorrectEmail", true);
     }
   }
 
   @Override
   @PostMapping("/save")
-  public String save(@ModelAttribute Client entity,Model model) {
-    if(!isDataErrorPresent(entity)){
+  public String save(@ModelAttribute Client entity, Model model) {
+    if (!isDataErrorPresent(entity)) {
       if (((ClientService) service).getClientByEmail(entity.getEmail()) == null) {
         userService.createNewCustomUserFromClientData(entity);
       }
       service.save(entity);
       return allRedirect;
-    }else{
-      addAttributes(model,entity,0,true);
+    } else {
+      addAttributes(model, entity, 0, true);
       return entityName;
     }
   }

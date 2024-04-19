@@ -1,14 +1,12 @@
 package com.example.carservice.services;
 
 import com.example.carservice.dto.ConnectionsWithOtherEntityDTO;
-import com.example.carservice.entity.Car;
 import com.example.carservice.entity.Client;
 import com.example.carservice.entity.CustomUser;
 import com.example.carservice.entity.UserRole;
 import com.example.carservice.mail.MessageSender;
 import com.example.carservice.mail.NewClientMessageGenerator;
 import com.example.carservice.repo.UserRepository;
-import org.apache.commons.validator.routines.EmailValidator;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -33,7 +31,10 @@ public class UserService extends EntityService<CustomUser> {
   @Override
   public boolean isDataErrorPresent(CustomUser entity) {
     boolean result = false;
-    if (isUserExist(entity)) result = true;
+    CustomUser customUser = findByLogin(entity.getLogin());
+    if ((customUser != null) && ((getId(entity) == null)||(!entity.getId().equals(customUser.getId())))) result = true;
+    customUser = findByEmail(entity.getEmail());
+    if ((customUser != null) && ((getId(entity) == null)||(!entity.getId().equals(customUser.getId())))) result = true;
     if (!Utils.isEmailCorrect(entity.getEmail())) result = true;
     return result;
   }
@@ -58,8 +59,12 @@ public class UserService extends EntityService<CustomUser> {
   }
 
   @Transactional
-  public CustomUser findByLoginOrEmail(String login) {
+  public CustomUser findByLogin(String login) {
     return ((UserRepository) repository).findByLogin(login);
+  }
+  @Transactional
+  public CustomUser findByEmail(String email) {
+    return ((UserRepository) repository).findByEmail(email);
   }
 
   @Transactional

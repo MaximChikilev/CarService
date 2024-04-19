@@ -29,7 +29,8 @@ public class StockService extends EntityService<Stock> {
   public boolean isDataErrorPresent(Stock entity) {
     boolean result = false;
     Stock stock = getStockBySparePart(entity.getSparePart());
-    if (stock != null) result = true;
+    if ((stock != null) && ((getId(entity) == null) || (!entity.getId().equals(stock.getId()))))
+      result = true;
     return result;
   }
 
