@@ -30,7 +30,7 @@
     "carId": 4,
     "licensePlateNumber": "STH328",
     "model": "Jeep",
-    "vinCode": "54322228765432109",
+    "vinCode": "54322228765432110",
     "manufactureYear": 2023,
     "mileage": 128000,
     "manufacturerName": "Volvo"
@@ -39,7 +39,7 @@
     "carId": 5,
     "licensePlateNumber": "TTH980",
     "model": "Jeep",
-    "vinCode": "54322228765432109",
+    "vinCode": "54322228765432111",
     "manufactureYear": 2024,
     "mileage": 5000,
     "manufacturerName": "Scania"
