@@ -8,7 +8,6 @@ import com.example.carservice.entity.Car;
 import com.example.carservice.jsonLoaders.manager.ClientJsonManager;
 import com.example.carservice.repo.ClientRepository;
 import com.example.carservice.entity.Client;
-import com.example.carservice.repo.ManufacturerRepository;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -126,11 +125,17 @@ public class ClientService extends EntityService<Client> {
     boolean result = false;
     String phoneNumber = entity.getPhoneNumber();
     Client client = getClientByPhoneNumber(phoneNumber);
-    if ((client != null) && ((getId(entity) == null)||(!entity.getClientId().equals(client.getClientId())))) result = true;
+    if (isErrorPresent(entity,client)) result = true;
     String email = entity.getEmail();
     client = getClientByEmail(email);
-    if ((client != null) && ((getId(entity) == null)||(!entity.getClientId().equals(client.getClientId())))) result = true;
+    if (isErrorPresent(entity,client)) result = true;
+    Car car = entity.getCar();
+    client = carService.getClientByCar(car);
+    if (isErrorPresent(entity,client)) result = true;
     if (!Utils.isEmailCorrect(email)) result = true;
     return result;
+  }
+  private boolean isErrorPresent(Client entity, Client client){
+    return (client != null) && ((getId(entity) == null)||(!entity.getClientId().equals(client.getClientId())));
   }
 }

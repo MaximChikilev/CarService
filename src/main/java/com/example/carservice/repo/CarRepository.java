@@ -3,6 +3,7 @@ package com.example.carservice.repo;
 import com.example.carservice.dto.ConnectionsWithOtherEntityDTO;
 import com.example.carservice.dto.InspectionDTO;
 import com.example.carservice.entity.Car;
+import com.example.carservice.entity.Client;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
@@ -29,8 +30,8 @@ public interface CarRepository extends JpaRepository<Car, Long> {
   Car findByLicensePlateNumber(@Param("name") String name);
   @Query("SELECT s FROM Car s WHERE s.vinCode = :name")
   Car findByVinCode(@Param("name") String name);
-  @Query("SELECT c FROM Car c WHERE c NOT IN (SELECT cl.car FROM Client cl WHERE cl.car IS NOT NULL)")
-  List<Car> findCarsWithoutOwners();
+  @Query("SELECT cl FROM Car c JOIN Client cl ON c.carId=cl.car.carId WHERE c =:car")
+  Client findCarOwner(@Param("car") Car car);
 
   @Query(
       "SELECT COUNT(ms) FROM MaintenanceSchedule ms "

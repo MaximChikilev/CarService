@@ -1,6 +1,5 @@
 package com.example.carservice.controllers;
 
-import com.example.carservice.entity.Car;
 import com.example.carservice.entity.Client;
 import com.example.carservice.services.CarService;
 import com.example.carservice.services.ClientService;
@@ -38,10 +37,11 @@ public class ClientController extends MyAbstractController<Client> {
 
   @Override
   protected void addAdditionalAttributes(Model model, boolean isDataErrorPresent) {
-    model.addAttribute("cars", carService.getCarWithoutOwners());
+    model.addAttribute("cars", carService.getAll());
     model.addAttribute("existEmail", false);
     model.addAttribute("existPhoneNumber", false);
     model.addAttribute("incorrectEmail", false);
+    model.addAttribute("existOwnerThisCar", false);
     if (isDataErrorPresent) {
       Client client = ((Client) Objects.requireNonNull(model.getAttribute("newEntity")));
       Client clientFromBD = ((ClientService) service).getClientByEmail(client.getEmail());
@@ -52,6 +52,13 @@ public class ClientController extends MyAbstractController<Client> {
       if ((clientFromBD != null)
           && ((client.getClientId() == null) || (!isIdTheSame(client, clientFromBD))))
         model.addAttribute("existPhoneNumber", true);
+
+      clientFromBD = carService.getClientByCar(client.getCar());
+      if ((clientFromBD != null)
+              && ((client.getClientId() == null) || (!isIdTheSame(client, clientFromBD))))
+        model.addAttribute("existOwnerThisCar", true);
+
+
       if (!Utils.isEmailCorrect(client.getEmail())) model.addAttribute("incorrectEmail", true);
     }
   }

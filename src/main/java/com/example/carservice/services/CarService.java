@@ -2,6 +2,7 @@ package com.example.carservice.services;
 
 import com.example.carservice.dto.ClientCarRecommendedToServiceDTO;
 import com.example.carservice.dto.ConnectionsWithOtherEntityDTO;
+import com.example.carservice.entity.Client;
 import com.example.carservice.entity.GpsTrackerData;
 import com.example.carservice.jsonLoaders.manager.CarJsonManager;
 import com.example.carservice.repo.CarRepository;
@@ -91,8 +92,8 @@ public class CarService extends EntityService<Car> {
   }
 
   @Transactional
-  public List<Car> getCarWithoutOwners() {
-    return ((CarRepository) repository).findCarsWithoutOwners();
+  public Client getClientByCar(Car car) {
+    return ((CarRepository) repository).findCarOwner(car);
   }
 
   @Transactional

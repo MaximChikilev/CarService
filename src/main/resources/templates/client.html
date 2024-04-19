@@ -93,6 +93,9 @@
     <th:block th:if="${incorrectEmail}">
         <h4 style="color: red;">Email is incorrect.!</h4>
     </th:block>
+    <th:block th:if="${existOwnerThisCar}">
+        <h4 style="color: red;">This car has owner!</h4>
+    </th:block>
     <h4 th:text="${actionTitle}"></h4>
     <form th:action="@{/client/save}" th:object="${newEntity}" method="post">
         <table class="editable-table">
