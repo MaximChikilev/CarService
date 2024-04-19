@@ -50,11 +50,10 @@ public class ClientPageController {
   @PostMapping("/clientPage/saveUserChanges")
   public String saveUserChanges(Model model, @ModelAttribute CustomUser user) {
     user.setRole(UserRole.ROLE_CLIENT);
-    if (!Utils.isEmailCorrect(user.getEmail())
-        || (userService.findByEmail(user.getEmail()) != null)) {
+    Long id = user.getId();
+    if (!Utils.isEmailCorrect(user.getEmail()) || ((userService.findByEmail(user.getEmail()) != null))&(id==null)) {
       if (!Utils.isEmailCorrect(user.getEmail())) model.addAttribute("incorrectEmail", true);
-      if ((userService.findByEmail(user.getEmail()) != null))
-        model.addAttribute("existEmail", true);
+      if ((userService.findByEmail(user.getEmail()) != null)&(id==null)) model.addAttribute("existEmail", true);
     } else {
       userService.save(user);
       model.addAttribute("incorrectEmail", false);

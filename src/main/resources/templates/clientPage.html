@@ -34,7 +34,8 @@
             <tr>
                 <td><input type="text" th:field="*{login}" th:readonly="true"/></td>
                 <td><input type="password" th:field="*{password}" minlength="8" maxlength="50"/></td>
-                <td><input type="email" th:field="*{email}" required maxlength="50"/></td>
+                <td><input type="email" th:field="*{email}" th:readonly="true"/></td>
+                <td><input type="hidden" th:field="*{id}"/></td>
                 <td>
                     <button type="submit">Save changes</button>
                 </td>
