@@ -83,6 +83,11 @@ public class UserService extends EntityService<CustomUser> {
   public void createNewCustomUserFromClientData(Client client) {
     var login = client.getFirstName() + client.getSecondName();
     var password = passwordEncoder.encode(client.getPhoneNumber());
+    int i = 1;
+    while (((UserRepository)repository).existsByLogin(login)){
+      login = login+i;
+      i++;
+    }
     repository.save(new CustomUser(login, password, UserRole.ROLE_CLIENT, client.getEmail()));
     messageSender.SendMessage(new NewClientMessageGenerator().getMessage(client));
   }
